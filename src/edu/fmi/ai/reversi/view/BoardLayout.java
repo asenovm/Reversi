@@ -18,6 +18,9 @@ import edu.fmi.ai.reversi.model.Player;
 
 public class BoardLayout extends JFrame {
 
+	/**
+	 * {@value}
+	 */
 	private static final long serialVersionUID = 5834762299789973250L;
 
 	private final BoardEventsListener eventsListener;
@@ -94,13 +97,13 @@ public class BoardLayout extends JFrame {
 		final Container container = getContentPane();
 
 		final BoardCellLayout topLeft = (BoardCellLayout) container
-				.getComponent(27);
+				.getComponent(Game.POSITION_CENTER_TOP_LEFT);
 		final BoardCellLayout topRight = (BoardCellLayout) container
-				.getComponent(28);
+				.getComponent(Game.POSITION_CENTER_TOP_RIGHT);
 		final BoardCellLayout bottomLeft = (BoardCellLayout) container
-				.getComponent(35);
+				.getComponent(Game.POSITION_CENTER_BOTTOM_LEFT);
 		final BoardCellLayout bottomRight = (BoardCellLayout) container
-				.getComponent(36);
+				.getComponent(Game.POSITION_CENTER_BOTTOM_RIGHT);
 
 		topLeft.placeDisc(Player.WHITE);
 		topRight.placeDisc(Player.BLACK);
