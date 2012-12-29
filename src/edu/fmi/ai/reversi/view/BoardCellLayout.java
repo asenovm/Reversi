@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi;
+package edu.fmi.ai.reversi.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -9,7 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import edu.fmi.ai.reversi.BoardLayout.DiscColor;
+import edu.fmi.ai.reversi.view.BoardLayout.DiscColor;
+
 
 public class BoardCellLayout extends JPanel {
 

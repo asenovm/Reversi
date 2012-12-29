@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi;
+package edu.fmi.ai.reversi.view;
 
 import java.awt.Color;
 import java.awt.Container;
@@ -11,6 +11,8 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
+import edu.fmi.ai.reversi.listeners.BoardEventsListener;
+
 public class BoardLayout extends JFrame {
 
 	private static final long serialVersionUID = 5834762299789973250L;
@@ -21,6 +23,8 @@ public class BoardLayout extends JFrame {
 
 	private DiscColor currentDiscColor;
 
+	private final BoardEventsListener eventsListener;
+
 	public static enum DiscColor {
 		BLACK, WHITE;
 	}
@@ -29,14 +33,17 @@ public class BoardLayout extends JFrame {
 
 		private final BoardCellLayout cell;
 
+		private final int cellIndex;
+
 		public CellMouseListener(final int index) {
 			cell = (BoardCellLayout) getContentPane().getComponent(index);
+			cellIndex = index;
 		}
 
 		@Override
 		public void mouseClicked(final MouseEvent event) {
-			System.out.println("on mouse clicked");
 			cell.placeDisc(currentDiscColor);
+			eventsListener.onCellSelected(cellIndex);
 		}
 
 		@Override
@@ -61,16 +68,21 @@ public class BoardLayout extends JFrame {
 
 	}
 
-	public BoardLayout() throws HeadlessException {
-		this("", null);
+	public BoardLayout(final BoardEventsListener listener)
+			throws HeadlessException {
+		this(listener, "", null);
 	}
 
 	public BoardLayout(GraphicsConfiguration graphicsConfiguration) {
-		this("", graphicsConfiguration);
+		this(null, "", graphicsConfiguration);
 	}
 
-	public BoardLayout(String title, GraphicsConfiguration graphicsConfiguration) {
+	public BoardLayout(final BoardEventsListener listener, String title,
+			GraphicsConfiguration graphicsConfiguration) {
 		super(title, graphicsConfiguration);
+
+		eventsListener = listener;
+
 		setLayout(new GridLayout(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT));
 		setBoardSize();
 		populateCells();
@@ -106,7 +118,7 @@ public class BoardLayout extends JFrame {
 	}
 
 	public BoardLayout(String title) throws HeadlessException {
-		this(title, null);
+		this(null, title, null);
 	}
 
 	@Override
