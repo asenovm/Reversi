@@ -1,12 +1,10 @@
 package edu.fmi.ai.reversi;
 
-import java.util.concurrent.Semaphore;
-
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.listeners.ModelListener;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Player;
-import edu.fmi.ai.reversi.util.TurnHelper;
+import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.BoardLayout;
 
 public class Game implements BoardEventsListener {
@@ -21,12 +19,12 @@ public class Game implements BoardEventsListener {
 
 	private Player currentPlayer;
 
-	private final TurnHelper turnHelper;
+	private final TurnSwitcher turnSwitcher;
 
 	public Game() {
 		boardLayout = new BoardLayout(this);
 		board = new Board(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT);
-		turnHelper = new TurnHelper();
+		turnSwitcher = new TurnSwitcher();
 		currentPlayer = Player.WHITE;
 	}
 
@@ -37,20 +35,22 @@ public class Game implements BoardEventsListener {
 	public void awaitInput() {
 		currentPlayer = Player.WHITE;
 		boardLayout.nextTurn(currentPlayer);
-		turnHelper.startTurn();
+		turnSwitcher.startTurn();
 	}
 
 	public void nextMove() {
 		currentPlayer = Player.BLACK;
+		boardLayout.nextTurn(currentPlayer);
+		turnSwitcher.startTurn();
 		// blank as for now
 	}
 
 	@Override
 	public void onCellSelected(final ModelListener listener, final int cellIndex) {
 		if (board.isMovePermitted(cellIndex, currentPlayer)) {
-			turnHelper.endTurn();
 			board.onCellSelected(cellIndex, currentPlayer);
 			listener.onMovePermitted();
+			turnSwitcher.endTurn();
 		}
 	}
 }

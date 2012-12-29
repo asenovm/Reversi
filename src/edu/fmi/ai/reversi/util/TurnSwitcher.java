@@ -2,11 +2,11 @@ package edu.fmi.ai.reversi.util;
 
 import java.util.concurrent.Semaphore;
 
-public class TurnHelper {
+public class TurnSwitcher {
 
 	private final Semaphore mutex;
 
-	public TurnHelper() {
+	public TurnSwitcher() {
 		mutex = new Semaphore(0);
 	}
 
