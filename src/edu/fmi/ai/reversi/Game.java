@@ -42,7 +42,6 @@ public class Game implements BoardEventsListener {
 		currentPlayer = Player.BLACK;
 		boardLayout.nextTurn(currentPlayer);
 		turnSwitcher.startTurn();
-		// blank as for now
 	}
 
 	@Override

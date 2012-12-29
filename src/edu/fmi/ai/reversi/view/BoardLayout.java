@@ -104,8 +104,8 @@ public class BoardLayout extends JFrame {
 
 		topLeft.placeDisc(Player.WHITE);
 		topRight.placeDisc(Player.BLACK);
-		bottomLeft.placeDisc(Player.BLACK);
-		bottomRight.placeDisc(Player.WHITE);
+		bottomLeft.placeDisc(Player.WHITE);
+		bottomRight.placeDisc(Player.BLACK);
 	}
 
 	private void setBoardSize() {
