@@ -8,7 +8,7 @@ import java.awt.HeadlessException;
 
 import javax.swing.JFrame;
 
-public class BoardLayout extends JFrame {
+public class BoardLayout extends JFrame implements BoardCellEventsListener {
 
 	private static final long serialVersionUID = 5834762299789973250L;
 
@@ -38,7 +38,7 @@ public class BoardLayout extends JFrame {
 
 		for (int i = 0; i < BOARD_ROW_COUNT; ++i) {
 			for (int j = 0; j < BOARD_COLUMN_COUNT; ++j) {
-				getContentPane().add(new BoardCellLayout(), i + j);
+				getContentPane().add(new BoardCellLayout(this, i + j), i + j);
 			}
 		}
 
@@ -49,5 +49,10 @@ public class BoardLayout extends JFrame {
 
 	public BoardLayout(String title) throws HeadlessException {
 		this(title, null);
+	}
+
+	@Override
+	public void onCellSelected(final int cellIndex) {
+
 	}
 }
