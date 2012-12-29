@@ -9,8 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import edu.fmi.ai.reversi.view.BoardLayout.DiscColor;
-
+import edu.fmi.ai.reversi.model.Player;
 
 public class BoardCellLayout extends JPanel {
 
@@ -53,7 +52,7 @@ public class BoardCellLayout extends JPanel {
 
 	private BufferedImage blackDiscImage;
 
-	private DiscColor discColor;
+	private Player cellOwner;
 
 	public BoardCellLayout() {
 		setSize(WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
@@ -73,15 +72,15 @@ public class BoardCellLayout extends JPanel {
 		graphics.setColor(Color.decode(CELL_COLOR));
 		graphics.fillRect(BOARDER_THICKNESS, BOARDER_THICKNESS,
 				WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
-		if (discColor != null) {
-			graphics.drawImage(discColor == DiscColor.WHITE ? whiteDiscImage
+		if (cellOwner != null) {
+			graphics.drawImage(cellOwner == Player.WHITE ? whiteDiscImage
 					: blackDiscImage, BOARDER_THICKNESS, BOARDER_THICKNESS,
 					WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL, null);
 		}
 	}
 
-	public void placeDisc(final DiscColor discColor) {
-		this.discColor = discColor;
+	public void placeDisc(final Player cellOwner) {
+		this.cellOwner = cellOwner;
 		paintImmediately(0, 0, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 	}
 }

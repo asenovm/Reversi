@@ -11,25 +11,20 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 
+import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
+import edu.fmi.ai.reversi.listeners.ModelListener;
+import edu.fmi.ai.reversi.model.Player;
 
 public class BoardLayout extends JFrame {
 
 	private static final long serialVersionUID = 5834762299789973250L;
 
-	private static final int BOARD_ROW_COUNT = 8;
-
-	private static final int BOARD_COLUMN_COUNT = 8;
-
-	private DiscColor currentDiscColor;
-
 	private final BoardEventsListener eventsListener;
 
-	public static enum DiscColor {
-		BLACK, WHITE;
-	}
+	private Player currentPlayer;
 
-	private class CellMouseListener implements MouseListener {
+	private class CellMouseListener implements MouseListener, ModelListener {
 
 		private final BoardCellLayout cell;
 
@@ -42,8 +37,7 @@ public class BoardLayout extends JFrame {
 
 		@Override
 		public void mouseClicked(final MouseEvent event) {
-			cell.placeDisc(currentDiscColor);
-			eventsListener.onCellSelected(cellIndex);
+			eventsListener.onCellSelected(this, cellIndex);
 		}
 
 		@Override
@@ -66,6 +60,11 @@ public class BoardLayout extends JFrame {
 			// blank
 		}
 
+		@Override
+		public void onMovePermitted() {
+			cell.placeDisc(currentPlayer);
+		}
+
 	}
 
 	public BoardLayout(final BoardEventsListener listener)
@@ -83,12 +82,30 @@ public class BoardLayout extends JFrame {
 
 		eventsListener = listener;
 
-		setLayout(new GridLayout(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT));
+		setLayout(new GridLayout(Game.BOARD_ROW_COUNT, Game.BOARD_COLUMN_COUNT));
 		setBoardSize();
 		populateCells();
-		setVisible(true);
 
-		currentDiscColor = DiscColor.WHITE;
+		initStartConfiguration();
+		setVisible(true);
+	}
+
+	private void initStartConfiguration() {
+		final Container container = getContentPane();
+
+		final BoardCellLayout topLeft = (BoardCellLayout) container
+				.getComponent(27);
+		final BoardCellLayout topRight = (BoardCellLayout) container
+				.getComponent(28);
+		final BoardCellLayout bottomLeft = (BoardCellLayout) container
+				.getComponent(35);
+		final BoardCellLayout bottomRight = (BoardCellLayout) container
+				.getComponent(36);
+
+		topLeft.placeDisc(Player.WHITE);
+		topRight.placeDisc(Player.BLACK);
+		bottomLeft.placeDisc(Player.BLACK);
+		bottomRight.placeDisc(Player.WHITE);
 	}
 
 	private void setBoardSize() {
@@ -100,19 +117,20 @@ public class BoardLayout extends JFrame {
 
 	private void populateCells() {
 		final Container container = getContentPane();
-		for (int i = 0; i < BOARD_ROW_COUNT; ++i) {
-			for (int j = 0; j < BOARD_COLUMN_COUNT; ++j) {
+		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
+			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final BoardCellLayout currentCell = new BoardCellLayout();
 
-				container.add(currentCell, i + j);
-				currentCell.addMouseListener(new CellMouseListener(i + j));
+				container.add(currentCell, i * Game.BOARD_COLUMN_COUNT + j);
+				currentCell.addMouseListener(new CellMouseListener(i
+						* Game.BOARD_COLUMN_COUNT + j));
 			}
 		}
 	}
 
 	private Dimension getBoardDimension() {
-		final Dimension boardDimension = new Dimension(BOARD_ROW_COUNT
-				* BoardCellLayout.WIDTH_BOARD_CELL, BOARD_COLUMN_COUNT
+		final Dimension boardDimension = new Dimension(Game.BOARD_ROW_COUNT
+				* BoardCellLayout.WIDTH_BOARD_CELL, Game.BOARD_COLUMN_COUNT
 				* BoardCellLayout.HEIGHT_BOARD_CELL);
 		return boardDimension;
 	}
@@ -128,9 +146,7 @@ public class BoardLayout extends JFrame {
 		pack();
 	}
 
-	public void nextTurn() {
-		currentDiscColor = currentDiscColor == DiscColor.WHITE ? DiscColor.BLACK
-				: DiscColor.WHITE;
+	public void nextTurn(final Player currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
-
 }
