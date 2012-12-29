@@ -20,7 +20,7 @@ public class Game {
 	}
 
 	public void nextMove() {
-		// blank
+		boardLayout.nextTurn();
 	}
 
 }
