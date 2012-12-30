@@ -126,39 +126,34 @@ public class PositionChecker {
 
 	private boolean isMainDiagonalTopMovePermitted(final Cell moveCell,
 			final Player player) {
-		return getMainDiagonalTopNeighbourIndex(moveCell, player) > 0;
+		return getDiagonalTopNeighbourIndex(moveCell, player, true) > 0;
 	}
 
-	private int getMainDiagonalTopNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		int index = -1;
-
-		for (int i = 1; i < moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() - i
-					* (Game.BOARD_COLUMN_COUNT + 1);
-			final Cell currentCell = board.get(currentIndex);
-			if (isClosestNeighbour(player, i, currentCell)) {
-				index = currentIndex;
-				break;
-			} else if (isStoppingSearch(player, i, currentCell)) {
-				break;
-			}
-		}
-		return index;
+	private int getDiagonalTopNeighbourIndex(final Cell moveCell,
+			final Player player, final boolean isMainDiagonal) {
+		return getDiagonalNeighbourIndex(moveCell, player, isMainDiagonal,
+				false);
 	}
 
 	private boolean isMainDiagonalBottomMovePermitted(final Cell moveCell,
 			final Player player) {
-		return getMainDiagonalBottomNeighbourIndex(moveCell, player) > 0;
+		return getDiagonalBottomNeighbourIndex(moveCell, player, true) > 0;
 	}
 
-	private int getMainDiagonalBottomNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		int index = -1;
+	private int getDiagonalBottomNeighbourIndex(final Cell moveCell,
+			final Player player, final boolean isMainDiagonal) {
+		return getDiagonalNeighbourIndex(moveCell, player, isMainDiagonal, true);
+	}
 
-		for (int i = 1; i < Game.BOARD_ROW_COUNT - moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() + i
-					* (Game.BOARD_COLUMN_COUNT + 1);
+	private int getDiagonalNeighbourIndex(final Cell moveCell,
+			final Player player, final boolean isMainDiagonal,
+			final boolean isBottom) {
+		int index = -1;
+		int upperBound = getDiagonalUpperBound(moveCell, isBottom);
+		int sign = isBottom ? 1 : -1;
+		for (int i = 1; i < upperBound; ++i) {
+			final int currentIndex = getDiagonalCurrentIndex(moveCell,
+					isMainDiagonal, sign, i);
 			final Cell currentCell = board.get(currentIndex);
 			if (isClosestNeighbour(player, i, currentCell)) {
 				index = currentIndex;
@@ -168,52 +163,28 @@ public class PositionChecker {
 			}
 		}
 		return index;
+	}
+
+	private int getDiagonalCurrentIndex(final Cell moveCell,
+			final boolean isMainDiagonal, int sign, int i) {
+		return moveCell.getIndex() + i * sign
+				* (Game.BOARD_COLUMN_COUNT + (isMainDiagonal ? 1 : -1));
+	}
+
+	private int getDiagonalUpperBound(final Cell moveCell,
+			final boolean isBottom) {
+		return isBottom ? Game.BOARD_ROW_COUNT - moveCell.getY() : moveCell
+				.getY();
 	}
 
 	private boolean isSecondaryDiagonalBottomMovePermitted(final Cell moveCell,
 			final Player player) {
-		return getSecondaryDiagonalBottomNeighbourIndex(moveCell, player) > 0;
-	}
-
-	private int getSecondaryDiagonalBottomNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		int index = -1;
-
-		for (int i = 1; i < Game.BOARD_ROW_COUNT - moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() + i
-					* (Game.BOARD_COLUMN_COUNT - 1);
-			final Cell currentCell = board.get(currentIndex);
-			if (isClosestNeighbour(player, i, currentCell)) {
-				index = currentIndex;
-				break;
-			} else if (isStoppingSearch(player, i, currentCell)) {
-				break;
-			}
-		}
-		return index;
+		return getDiagonalBottomNeighbourIndex(moveCell, player, false) > 0;
 	}
 
 	private boolean isSecondaryDiagonalTopMovePermitted(final Cell moveCell,
 			final Player player) {
-		return getSecondaryDiagonalTopNeighbourIndex(moveCell, player) > 0;
-	}
-
-	private int getSecondaryDiagonalTopNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		int index = -1;
-
-		for (int i = 1; i < moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() - i
-					* (Game.BOARD_COLUMN_COUNT - 1);
-			final Cell currentCell = board.get(currentIndex);
-			if (isClosestNeighbour(player, i, currentCell)) {
-				index = currentIndex;
-				break;
-			} else if (isStoppingSearch(player, i, currentCell)) {
-				break;
-			}
-		}
-		return index;
+		return getDiagonalTopNeighbourIndex(moveCell, player, false) > 0;
 	}
 
 	private boolean isSecondaryDiagonalMovePermitted(final Cell moveCell,
