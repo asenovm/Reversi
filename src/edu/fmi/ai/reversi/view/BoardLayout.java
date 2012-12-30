@@ -8,15 +8,17 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collection;
 
 import javax.swing.JFrame;
 
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
-import edu.fmi.ai.reversi.listeners.MoveListener;
+import edu.fmi.ai.reversi.listeners.ModelObserver;
+import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
-public class BoardLayout extends JFrame {
+public class BoardLayout extends JFrame implements ModelObserver {
 
 	/**
 	 * {@value}
@@ -25,22 +27,17 @@ public class BoardLayout extends JFrame {
 
 	private final BoardEventsListener eventsListener;
 
-	private Player currentPlayer;
-
-	private class CellMouseListener implements MouseListener, MoveListener {
-
-		private final BoardCellLayout cell;
+	private class CellMouseListener implements MouseListener {
 
 		private final int cellIndex;
 
 		public CellMouseListener(final int index) {
-			cell = (BoardCellLayout) getContentPane().getComponent(index);
 			cellIndex = index;
 		}
 
 		@Override
 		public void mouseClicked(final MouseEvent event) {
-			eventsListener.onCellSelected(this, cellIndex);
+			eventsListener.onCellSelected(cellIndex);
 		}
 
 		@Override
@@ -61,11 +58,6 @@ public class BoardLayout extends JFrame {
 		@Override
 		public void mouseReleased(final MouseEvent event) {
 			// blank
-		}
-
-		@Override
-		public void onMovePermitted() {
-			cell.placeDisc(currentPlayer);
 		}
 
 	}
@@ -107,8 +99,8 @@ public class BoardLayout extends JFrame {
 
 		topLeft.placeDisc(Player.WHITE);
 		topRight.placeDisc(Player.BLACK);
-		bottomLeft.placeDisc(Player.WHITE);
-		bottomRight.placeDisc(Player.BLACK);
+		bottomLeft.placeDisc(Player.BLACK);
+		bottomRight.placeDisc(Player.WHITE);
 	}
 
 	private void setBoardSize() {
@@ -149,7 +141,14 @@ public class BoardLayout extends JFrame {
 		pack();
 	}
 
-	public void nextTurn(final Player currentPlayer) {
-		this.currentPlayer = currentPlayer;
+	@Override
+	public void onModelChanged(Collection<Cell> changedCells) {
+		final Container container = getContentPane();
+		for (final Cell cell : changedCells) {
+			final BoardCellLayout boardCell = (BoardCellLayout) container
+					.getComponent(cell.getIndex());
+			boardCell.placeDisc(cell.getOwner());
+		}
 	}
+
 }

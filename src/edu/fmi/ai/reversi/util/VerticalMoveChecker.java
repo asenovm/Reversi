@@ -27,7 +27,7 @@ public class VerticalMoveChecker extends BaseMoveChecker {
 		return getBottomNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
-	private int getTopNeighbourIndex(final Cell moveCell, final Player forPlayer) {
+	public int getTopNeighbourIndex(final Cell moveCell, final Player forPlayer) {
 		int topIndex = -1;
 		for (int i = 1; i < moveCell.getY(); ++i) {
 			final int currentIndex = moveCell.getIndex() - i
@@ -43,7 +43,7 @@ public class VerticalMoveChecker extends BaseMoveChecker {
 		return topIndex;
 	}
 
-	private int getBottomNeighbourIndex(final Cell moveCell,
+	public int getBottomNeighbourIndex(final Cell moveCell,
 			final Player forPlayer) {
 		int bottomIndex = -1;
 		for (int i = 1; i < Game.BOARD_ROW_COUNT - moveCell.getY(); ++i) {

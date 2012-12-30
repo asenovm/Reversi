@@ -28,7 +28,7 @@ public class DiagonalMoveChecker extends BaseMoveChecker {
 		return getDiagonalTopNeighbourIndex(moveCell, player, true) > 0;
 	}
 
-	private int getDiagonalTopNeighbourIndex(final Cell moveCell,
+	public int getDiagonalTopNeighbourIndex(final Cell moveCell,
 			final Player player, final boolean isMainDiagonal) {
 		return getDiagonalNeighbourIndex(moveCell, player, isMainDiagonal,
 				false);
@@ -39,7 +39,7 @@ public class DiagonalMoveChecker extends BaseMoveChecker {
 		return getDiagonalBottomNeighbourIndex(moveCell, player, true) > 0;
 	}
 
-	private int getDiagonalBottomNeighbourIndex(final Cell moveCell,
+	public int getDiagonalBottomNeighbourIndex(final Cell moveCell,
 			final Player player, final boolean isMainDiagonal) {
 		return getDiagonalNeighbourIndex(moveCell, player, isMainDiagonal, true);
 	}

@@ -27,8 +27,7 @@ public class HorizontalMoveChecker extends BaseMoveChecker {
 		return getRightNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
-	private int getLeftNeighbourIndex(final Cell moveCell,
-			final Player forPlayer) {
+	public int getLeftNeighbourIndex(final Cell moveCell, final Player forPlayer) {
 		int leftNeighbourIndex = -1;
 
 		for (int i = 1; i <= moveCell.getX(); ++i) {
@@ -44,7 +43,7 @@ public class HorizontalMoveChecker extends BaseMoveChecker {
 		return leftNeighbourIndex;
 	}
 
-	private int getRightNeighbourIndex(final Cell moveCell,
+	public int getRightNeighbourIndex(final Cell moveCell,
 			final Player forPlayer) {
 		int rightIndex = -1;
 		for (int i = 1; i < Game.BOARD_COLUMN_COUNT - moveCell.getX(); ++i) {

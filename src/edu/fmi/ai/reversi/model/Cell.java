@@ -42,4 +42,8 @@ public class Cell {
 		return index;
 	}
 
+	public Player getOwner() {
+		return ownedBy;
+	}
+
 }
