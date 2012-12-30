@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
-import edu.fmi.ai.reversi.listeners.ModelListener;
+import edu.fmi.ai.reversi.listeners.MoveListener;
 import edu.fmi.ai.reversi.model.Player;
 
 public class BoardLayout extends JFrame {
@@ -27,7 +27,7 @@ public class BoardLayout extends JFrame {
 
 	private Player currentPlayer;
 
-	private class CellMouseListener implements MouseListener, ModelListener {
+	private class CellMouseListener implements MouseListener, MoveListener {
 
 		private final BoardCellLayout cell;
 

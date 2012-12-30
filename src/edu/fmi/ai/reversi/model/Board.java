@@ -5,13 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.fmi.ai.reversi.Game;
-import edu.fmi.ai.reversi.util.PositionChecker;
+import edu.fmi.ai.reversi.util.MoveChecker;
 
 public class Board {
 
 	private final Map<Integer, Cell> board;
 
-	private final PositionChecker checker;
+	private final MoveChecker checker;
 
 	public Board(final int boardRows, final int boardColumns) {
 		board = new HashMap<Integer, Cell>();
@@ -28,7 +28,7 @@ public class Board {
 		board.get(Game.POSITION_CENTER_BOTTOM_RIGHT).take(Player.BLACK);
 
 		// TODO remove exposure
-		checker = new PositionChecker(Collections.unmodifiableMap(board));
+		checker = new MoveChecker(Collections.unmodifiableMap(board));
 	}
 
 	public void onCellSelected(final int cellIndex, final Player owner) {

@@ -1,7 +1,7 @@
 package edu.fmi.ai.reversi;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
-import edu.fmi.ai.reversi.listeners.ModelListener;
+import edu.fmi.ai.reversi.listeners.MoveListener;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
@@ -71,7 +71,7 @@ public class Game implements BoardEventsListener {
 	}
 
 	@Override
-	public void onCellSelected(final ModelListener listener, final int cellIndex) {
+	public void onCellSelected(final MoveListener listener, final int cellIndex) {
 		if (board.isMovePermitted(cellIndex, currentPlayer)) {
 			board.onCellSelected(cellIndex, currentPlayer);
 			listener.onMovePermitted();

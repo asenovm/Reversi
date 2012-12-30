@@ -1,5 +1,5 @@
 package edu.fmi.ai.reversi.listeners;
 
-public interface ModelListener {
+public interface MoveListener {
 	void onMovePermitted();
 }
