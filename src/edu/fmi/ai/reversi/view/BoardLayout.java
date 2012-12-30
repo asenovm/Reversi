@@ -97,10 +97,10 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		final BoardCellLayout bottomRight = (BoardCellLayout) container
 				.getComponent(Game.POSITION_CENTER_BOTTOM_RIGHT);
 
-		topLeft.placeDisc(Player.WHITE);
-		topRight.placeDisc(Player.BLACK);
-		bottomLeft.placeDisc(Player.BLACK);
-		bottomRight.placeDisc(Player.WHITE);
+		topLeft.take(Player.WHITE);
+		topRight.take(Player.BLACK);
+		bottomLeft.take(Player.BLACK);
+		bottomRight.take(Player.WHITE);
 	}
 
 	private void setBoardSize() {
@@ -147,7 +147,7 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		for (final Cell cell : changedCells) {
 			final BoardCellLayout boardCell = (BoardCellLayout) container
 					.getComponent(cell.getIndex());
-			boardCell.placeDisc(cell.getOwner());
+			boardCell.take(cell.getOwner());
 		}
 	}
 

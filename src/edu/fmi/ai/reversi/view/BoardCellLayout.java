@@ -79,7 +79,7 @@ public class BoardCellLayout extends JPanel {
 		}
 	}
 
-	public void placeDisc(final Player cellOwner) {
+	public void take(final Player cellOwner) {
 		this.cellOwner = cellOwner;
 		paintImmediately(0, 0, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 	}
