@@ -18,7 +18,7 @@ public class CellTaker {
 		this.board = board;
 	}
 
-	public Collection<Cell> takeSurroundingCells(final Cell moveCell,
+	public Collection<Cell> takeSurroundedCells(final Cell moveCell,
 			final Player owner) {
 		final Set<Cell> changedCells = new HashSet<Cell>();
 

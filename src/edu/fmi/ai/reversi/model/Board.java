@@ -46,7 +46,7 @@ public class Board {
 		final Cell moveCell = board.get(cellIndex);
 		moveCell.take(owner);
 
-		final Collection<Cell> changedCells = cellTaker.takeSurroundingCells(
+		final Collection<Cell> changedCells = cellTaker.takeSurroundedCells(
 				moveCell, owner);
 		changedCells.add(moveCell);
 		notifyDataSetChanged(changedCells);
@@ -72,16 +72,27 @@ public class Board {
 		}
 	}
 
-	public Collection<Board> nextMoves(final Player player) {
-		final List<Board> result = new ArrayList<Board>();
+	private void notifyNextMoves(final Collection<Cell> nextMoves) {
+		for (final ModelObserver observer : observers) {
+			observer.onNextMovesAcquired(nextMoves);
+		}
+	}
+
+	public void nextMove(final Player player) {
+		notifyNextMoves(nextMoves(player));
+	}
+
+	private Collection<Cell> nextMoves(final Player player) {
+		final List<Cell> result = new ArrayList<Cell>();
 		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
+			System.out.println("max index is " + Game.BOARD_MAX_INDEX);
+			System.out.println("current i is " + i);
 			if (isMovePermitted(i, player)) {
 				final Board newBoard = clone();
 				newBoard.takeCell(i, player);
-				result.add(newBoard);
+				result.add(new Cell(i));
 			}
 		}
-
 		return result;
 	}
 

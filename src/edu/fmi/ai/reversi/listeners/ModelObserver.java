@@ -5,5 +5,7 @@ import java.util.Collection;
 import edu.fmi.ai.reversi.model.Cell;
 
 public interface ModelObserver {
-	void onModelChanged(Collection<Cell> changedCells);
+	void onModelChanged(final Collection<Cell> changedCells);
+
+	void onNextMovesAcquired(final Collection<Cell> nextMoves);
 }

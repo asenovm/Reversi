@@ -1,6 +1,7 @@
 package edu.fmi.ai.reversi.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
@@ -151,4 +152,22 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		}
 	}
 
+	@Override
+	public void onNextMovesAcquired(Collection<Cell> nextMoves) {
+		clearCellHighlight();
+		final Container container = getContentPane();
+		for (final Cell cell : nextMoves) {
+			final BoardCellLayout boardCell = (BoardCellLayout) container
+					.getComponent(cell.getIndex());
+			boardCell.highlight();
+		}
+	}
+
+	private void clearCellHighlight() {
+		final Container container = getContentPane();
+		for (final Component component : container.getComponents()) {
+			final BoardCellLayout boardCellLayout = (BoardCellLayout) component;
+			boardCellLayout.clearHighlight();
+		}
+	}
 }

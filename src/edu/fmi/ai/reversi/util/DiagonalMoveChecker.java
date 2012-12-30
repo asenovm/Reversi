@@ -52,6 +52,9 @@ public class DiagonalMoveChecker extends BaseMoveChecker {
 		for (int i = 1; i < upperBound; ++i) {
 			final int currentIndex = getDiagonalCurrentIndex(moveCell,
 					isMainDiagonal, sign, i);
+			if (currentIndex < 0 || currentIndex > Game.BOARD_MAX_INDEX) {
+				break;
+			}
 			final Cell currentCell = board.get(currentIndex);
 			if (isClosestNeighbour(player, i, currentCell)) {
 				index = currentIndex;

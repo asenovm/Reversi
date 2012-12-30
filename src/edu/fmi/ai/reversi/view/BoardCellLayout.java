@@ -16,6 +16,32 @@ public class BoardCellLayout extends JPanel {
 	/**
 	 * {@value}
 	 */
+	private static final String CELL_COLOR_HIGHLIGHTED = "0x699B00";
+
+	/**
+	 * {@value}
+	 */
+	private static final String CELL_COLOR_DEFAULT = "0x88B32D";
+
+	private static enum CellColor {
+
+		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(
+				CELL_COLOR_HIGHLIGHTED);
+
+		private final String backgroundColor;
+
+		private CellColor(final String color) {
+			this.backgroundColor = color;
+		}
+
+		public Color getBackgroundColor() {
+			return Color.decode(backgroundColor);
+		}
+	}
+
+	/**
+	 * {@value}
+	 */
 	private static final long serialVersionUID = -2422603891158269826L;
 
 	/**
@@ -27,11 +53,6 @@ public class BoardCellLayout extends JPanel {
 	 * {@value}
 	 */
 	private static final String FILE_PATH_WHITE_DISC = "assets/white_disc.png";
-
-	/**
-	 * {@value}
-	 */
-	private static final String CELL_COLOR = "0xBFB630";
 
 	/**
 	 * {@value}
@@ -54,7 +75,10 @@ public class BoardCellLayout extends JPanel {
 
 	private Player cellOwner;
 
+	private CellColor cellColor;
+
 	public BoardCellLayout() {
+		cellColor = CellColor.EMPTY;
 		setSize(WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 		setVisible(true);
 		try {
@@ -69,7 +93,7 @@ public class BoardCellLayout extends JPanel {
 	@Override
 	protected void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
-		graphics.setColor(Color.decode(CELL_COLOR));
+		graphics.setColor(cellColor.getBackgroundColor());
 		graphics.fillRect(BOARDER_THICKNESS, BOARDER_THICKNESS,
 				WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 		if (cellOwner != null) {
@@ -81,6 +105,22 @@ public class BoardCellLayout extends JPanel {
 
 	public void take(final Player cellOwner) {
 		this.cellOwner = cellOwner;
+		cellColor = CellColor.CAPTURED;
+		repaint();
+	}
+
+	public void highlight() {
+		cellColor = CellColor.HIGHLIGHTED;
+		repaint();
+	}
+
+	public void clearHighlight() {
+		cellColor = CellColor.EMPTY;
+		repaint();
+	}
+
+	@Override
+	public void repaint() {
 		paintImmediately(0, 0, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 	}
 }

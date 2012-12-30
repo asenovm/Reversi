@@ -18,6 +18,12 @@ public class Cell {
 		index = y * Game.BOARD_COLUMN_COUNT + x;
 	}
 
+	public Cell(final int index) {
+		this.index = index;
+		this.x = index % Game.BOARD_COLUMN_COUNT;
+		this.y = index / Game.BOARD_ROW_COUNT;
+	}
+
 	public void take(Player player) {
 		ownedBy = player;
 	}

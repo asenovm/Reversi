@@ -64,11 +64,13 @@ public class Game implements BoardEventsListener {
 
 	public void awaitInput() {
 		currentPlayer = Player.BLACK;
+		board.nextMove(currentPlayer);
 		turnSwitcher.startTurn();
 	}
 
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
+		board.nextMove(currentPlayer);
 		turnSwitcher.startTurn();
 	}
 
