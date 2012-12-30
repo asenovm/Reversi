@@ -1,9 +1,10 @@
 package edu.fmi.ai.reversi.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,14 +36,13 @@ public class Board {
 		board.get(Game.POSITION_CENTER_BOTTOM_LEFT).take(Player.BLACK);
 		board.get(Game.POSITION_CENTER_BOTTOM_RIGHT).take(Player.WHITE);
 
-		// TODO remove exposure
-		checker = new MoveChecker(Collections.unmodifiableMap(board));
-		cellTaker = new CellTaker(checker, Collections.unmodifiableMap(board));
+		checker = new MoveChecker(this);
+		cellTaker = new CellTaker(checker, this);
 
 		observers = new HashSet<ModelObserver>();
 	}
 
-	public void onCellSelected(final int cellIndex, final Player owner) {
+	public void takeCell(final int cellIndex, final Player owner) {
 		final Cell moveCell = board.get(cellIndex);
 		moveCell.take(owner);
 
@@ -71,4 +71,32 @@ public class Board {
 			observer.onModelChanged(changedCells);
 		}
 	}
+
+	public Collection<Board> nextMoves(final Player player) {
+		final List<Board> result = new ArrayList<Board>();
+		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
+			if (isMovePermitted(i, player)) {
+				final Board newBoard = clone();
+				newBoard.takeCell(i, player);
+				result.add(newBoard);
+			}
+		}
+
+		return result;
+	}
+
+	@Override
+	protected Board clone() {
+		final Board board = new Board(Game.BOARD_ROW_COUNT,
+				Game.BOARD_COLUMN_COUNT);
+		for (final Cell cell : this.board.values()) {
+			board.board.get(cell.getIndex()).take(cell.getOwner());
+		}
+		return board;
+	}
+
+	public Cell get(final int cellIndex) {
+		return board.get(cellIndex);
+	}
+
 }

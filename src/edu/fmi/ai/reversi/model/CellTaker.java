@@ -2,7 +2,6 @@ package edu.fmi.ai.reversi.model;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 import edu.fmi.ai.reversi.Game;
@@ -12,9 +11,9 @@ public class CellTaker {
 
 	private final MoveChecker checker;
 
-	private final Map<Integer, Cell> board;
+	private final Board board;
 
-	public CellTaker(final MoveChecker checker, final Map<Integer, Cell> board) {
+	public CellTaker(final MoveChecker checker, final Board board) {
 		this.checker = checker;
 		this.board = board;
 	}

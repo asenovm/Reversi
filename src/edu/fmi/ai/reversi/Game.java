@@ -38,6 +38,9 @@ public class Game implements BoardEventsListener {
 	 */
 	public static final int BOARD_COLUMN_COUNT = 8;
 
+	public static final int BOARD_MAX_INDEX = BOARD_COLUMN_COUNT
+			* BOARD_ROW_COUNT - 1;
+
 	private final BoardLayout boardLayout;
 
 	private final Board board;
@@ -72,7 +75,7 @@ public class Game implements BoardEventsListener {
 	@Override
 	public void onCellSelected(final int cellIndex) {
 		if (board.isMovePermitted(cellIndex, currentPlayer)) {
-			board.onCellSelected(cellIndex, currentPlayer);
+			board.takeCell(cellIndex, currentPlayer);
 			turnSwitcher.endTurn();
 		}
 	}

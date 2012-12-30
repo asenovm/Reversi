@@ -1,7 +1,6 @@
 package edu.fmi.ai.reversi.util;
 
-import java.util.Map;
-
+import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
@@ -13,7 +12,7 @@ public class MoveChecker {
 
 	private final DiagonalMoveChecker diagonalMoveChecker;
 
-	public MoveChecker(final Map<Integer, Cell> board) {
+	public MoveChecker(final Board board) {
 		horizontalMoveChecker = new HorizontalMoveChecker(board);
 		verticalMoveChecker = new VerticalMoveChecker(board);
 		diagonalMoveChecker = new DiagonalMoveChecker(board);

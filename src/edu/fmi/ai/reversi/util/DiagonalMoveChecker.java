@@ -1,14 +1,13 @@
 package edu.fmi.ai.reversi.util;
 
-import java.util.Map;
-
 import edu.fmi.ai.reversi.Game;
+import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
 public class DiagonalMoveChecker extends BaseMoveChecker {
 
-	public DiagonalMoveChecker(Map<Integer, Cell> board) {
+	public DiagonalMoveChecker(final Board board) {
 		super(board);
 	}
 

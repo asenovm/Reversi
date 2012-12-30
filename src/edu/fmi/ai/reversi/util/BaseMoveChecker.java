@@ -1,15 +1,14 @@
 package edu.fmi.ai.reversi.util;
 
-import java.util.Map;
-
+import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
 public abstract class BaseMoveChecker {
 
-	protected Map<Integer, Cell> board;
+	protected Board board;
 
-	protected BaseMoveChecker(final Map<Integer, Cell> board) {
+	protected BaseMoveChecker(final Board board) {
 		this.board = board;
 	}
 
