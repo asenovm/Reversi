@@ -144,10 +144,8 @@ public class BoardLayout extends JFrame implements ModelObserver {
 
 	@Override
 	public void onModelChanged(Collection<Cell> changedCells) {
-		final Container container = getContentPane();
 		for (final Cell cell : changedCells) {
-			final BoardCellLayout boardCell = (BoardCellLayout) container
-					.getComponent(cell.getIndex());
+			final BoardCellLayout boardCell = getCellAt(cell.getIndex());
 			boardCell.take(cell.getOwner());
 		}
 	}
@@ -155,10 +153,8 @@ public class BoardLayout extends JFrame implements ModelObserver {
 	@Override
 	public void onNextMovesAcquired(Collection<Cell> nextMoves) {
 		clearCellHighlight();
-		final Container container = getContentPane();
 		for (final Cell cell : nextMoves) {
-			final BoardCellLayout boardCell = (BoardCellLayout) container
-					.getComponent(cell.getIndex());
+			final BoardCellLayout boardCell = getCellAt(cell.getIndex());
 			boardCell.highlight();
 		}
 	}
@@ -169,5 +165,10 @@ public class BoardLayout extends JFrame implements ModelObserver {
 			final BoardCellLayout boardCellLayout = (BoardCellLayout) component;
 			boardCellLayout.clearHighlight();
 		}
+	}
+
+	private BoardCellLayout getCellAt(final int index) {
+		final Container container = getContentPane();
+		return (BoardCellLayout) container.getComponent(index);
 	}
 }
