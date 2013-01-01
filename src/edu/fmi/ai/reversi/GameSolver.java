@@ -37,7 +37,7 @@ public class GameSolver {
 	public GamePojo getOptimalMove(final Board state) {
 		final GamePojo result = getOptimalMinMove(state, Integer.MIN_VALUE,
 				Integer.MAX_VALUE, 0);
-		result.move = result.state.diff(state);
+		result.move = result.diff(state);
 		return result;
 	}
 
@@ -52,18 +52,23 @@ public class GameSolver {
 		for (final Board nextState : gameStates) {
 			final GamePojo next = getOptimalMaxMove(nextState, alpha, beta,
 					level + 1);
-			if (result.value > next.value) {
-				result.value = next.value;
-				result.state = nextState;
-				beta = next.value;
-			}
-
+			beta = tryUpdateMinResult(beta, result, nextState, next);
 			if (beta <= alpha) {
 				return result;
 			}
 		}
 
 		return result;
+	}
+
+	private int tryUpdateMinResult(int beta, GamePojo result,
+			final Board nextState, final GamePojo next) {
+		if (result.value > next.value) {
+			result.value = next.value;
+			result.state = nextState;
+			beta = next.value;
+		}
+		return beta;
 	}
 
 	public GamePojo getOptimalMaxMove(final Board state, int alpha, int beta,
@@ -77,17 +82,24 @@ public class GameSolver {
 		for (final Board nextState : gameStates) {
 			final GamePojo next = getOptimalMinMove(nextState, alpha, beta,
 					level + 1);
-			if (result.value < next.value) {
-				result.value = next.value;
-				result.state = nextState;
-				alpha = next.value;
-			}
+
+			alpha = tryUpdateMaxResult(alpha, result, nextState, next);
 
 			if (beta <= alpha) {
 				return result;
 			}
 		}
 		return result;
+	}
+
+	private int tryUpdateMaxResult(int alpha, GamePojo result,
+			final Board nextState, final GamePojo next) {
+		if (result.value < next.value) {
+			result.value = next.value;
+			result.state = nextState;
+			alpha = next.value;
+		}
+		return alpha;
 	}
 
 }

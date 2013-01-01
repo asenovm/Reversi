@@ -18,5 +18,9 @@ public class GamePojo {
 		this.value = value;
 		this.state = state;
 	}
+	
+	public Collection<Cell> diff(final Board other) {
+		return state.diff(other);
+	}
 
 }
