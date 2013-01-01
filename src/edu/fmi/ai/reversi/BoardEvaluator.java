@@ -23,7 +23,7 @@ public class BoardEvaluator {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final Cell currentCell = board.get(j, i);
 				if (currentCell.isOwnedBy(player)) {
-					evaluation += boardEvaluations[i][j];
+					evaluation += player.getSign() * boardEvaluations[i][j];
 				}
 			}
 		}
