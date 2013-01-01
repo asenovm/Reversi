@@ -2,6 +2,7 @@ package edu.fmi.ai.reversi;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.model.Board;
+import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.BoardLayout;
@@ -49,6 +50,8 @@ public class Game implements BoardEventsListener {
 
 	private final TurnSwitcher turnSwitcher;
 
+	private final GameSolver gameSolver;
+
 	public Game() {
 		boardLayout = new BoardLayout(this);
 		board = new Board(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT);
@@ -56,6 +59,8 @@ public class Game implements BoardEventsListener {
 
 		currentPlayer = Player.BLACK;
 		board.addObserver(boardLayout);
+
+		gameSolver = new GameSolver();
 	}
 
 	public boolean isFinished() {
@@ -71,7 +76,9 @@ public class Game implements BoardEventsListener {
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
-		turnSwitcher.startTurn();
+		final GamePojo optimalMove = gameSolver.getOptimalMove(board);
+		System.out.println("optimal move value is " + optimalMove.value);
+		board.takeCells(optimalMove.move);
 	}
 
 	@Override

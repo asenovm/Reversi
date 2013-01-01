@@ -2,12 +2,13 @@ package edu.fmi.ai.reversi.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import edu.fmi.ai.reversi.BoardEvaluator;
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.ModelObserver;
 import edu.fmi.ai.reversi.util.MoveChecker;
@@ -22,8 +23,10 @@ public class Board {
 
 	private final CellTaker cellTaker;
 
+	private final BoardEvaluator evaluator;
+
 	public Board(final int boardRows, final int boardColumns) {
-		board = new HashMap<Integer, Cell>();
+		board = new LinkedHashMap<Integer, Cell>();
 		for (int i = 0; i < boardRows; ++i) {
 			for (int j = 0; j < boardColumns; ++j) {
 				final Cell currentCell = new Cell(j, i);
@@ -38,6 +41,7 @@ public class Board {
 
 		checker = new MoveChecker(this);
 		cellTaker = new CellTaker(checker, this);
+		evaluator = new BoardEvaluator();
 
 		observers = new HashSet<ModelObserver>();
 	}
@@ -48,7 +52,6 @@ public class Board {
 
 		final Collection<Cell> changedCells = cellTaker.takeSurroundedCells(
 				moveCell, owner);
-		changedCells.add(moveCell);
 		notifyDataSetChanged(changedCells);
 	}
 
@@ -120,12 +123,24 @@ public class Board {
 		return result;
 	}
 
-	public boolean isTerminal() {
-		return false;
+	public int getValue(final Player player) {
+		return evaluator.getBoardEvaluation(this, player);
 	}
 
-	public int getValue() {
-		return 0;
+	public Collection<Cell> diff(final Board other) {
+		final List<Cell> diff = new ArrayList<Cell>();
+		for (final Map.Entry<Integer, Cell> cell : board.entrySet()) {
+			if (!cell.getValue().equals(other.board.get(cell.getKey()))) {
+				diff.add(cell.getValue());
+			}
+		}
+		return diff;
 	}
 
+	public void takeCells(final Collection<Cell> cells) {
+		for (final Cell cell : cells) {
+			board.get(cell.getIndex()).take(cell.getOwner());
+		}
+		notifyDataSetChanged(cells);
+	}
 }

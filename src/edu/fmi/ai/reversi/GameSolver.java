@@ -7,6 +7,8 @@ import edu.fmi.ai.reversi.model.Player;
 
 public class GameSolver {
 
+	private static final int MAX_LEVEL_SEARCH_DEPTH = 6;
+
 	/**
 	 * {@value}
 	 */
@@ -32,20 +34,24 @@ public class GameSolver {
 	 */
 	public static final int MOVE_EMPTY_BOARD = 0;
 
-	public static GamePojo getOptimalMove(final Board state) {
-		return getOptimalMinMove(state, Integer.MIN_VALUE, Integer.MAX_VALUE);
+	public GamePojo getOptimalMove(final Board state) {
+		final GamePojo result = getOptimalMinMove(state, Integer.MIN_VALUE,
+				Integer.MAX_VALUE, 0);
+		result.move = result.state.diff(state);
+		return result;
 	}
 
-	public static GamePojo getOptimalMinMove(final Board state, int alpha,
-			int beta) {
-		if (state.isTerminal()) {
-			return new GamePojo(state.getValue(), state);
+	public GamePojo getOptimalMinMove(final Board state, int alpha, int beta,
+			int level) {
+		if (level == MAX_LEVEL_SEARCH_DEPTH) {
+			return new GamePojo(state.getValue(Player.WHITE), state);
 		}
 
 		final Collection<Board> gameStates = state.getNextBoards(Player.WHITE);
 		GamePojo result = new GamePojo(Integer.MAX_VALUE, state);
 		for (final Board nextState : gameStates) {
-			final GamePojo next = getOptimalMaxMove(nextState, alpha, beta);
+			final GamePojo next = getOptimalMaxMove(nextState, alpha, beta,
+					level + 1);
 			if (result.value > next.value) {
 				result.value = next.value;
 				result.state = nextState;
@@ -56,19 +62,21 @@ public class GameSolver {
 				return result;
 			}
 		}
+
 		return result;
 	}
 
-	public static GamePojo getOptimalMaxMove(final Board state, int alpha,
-			int beta) {
-		if (state.isTerminal()) {
-			return new GamePojo(state.getValue(), state);
+	public GamePojo getOptimalMaxMove(final Board state, int alpha, int beta,
+			int level) {
+		if (level == MAX_LEVEL_SEARCH_DEPTH) {
+			return new GamePojo(state.getValue(Player.BLACK), state);
 		}
 
 		final Collection<Board> gameStates = state.getNextBoards(Player.BLACK);
 		GamePojo result = new GamePojo(Integer.MIN_VALUE, state);
 		for (final Board nextState : gameStates) {
-			final GamePojo next = getOptimalMinMove(nextState, alpha, beta);
+			final GamePojo next = getOptimalMinMove(nextState, alpha, beta,
+					level + 1);
 			if (result.value < next.value) {
 				result.value = next.value;
 				result.state = nextState;

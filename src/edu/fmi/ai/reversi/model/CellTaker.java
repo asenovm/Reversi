@@ -1,7 +1,7 @@
 package edu.fmi.ai.reversi.model;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import edu.fmi.ai.reversi.Game;
@@ -20,7 +20,8 @@ public class CellTaker {
 
 	public Collection<Cell> takeSurroundedCells(final Cell moveCell,
 			final Player owner) {
-		final Set<Cell> takenCells = new HashSet<Cell>();
+		final Set<Cell> takenCells = new LinkedHashSet<Cell>();
+		takenCells.add(moveCell);
 		tryTakeHorizontalCells(moveCell, owner, takenCells);
 		tryTakeVerticalCells(moveCell, owner, takenCells);
 		tryTakeDiagonalCells(moveCell, owner, takenCells);
@@ -130,8 +131,10 @@ public class CellTaker {
 			final Player forPlayer) {
 		for (int i = fromIndex; i <= toIndex; i += step) {
 			final Cell currentCell = board.get(i);
-			currentCell.take(forPlayer);
-			changedCells.add(currentCell);
+			if (!changedCells.contains(currentCell)) {
+				currentCell.take(forPlayer);
+				changedCells.add(currentCell);
+			}
 		}
 	}
 
