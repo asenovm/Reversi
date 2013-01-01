@@ -38,7 +38,7 @@ public class BoardLayout extends JFrame implements ModelObserver {
 
 		@Override
 		public void mouseClicked(final MouseEvent event) {
-			eventsListener.onCellSelected(cellIndex);
+			eventsListener.onCellClicked(cellIndex);
 		}
 
 		@Override

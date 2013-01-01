@@ -20,21 +20,31 @@ public class CellTaker {
 
 	public Collection<Cell> takeSurroundedCells(final Cell moveCell,
 			final Player owner) {
-		final Set<Cell> changedCells = new HashSet<Cell>();
+		final Set<Cell> takenCells = new HashSet<Cell>();
+		tryTakeHorizontalCells(moveCell, owner, takenCells);
+		tryTakeVerticalCells(moveCell, owner, takenCells);
+		tryTakeDiagonalCells(moveCell, owner, takenCells);
+		return takenCells;
+	}
 
-		tryTakeLeftCells(owner, moveCell, changedCells);
-		tryTakeRightCells(owner, moveCell, changedCells);
-		tryTakeBottomCells(owner, moveCell, changedCells);
-		tryTakeTopCells(owner, moveCell, changedCells);
-
+	private void tryTakeDiagonalCells(final Cell moveCell, final Player owner,
+			final Set<Cell> changedCells) {
 		tryTakeDiagonalTopCcells(owner, moveCell, changedCells);
 		tryTakeDiagonalBottomCells(owner, moveCell, changedCells);
-
 		tryTakeSecondaryDiagonalTopCells(owner, moveCell, changedCells);
 		tryTakeSecondaryDiagonalBottomCells(owner, moveCell, changedCells);
+	}
 
-		return changedCells;
+	private void tryTakeVerticalCells(final Cell moveCell, final Player owner,
+			final Set<Cell> changedCells) {
+		tryTakeBottomCells(owner, moveCell, changedCells);
+		tryTakeTopCells(owner, moveCell, changedCells);
+	}
 
+	private void tryTakeHorizontalCells(final Cell moveCell,
+			final Player owner, final Set<Cell> changedCells) {
+		tryTakeLeftCells(owner, moveCell, changedCells);
+		tryTakeRightCells(owner, moveCell, changedCells);
 	}
 
 	private void tryTakeSecondaryDiagonalBottomCells(final Player owner,

@@ -53,8 +53,8 @@ public class Game implements BoardEventsListener {
 		boardLayout = new BoardLayout(this);
 		board = new Board(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT);
 		turnSwitcher = new TurnSwitcher();
-		currentPlayer = Player.BLACK;
 
+		currentPlayer = Player.BLACK;
 		board.addObserver(boardLayout);
 	}
 
@@ -75,7 +75,7 @@ public class Game implements BoardEventsListener {
 	}
 
 	@Override
-	public void onCellSelected(final int cellIndex) {
+	public void onCellClicked(final int cellIndex) {
 		if (board.isMovePermitted(cellIndex, currentPlayer)) {
 			board.takeCell(cellIndex, currentPlayer);
 			turnSwitcher.endTurn();

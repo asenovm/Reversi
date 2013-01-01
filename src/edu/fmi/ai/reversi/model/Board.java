@@ -66,34 +66,12 @@ public class Board {
 		return observers.remove(observer);
 	}
 
-	private void notifyDataSetChanged(final Collection<Cell> changedCells) {
-		for (final ModelObserver observer : observers) {
-			observer.onModelChanged(changedCells);
-		}
-	}
-
-	private void notifyNextMoves(final Collection<Cell> nextMoves) {
-		for (final ModelObserver observer : observers) {
-			observer.onNextMovesAcquired(nextMoves);
-		}
-	}
-
 	public void nextMove(final Player player) {
-		notifyNextMoves(nextMoves(player));
+		notifyNextMoves(getNextMoves(player));
 	}
 
-	private Collection<Cell> nextMoves(final Player player) {
-		final List<Cell> result = new ArrayList<Cell>();
-		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
-			System.out.println("max index is " + Game.BOARD_MAX_INDEX);
-			System.out.println("current i is " + i);
-			if (isMovePermitted(i, player)) {
-				final Board newBoard = clone();
-				newBoard.takeCell(i, player);
-				result.add(new Cell(i));
-			}
-		}
-		return result;
+	public Cell get(final int cellIndex) {
+		return board.get(cellIndex);
 	}
 
 	@Override
@@ -106,8 +84,48 @@ public class Board {
 		return board;
 	}
 
-	public Cell get(final int cellIndex) {
-		return board.get(cellIndex);
+	private void notifyDataSetChanged(final Collection<Cell> changedCells) {
+		for (final ModelObserver observer : observers) {
+			observer.onModelChanged(changedCells);
+		}
+	}
+
+	private void notifyNextMoves(final Collection<Cell> nextMoves) {
+		for (final ModelObserver observer : observers) {
+			observer.onNextMovesAcquired(nextMoves);
+		}
+	}
+
+	public Collection<Cell> getNextMoves(final Player player) {
+		final List<Cell> result = new ArrayList<Cell>();
+		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
+			if (isMovePermitted(i, player)) {
+				final Board newBoard = clone();
+				newBoard.takeCell(i, player);
+				result.add(new Cell(i));
+			}
+		}
+		return result;
+	}
+
+	public Collection<Board> getNextBoards(final Player player) {
+		final List<Board> result = new ArrayList<Board>();
+		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
+			if (isMovePermitted(i, player)) {
+				final Board newBoard = clone();
+				newBoard.takeCell(i, player);
+				result.add(newBoard);
+			}
+		}
+		return result;
+	}
+
+	public boolean isTerminal() {
+		return false;
+	}
+
+	public int getValue() {
+		return 0;
 	}
 
 }
