@@ -21,8 +21,7 @@ public class BoardEvaluator {
 		int evaluation = 0;
 		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
-				final Cell currentCell = board
-						.get(i * Game.BOARD_ROW_COUNT + j);
+				final Cell currentCell = board.get(j, i);
 				if (currentCell.isOwnedBy(player)) {
 					evaluation += boardEvaluations[i][j];
 				}

@@ -77,6 +77,10 @@ public class Board {
 		return board.get(cellIndex);
 	}
 
+	public Cell get(final int x, final int y) {
+		return board.get(y * Game.BOARD_COLUMN_COUNT + x);
+	}
+
 	@Override
 	protected Board clone() {
 		final Board board = new Board(Game.BOARD_ROW_COUNT,
