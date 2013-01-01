@@ -5,6 +5,7 @@ import java.util.Collection;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 
+//TODO remove this
 public class GamePojo {
 
 	public int value;

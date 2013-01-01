@@ -2,7 +2,6 @@ package edu.fmi.ai.reversi;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.model.Board;
-import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.BoardLayout;
@@ -77,15 +76,19 @@ public class Game implements BoardEventsListener {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
 		final GamePojo optimalMove = gameSolver.getOptimalMove(board);
-		System.out.println("optimal move value is " + optimalMove.value);
 		board.takeCells(optimalMove.move);
 	}
 
 	@Override
-	public void onCellClicked(final int cellIndex) {
-		if (board.isMovePermitted(cellIndex, currentPlayer)) {
+	public void onCellSelected(final int cellIndex) {
+		if (isLegalMove(cellIndex)) {
 			board.takeCell(cellIndex, currentPlayer);
 			turnSwitcher.endTurn();
 		}
+	}
+
+	private boolean isLegalMove(final int cellIndex) {
+		return board.isMovePermitted(cellIndex, currentPlayer)
+				&& currentPlayer == Player.BLACK;
 	}
 }
