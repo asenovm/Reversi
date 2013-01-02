@@ -78,6 +78,7 @@ public class CellTaker {
 		}
 	}
 
+	//XXX checking this currently
 	private void tryTakeDiagonalTopCcells(final Player owner,
 			final Cell moveCell, final Set<Cell> changedCells) {
 		int diagonalTopIndex = checker.getMainDiagonalTopNeighbourIndex(

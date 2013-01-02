@@ -47,35 +47,55 @@ public class DiagonalMoveChecker extends BaseMoveChecker {
 			final Player player, final boolean isMainDiagonal,
 			final boolean isBottom) {
 		int index = -1;
-		int upperBound = getDiagonalUpperBound(moveCell, isBottom);
 		int sign = isBottom ? 1 : -1;
-		for (int i = 1; i < upperBound; ++i) {
-			final int currentIndex = getDiagonalCurrentIndex(moveCell,
-					isMainDiagonal, sign, i);
-			if (currentIndex < 0 || currentIndex > Game.BOARD_MAX_INDEX) {
-				break;
-			}
-			final Cell currentCell = board.get(currentIndex);
+		int cellIndex = getStartCellIndex(moveCell, isMainDiagonal, isBottom,
+				sign);
+		int i = 1;
+		while (!isEndDiagonalCell(cellIndex, isMainDiagonal, isBottom)) {
+			final Cell currentCell = board.get(cellIndex);
 			if (isClosestNeighbour(player, i, currentCell)) {
-				index = currentIndex;
+				index = cellIndex;
 				break;
 			} else if (isStoppingSearch(player, i, currentCell)) {
 				break;
 			}
+			++i;
+			cellIndex = getNextDiagonalIndex(cellIndex, isMainDiagonal, sign);
+
 		}
 		return index;
 	}
 
-	private int getDiagonalCurrentIndex(final Cell moveCell,
-			final boolean isMainDiagonal, int sign, int i) {
-		return moveCell.getIndex() + i * sign
-				* (Game.BOARD_COLUMN_COUNT + (isMainDiagonal ? 1 : -1));
+	private int getStartCellIndex(final Cell moveCell,
+			final boolean isMainDiagonal, final boolean isBottom, int sign) {
+		int cellIndex = moveCell.getIndex();
+		if (isEndDiagonalCell(cellIndex, isMainDiagonal, isBottom)) {
+			return cellIndex;
+		}
+		return getNextDiagonalIndex(cellIndex, isMainDiagonal, sign);
 	}
 
-	private int getDiagonalUpperBound(final Cell moveCell,
-			final boolean isBottom) {
-		return isBottom ? Game.BOARD_ROW_COUNT - moveCell.getY() : moveCell
-				.getY();
+	private boolean isEndDiagonalCell(final int cellIndex,
+			final boolean isMainDiagonal, final boolean isBottom) {
+		if (isMainDiagonal && !isBottom) {
+			return cellIndex % Game.BOARD_COLUMN_COUNT == 0
+					|| cellIndex / Game.BOARD_ROW_COUNT == 0;
+		} else if (isMainDiagonal && isBottom) {
+			return cellIndex % Game.BOARD_COLUMN_COUNT == 7
+					|| cellIndex / Game.BOARD_ROW_COUNT == 7;
+		} else if (!isMainDiagonal && !isBottom) {
+			return cellIndex % Game.BOARD_COLUMN_COUNT == 7
+					|| cellIndex / Game.BOARD_ROW_COUNT == 0;
+		} else {
+			return cellIndex % 8 == Game.BOARD_COLUMN_COUNT
+					|| cellIndex / Game.BOARD_ROW_COUNT == 7;
+		}
+	}
+
+	private int getNextDiagonalIndex(final int cellIndex,
+			final boolean isMainDiagonal, int sign) {
+		return cellIndex + sign
+				* (Game.BOARD_COLUMN_COUNT + (isMainDiagonal ? 1 : -1));
 	}
 
 	private boolean isSecondaryDiagonalBottomMovePermitted(final Cell moveCell,
