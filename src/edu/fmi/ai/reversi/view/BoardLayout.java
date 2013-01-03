@@ -17,7 +17,6 @@ import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.listeners.ModelObserver;
 import edu.fmi.ai.reversi.model.Cell;
-import edu.fmi.ai.reversi.model.Player;
 
 public class BoardLayout extends JFrame implements ModelObserver {
 
@@ -82,26 +81,7 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		setBoardSize();
 		populateCells();
 
-		initStartConfiguration();
 		setVisible(true);
-	}
-
-	private void initStartConfiguration() {
-		final Container container = getContentPane();
-
-		final BoardCellLayout topLeft = (BoardCellLayout) container
-				.getComponent(Game.POSITION_CENTER_TOP_LEFT);
-		final BoardCellLayout topRight = (BoardCellLayout) container
-				.getComponent(Game.POSITION_CENTER_TOP_RIGHT);
-		final BoardCellLayout bottomLeft = (BoardCellLayout) container
-				.getComponent(Game.POSITION_CENTER_BOTTOM_LEFT);
-		final BoardCellLayout bottomRight = (BoardCellLayout) container
-				.getComponent(Game.POSITION_CENTER_BOTTOM_RIGHT);
-
-		topLeft.take(Player.WHITE);
-		topRight.take(Player.BLACK);
-		bottomLeft.take(Player.BLACK);
-		bottomRight.take(Player.WHITE);
 	}
 
 	private void setBoardSize() {

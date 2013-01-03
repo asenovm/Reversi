@@ -15,6 +15,26 @@ import edu.fmi.ai.reversi.util.MoveChecker;
 
 public class Board {
 
+	/**
+	 * {@value}
+	 */
+	private static final int POSITION_CENTER_TOP_LEFT = 27;
+
+	/**
+	 * {@value}
+	 */
+	private static final int POSITION_CENTER_TOP_RIGHT = 28;
+
+	/**
+	 * {@value}
+	 */
+	private static final int POSITION_CENTER_BOTTOM_LEFT = 35;
+
+	/**
+	 * {@value}
+	 */
+	private static final int POSITION_CENTER_BOTTOM_RIGHT = 36;
+
 	private final Set<ModelObserver> observers;
 
 	private final Map<Integer, Cell> board;
@@ -25,19 +45,14 @@ public class Board {
 
 	private final BoardEvaluator evaluator;
 
-	public Board(final int boardRows, final int boardColumns) {
+	public Board() {
 		board = new LinkedHashMap<Integer, Cell>();
-		for (int i = 0; i < boardRows; ++i) {
-			for (int j = 0; j < boardColumns; ++j) {
+		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
+			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final Cell currentCell = new Cell(j, i);
-				board.put(i * boardColumns + j, currentCell);
+				board.put(currentCell.getIndex(), currentCell);
 			}
 		}
-
-		board.get(Game.POSITION_CENTER_TOP_LEFT).take(Player.WHITE);
-		board.get(Game.POSITION_CENTER_TOP_RIGHT).take(Player.BLACK);
-		board.get(Game.POSITION_CENTER_BOTTOM_LEFT).take(Player.BLACK);
-		board.get(Game.POSITION_CENTER_BOTTOM_RIGHT).take(Player.WHITE);
 
 		checker = new MoveChecker(this);
 		cellTaker = new CellTaker(checker, this);
@@ -83,8 +98,7 @@ public class Board {
 
 	@Override
 	protected Board clone() {
-		final Board board = new Board(Game.BOARD_ROW_COUNT,
-				Game.BOARD_COLUMN_COUNT);
+		final Board board = new Board();
 		for (final Cell cell : this.board.values()) {
 			board.board.get(cell.getIndex()).take(cell.getOwner());
 		}
@@ -146,5 +160,12 @@ public class Board {
 			board.get(cell.getIndex()).take(cell.getOwner());
 		}
 		notifyDataSetChanged(cells);
+	}
+
+	public void startGame() {
+		takeCell(POSITION_CENTER_TOP_LEFT, Player.WHITE);
+		takeCell(POSITION_CENTER_TOP_RIGHT, Player.BLACK);
+		takeCell(POSITION_CENTER_BOTTOM_LEFT, Player.BLACK);
+		takeCell(POSITION_CENTER_BOTTOM_RIGHT, Player.WHITE);
 	}
 }

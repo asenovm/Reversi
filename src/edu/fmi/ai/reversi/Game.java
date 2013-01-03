@@ -11,26 +11,6 @@ public class Game implements BoardEventsListener {
 	/**
 	 * {@value}
 	 */
-	public static final int POSITION_CENTER_TOP_LEFT = 27;
-
-	/**
-	 * {@value}
-	 */
-	public static final int POSITION_CENTER_TOP_RIGHT = 28;
-
-	/**
-	 * {@value}
-	 */
-	public static final int POSITION_CENTER_BOTTOM_LEFT = 35;
-
-	/**
-	 * {@value}
-	 */
-	public static final int POSITION_CENTER_BOTTOM_RIGHT = 36;
-
-	/**
-	 * {@value}
-	 */
 	public static final int BOARD_ROW_COUNT = 8;
 
 	/**
@@ -53,12 +33,13 @@ public class Game implements BoardEventsListener {
 
 	public Game() {
 		boardLayout = new BoardLayout(this);
-		board = new Board(BOARD_ROW_COUNT, BOARD_COLUMN_COUNT);
-		turnSwitcher = new TurnSwitcher();
+		board = new Board();
 
+		turnSwitcher = new TurnSwitcher();
 		currentPlayer = Player.BLACK;
 		board.addObserver(boardLayout);
 
+		board.startGame();
 		gameSolver = new GameSolver();
 	}
 
