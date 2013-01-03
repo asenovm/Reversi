@@ -66,10 +66,8 @@ public class Board {
 		notifyDataSetChanged(takenCells);
 	}
 
-	public boolean isMovePermitted(final int cellIndex, final Player forPlayer) {
-		final Cell moveCell = board.get(cellIndex);
-		return moveCell.isEmpty()
-				&& checker.isMovePermitted(moveCell, forPlayer);
+	public boolean isMovePermitted(final int cellIndex, final Player player) {
+		return checker.isMovePermitted(cellIndex, player);
 	}
 
 	public boolean addObserver(final ModelObserver observer) {

@@ -12,11 +12,19 @@ public class MoveChecker {
 
 	private final DiagonalMoveChecker diagonalMoveChecker;
 
+	private final Board board;
+
 	public MoveChecker(final Board board) {
+		this.board = board;
 		horizontalMoveChecker = new HorizontalMoveChecker(board);
 		verticalMoveChecker = new VerticalMoveChecker(board);
 		diagonalMoveChecker = new DiagonalMoveChecker(board);
 
+	}
+
+	public boolean isMovePermitted(final int cellIndex, final Player player) {
+		final Cell cell = board.get(cellIndex);
+		return cell.isEmpty() && isMovePermitted(cell, player);
 	}
 
 	public boolean isMovePermitted(final Cell moveCell, final Player forPlayer) {
