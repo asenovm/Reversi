@@ -20,6 +20,10 @@ public abstract class BaseMoveChecker {
 		return currentCell.isOwnedBy(forPlayer) && i > 1;
 	}
 
-	public abstract boolean isMovePermitted(final Cell cell, final Player forPlayer);
+	public boolean isMovePermitted(final Cell cell, final Player player) {
+		return getNeighbourIndex(cell, player) > 0;
+	}
+	
+	public abstract int getNeighbourIndex(final Cell cell, final Player player);
 
 }

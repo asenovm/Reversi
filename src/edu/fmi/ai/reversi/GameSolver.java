@@ -38,10 +38,6 @@ public class GameSolver {
 		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(state,
 				Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
 		result.move = result.diff(state);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!most optimal value is!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		System.out.println(result.state.toString());
-		System.out.println("value is " + result.value);
-		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!most optimal value is!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return result;
 	}
 
@@ -54,16 +50,9 @@ public class GameSolver {
 		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE, parameter.board);
 
 		for (final Board nextState : gameStates) {
-			System.out.println("***********************");
-			System.out.println(nextState.toString());
-			System.out.println("***********************");
 			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(nextState,
 					parameter);
 			final GameMoveHelper optimalMove = getOptimalMaxMove(nextParameter);
-			System.out.println("*************optimal move*********************");
-			System.out.println(optimalMove.state.toString());
-			System.out.println("optimal value is " + optimalMove.value);
-			System.out.println("**********************************************");
 			tryUpdateMinResult(parameter, result, nextState, optimalMove);
 
 			if (parameter.beta <= parameter.alpha) {

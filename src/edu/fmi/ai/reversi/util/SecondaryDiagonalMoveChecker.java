@@ -11,11 +11,6 @@ public class SecondaryDiagonalMoveChecker extends BaseMoveChecker {
 		super(board);
 	}
 
-	@Override
-	public boolean isMovePermitted(Cell cell, Player player) {
-		return getNeighbourIndex(cell, player) > 0;
-	}
-
 	public int getTopNeighbourIndex(final Cell cell, final Player player) {
 		return getNeighbourIndex(cell, player, false);
 	}
@@ -24,7 +19,8 @@ public class SecondaryDiagonalMoveChecker extends BaseMoveChecker {
 		return getNeighbourIndex(cell, player, true);
 	}
 
-	private int getNeighbourIndex(final Cell cell, final Player player) {
+	@Override
+	public int getNeighbourIndex(final Cell cell, final Player player) {
 		return Math.max(getNeighbourIndex(cell, player, true),
 				getNeighbourIndex(cell, player, false));
 	}
