@@ -14,10 +14,9 @@ public class GameSolverParameter {
 
 	public int level;
 
-	public static GameSolverParameter increasedLevel(final GameSolverParameter other) {
-		final GameSolverParameter result = new GameSolverParameter(other);
-		++result.level;
-		return result;
+	public static GameSolverParameter increasedLevel(final Board next,
+			final GameSolverParameter other) {
+		return new GameSolverParameter(next, other.alpha, other.beta, other.level + 1);
 	}
 
 	public GameSolverParameter(Board board, int alpha, int beta, int level) {
@@ -25,13 +24,6 @@ public class GameSolverParameter {
 		this.alpha = alpha;
 		this.beta = beta;
 		this.level = level;
-	}
-
-	private GameSolverParameter(final GameSolverParameter other) {
-		this.board = other.board;
-		this.alpha = other.alpha;
-		this.beta = other.beta;
-		this.level = other.level;
 	}
 
 	public Collection<Board> getNextBoards(final Player player) {

@@ -24,16 +24,51 @@ public class CellTaker {
 		takenCells.add(moveCell);
 		tryTakeHorizontalCells(moveCell, owner, takenCells);
 		tryTakeVerticalCells(moveCell, owner, takenCells);
-		tryTakeDiagonalCells(moveCell, owner, takenCells);
+		takeDiagonalCells(moveCell, owner, takenCells);
 		return takenCells;
 	}
 
-	private void tryTakeDiagonalCells(final Cell moveCell, final Player owner,
+	private void takeDiagonalCells(final Cell moveCell, final Player owner,
 			final Set<Cell> changedCells) {
-		tryTakeDiagonalTopCcells(owner, moveCell, changedCells);
-		tryTakeDiagonalBottomCells(owner, moveCell, changedCells);
-		tryTakeSecondaryDiagonalTopCells(owner, moveCell, changedCells);
-		tryTakeSecondaryDiagonalBottomCells(owner, moveCell, changedCells);
+		takeMainTopCells(moveCell, owner, changedCells);
+		takeMainBottomCells(moveCell, owner, changedCells);
+		takeSecondaryTopCells(moveCell, owner, changedCells);
+		takeSecondaryBottomCells(moveCell, owner, changedCells);
+	}
+
+	private void takeSecondaryTopCells(final Cell cell, final Player player,
+			final Set<Cell> changedCells) {
+		int secondaryTopIndex = checker.getSecondaryTopIndex(cell, player);
+		if (secondaryTopIndex > 0) {
+			takeCells(changedCells, secondaryTopIndex, cell.getIndex(),
+					Game.BOARD_COLUMN_COUNT - 1, player);
+		}
+	}
+
+	private void takeSecondaryBottomCells(final Cell cell, final Player player,
+			final Set<Cell> changedCells) {
+		int secondaryBottomIndex = checker.getSecondaryBottomIndex(cell, player);
+		if (secondaryBottomIndex > 0) {
+			takeCells(changedCells, cell.getIndex(), secondaryBottomIndex,
+					Game.BOARD_COLUMN_COUNT - 1, player);
+		}
+	}
+
+	private void takeMainTopCells(final Cell cell, final Player player, final Set<Cell> changedCells) {
+		int mainTopIndex = checker.getMainTopIndex(cell, player);
+		if (mainTopIndex > 0) {
+			takeCells(changedCells, mainTopIndex, cell.getIndex(), Game.BOARD_COLUMN_COUNT + 1,
+					player);
+		}
+	}
+
+	private void takeMainBottomCells(final Cell cell, final Player player,
+			final Set<Cell> changedCells) {
+		int mainBottomIndex = checker.getMainBottomIndex(cell, player);
+		if (mainBottomIndex > 0) {
+			takeCells(changedCells, cell.getIndex(), mainBottomIndex, Game.BOARD_COLUMN_COUNT + 1,
+					player);
+		}
 	}
 
 	private void tryTakeVerticalCells(final Cell moveCell, final Player owner,
@@ -46,43 +81,6 @@ public class CellTaker {
 			final Set<Cell> changedCells) {
 		tryTakeLeftCells(owner, moveCell, changedCells);
 		tryTakeRightCells(owner, moveCell, changedCells);
-	}
-
-	private void tryTakeSecondaryDiagonalBottomCells(final Player owner, final Cell moveCell,
-			final Set<Cell> changedCells) {
-		int diagonalBottomIndex = checker.getSecondaryDiagonalBottomNeighbourIndex(moveCell, owner);
-		if (diagonalBottomIndex > 0) {
-			takeCells(changedCells, moveCell.getIndex(), diagonalBottomIndex,
-					Game.BOARD_COLUMN_COUNT - 1, owner);
-		}
-	}
-
-	private void tryTakeSecondaryDiagonalTopCells(final Player owner, final Cell moveCell,
-			final Set<Cell> changedCells) {
-		int diagonalTopIndex = checker.getSecondaryDiagonalTopNeighbourIndex(moveCell, owner);
-		if (diagonalTopIndex > 0) {
-			takeCells(changedCells, diagonalTopIndex, moveCell.getIndex(),
-					Game.BOARD_COLUMN_COUNT - 1, owner);
-		}
-	}
-
-	private void tryTakeDiagonalBottomCells(final Player owner, final Cell moveCell,
-			final Set<Cell> changedCells) {
-		int diagonalBottomIndex = checker.getMainDiagonalBottomNeighbourIndex(moveCell, owner);
-		if (diagonalBottomIndex > 0) {
-			takeCells(changedCells, moveCell.getIndex(), diagonalBottomIndex,
-					Game.BOARD_COLUMN_COUNT + 1, owner);
-		}
-	}
-
-	// XXX checking this currently
-	private void tryTakeDiagonalTopCcells(final Player owner, final Cell moveCell,
-			final Set<Cell> changedCells) {
-		int diagonalTopIndex = checker.getMainDiagonalTopNeighbourIndex(moveCell, owner);
-		if (diagonalTopIndex > 0) {
-			takeCells(changedCells, diagonalTopIndex, moveCell.getIndex(),
-					Game.BOARD_COLUMN_COUNT + 1, owner);
-		}
 	}
 
 	private void tryTakeTopCells(final Player owner, final Cell moveCell,

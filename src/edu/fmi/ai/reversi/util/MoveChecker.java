@@ -10,7 +10,9 @@ public class MoveChecker {
 
 	private final VerticalMoveChecker verticalMoveChecker;
 
-	private final DiagonalMoveChecker diagonalMoveChecker;
+	private final MainDiagonalMoveChecker mainDiagonalMoveChecker;
+
+	private final SecondaryDiagonalMoveChecker secondaryDiagonalMoveChecker;
 
 	private final Board board;
 
@@ -18,8 +20,8 @@ public class MoveChecker {
 		this.board = board;
 		horizontalMoveChecker = new HorizontalMoveChecker(board);
 		verticalMoveChecker = new VerticalMoveChecker(board);
-		diagonalMoveChecker = new DiagonalMoveChecker(board);
-
+		mainDiagonalMoveChecker = new MainDiagonalMoveChecker(board);
+		secondaryDiagonalMoveChecker = new SecondaryDiagonalMoveChecker(board);
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player player) {
@@ -27,10 +29,11 @@ public class MoveChecker {
 		return cell.isEmpty() && isMovePermitted(cell, player);
 	}
 
-	public boolean isMovePermitted(final Cell moveCell, final Player forPlayer) {
-		return horizontalMoveChecker.isMovePermitted(moveCell, forPlayer)
-				|| verticalMoveChecker.isMovePermitted(moveCell, forPlayer)
-				|| diagonalMoveChecker.isMovePermitted(moveCell, forPlayer);
+	public boolean isMovePermitted(final Cell cell, final Player player) {
+		return horizontalMoveChecker.isMovePermitted(cell, player)
+				|| verticalMoveChecker.isMovePermitted(cell, player)
+				|| mainDiagonalMoveChecker.isMovePermitted(cell, player)
+				|| secondaryDiagonalMoveChecker.isMovePermitted(cell, player);
 	}
 
 	public int getLeftNeighbourIndex(final Cell moveCell, final Player player) {
@@ -49,20 +52,20 @@ public class MoveChecker {
 		return verticalMoveChecker.getBottomNeighbourIndex(moveCell, player);
 	}
 
-	public int getMainDiagonalTopNeighbourIndex(final Cell moveCell, final Player player) {
-		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell, player, true);
+	public int getMainBottomIndex(final Cell cell, final Player player) {
+		return mainDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
 	}
 
-	public int getMainDiagonalBottomNeighbourIndex(final Cell moveCell, final Player player) {
-		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell, player, true);
+	public int getMainTopIndex(final Cell cell, final Player player) {
+		return mainDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
 	}
 
-	public int getSecondaryDiagonalTopNeighbourIndex(final Cell moveCell, final Player player) {
-		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell, player, false);
+	public int getSecondaryBottomIndex(final Cell cell, final Player player) {
+		return secondaryDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
 	}
 
-	public int getSecondaryDiagonalBottomNeighbourIndex(final Cell moveCell, final Player player) {
-		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell, player, false);
+	public int getSecondaryTopIndex(final Cell cell, final Player player) {
+		return secondaryDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
 	}
 
 }

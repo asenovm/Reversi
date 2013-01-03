@@ -162,4 +162,16 @@ public class Board {
 		takeCell(POSITION_CENTER_BOTTOM_LEFT, Player.BLACK);
 		takeCell(POSITION_CENTER_BOTTOM_RIGHT, Player.WHITE);
 	}
+
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		for (final Cell cell : board.values()) {
+			if (cell.getIndex() % 8 == 0) {
+				builder.append("\n");
+			}
+			builder.append(" ").append(cell.getIndex()).append(",").append(cell.getOwner()).append(" ");
+		}
+		return builder.toString();
+	}
 }
