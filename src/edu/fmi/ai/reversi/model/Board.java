@@ -62,12 +62,8 @@ public class Board {
 	}
 
 	public void takeCell(final int cellIndex, final Player owner) {
-		final Cell moveCell = board.get(cellIndex);
-		moveCell.take(owner);
-
-		final Collection<Cell> changedCells = cellTaker.takeSurroundedCells(
-				moveCell, owner);
-		notifyDataSetChanged(changedCells);
+		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner); 
+		notifyDataSetChanged(takenCells);
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player forPlayer) {

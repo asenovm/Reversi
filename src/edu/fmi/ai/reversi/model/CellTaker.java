@@ -2,6 +2,7 @@ package edu.fmi.ai.reversi.model;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 import edu.fmi.ai.reversi.Game;
@@ -78,7 +79,7 @@ public class CellTaker {
 		}
 	}
 
-	//XXX checking this currently
+	// XXX checking this currently
 	private void tryTakeDiagonalTopCcells(final Player owner,
 			final Cell moveCell, final Set<Cell> changedCells) {
 		int diagonalTopIndex = checker.getMainDiagonalTopNeighbourIndex(
@@ -137,6 +138,17 @@ public class CellTaker {
 				changedCells.add(currentCell);
 			}
 		}
+	}
+
+	public Collection<Cell> takeCell(final int cellIndex, final Player player) {
+		final Cell moveCell = board.get(cellIndex);
+		moveCell.take(player);
+
+		final Collection<Cell> result = new LinkedList<Cell>();
+		result.add(moveCell);
+		result.addAll(takeSurroundedCells(moveCell, player));
+
+		return result;
 	}
 
 }
