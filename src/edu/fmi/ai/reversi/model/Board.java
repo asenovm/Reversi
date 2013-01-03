@@ -62,8 +62,9 @@ public class Board {
 	}
 
 	public void takeCell(final int cellIndex, final Player owner) {
-		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner); 
-		notifyDataSetChanged(takenCells);
+		final Collection<Cell> takenCells = cellTaker
+				.takeCell(cellIndex, owner);
+		notifyObservers(takenCells);
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player player) {
@@ -91,15 +92,15 @@ public class Board {
 	}
 
 	@Override
-	protected Board clone() {
+	public Board clone() {
 		final Board board = new Board();
 		for (final Cell cell : this.board.values()) {
-			board.board.get(cell.getIndex()).take(cell.getOwner());
+			board.get(cell.getIndex()).take(cell.getOwner());
 		}
 		return board;
 	}
 
-	private void notifyDataSetChanged(final Collection<Cell> changedCells) {
+	private void notifyObservers(final Collection<Cell> changedCells) {
 		for (final ModelObserver observer : observers) {
 			observer.onModelChanged(changedCells);
 		}
@@ -153,7 +154,7 @@ public class Board {
 		for (final Cell cell : cells) {
 			board.get(cell.getIndex()).take(cell.getOwner());
 		}
-		notifyDataSetChanged(cells);
+		notifyObservers(cells);
 	}
 
 	public void startGame() {

@@ -34,25 +34,26 @@ public class GameSolver {
 	 */
 	public static final int MOVE_EMPTY_BOARD = 0;
 
-	public GamePojo getOptimalMove(final Board state) {
-		final GamePojo result = getOptimalMinMove(state, Integer.MIN_VALUE,
-				Integer.MAX_VALUE, 0);
+	public GameMoveHelper getOptimalMove(final Board state) {
+		final GameMoveHelper result = getOptimalMinMove(state,
+				Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
 		result.move = result.diff(state);
 		return result;
 	}
 
-	public GamePojo getOptimalMinMove(final Board state, int alpha, int beta,
-			int level) {
+	public GameMoveHelper getOptimalMinMove(final Board state, int alpha,
+			int beta, int level) {
 		if (level == MAX_LEVEL_SEARCH_DEPTH) {
-			return new GamePojo(state.getValue(Player.WHITE), state);
+			return new GameMoveHelper(state.getValue(Player.WHITE), state);
 		}
 
 		final Collection<Board> gameStates = state.getNextBoards(Player.WHITE);
-		GamePojo result = new GamePojo(Integer.MAX_VALUE, state);
+		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE, state);
+
 		for (final Board nextState : gameStates) {
-			final GamePojo next = getOptimalMaxMove(nextState, alpha, beta,
-					level + 1);
-			beta = tryUpdateMinResult(beta, result, nextState, next);
+			final GameMoveHelper optimalMove = getOptimalMaxMove(nextState,
+					alpha, beta, level + 1);
+			beta = tryUpdateMinResult(beta, result, nextState, optimalMove);
 			if (beta <= alpha) {
 				return result;
 			}
@@ -61,29 +62,19 @@ public class GameSolver {
 		return result;
 	}
 
-	private int tryUpdateMinResult(int beta, GamePojo result,
-			final Board nextState, final GamePojo next) {
-		if (result.value > next.value) {
-			result.value = next.value;
-			result.state = nextState;
-			beta = next.value;
-		}
-		return beta;
-	}
-
-	public GamePojo getOptimalMaxMove(final Board state, int alpha, int beta,
-			int level) {
+	public GameMoveHelper getOptimalMaxMove(final Board state, int alpha,
+			int beta, int level) {
 		if (level == MAX_LEVEL_SEARCH_DEPTH) {
-			return new GamePojo(state.getValue(Player.BLACK), state);
+			return new GameMoveHelper(state.getValue(Player.BLACK), state);
 		}
 
 		final Collection<Board> gameStates = state.getNextBoards(Player.BLACK);
-		GamePojo result = new GamePojo(Integer.MIN_VALUE, state);
+		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE, state);
 		for (final Board nextState : gameStates) {
-			final GamePojo next = getOptimalMinMove(nextState, alpha, beta,
-					level + 1);
+			final GameMoveHelper optimalMove = getOptimalMinMove(nextState,
+					alpha, beta, level + 1);
 
-			alpha = tryUpdateMaxResult(alpha, result, nextState, next);
+			alpha = tryUpdateMaxResult(alpha, result, nextState, optimalMove);
 
 			if (beta <= alpha) {
 				return result;
@@ -92,14 +83,24 @@ public class GameSolver {
 		return result;
 	}
 
-	private int tryUpdateMaxResult(int alpha, GamePojo result,
-			final Board nextState, final GamePojo next) {
+	private int tryUpdateMaxResult(int alpha, GameMoveHelper result,
+			final Board nextState, final GameMoveHelper next) {
 		if (result.value < next.value) {
 			result.value = next.value;
 			result.state = nextState;
 			alpha = next.value;
 		}
 		return alpha;
+	}
+
+	private int tryUpdateMinResult(int beta, GameMoveHelper result,
+			final Board nextState, final GameMoveHelper next) {
+		if (result.value > next.value) {
+			result.value = next.value;
+			result.state = nextState;
+			beta = next.value;
+		}
+		return beta;
 	}
 
 }

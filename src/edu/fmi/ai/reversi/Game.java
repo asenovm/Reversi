@@ -56,7 +56,7 @@ public class Game implements BoardEventsListener {
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
-		final GamePojo optimalMove = gameSolver.getOptimalMove(board);
+		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
 		board.takeCells(optimalMove.move);
 	}
 

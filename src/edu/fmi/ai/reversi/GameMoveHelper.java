@@ -6,7 +6,7 @@ import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 
 //TODO remove this
-public class GamePojo {
+public class GameMoveHelper {
 
 	public int value;
 
@@ -14,7 +14,7 @@ public class GamePojo {
 
 	public Collection<Cell> move;
 
-	public GamePojo(final int value, final Board state) {
+	public GameMoveHelper(final int value, final Board state) {
 		this.value = value;
 		this.state = state;
 	}
