@@ -5,7 +5,7 @@ import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
-public class MainDiagonalMoveChecker extends BaseMoveChecker {
+public class MainDiagonalMoveChecker extends BaseDiagonalMoveChecker {
 
 	public MainDiagonalMoveChecker(Board board) {
 		super(board);
@@ -25,35 +25,24 @@ public class MainDiagonalMoveChecker extends BaseMoveChecker {
 				getNeighbourIndex(cell, player, false));
 	}
 
-	private int getNeighbourIndex(final Cell cell, final Player player, final boolean isBottom) {
-		int cellIndex = cell.getIndex();
-		int currentNeighbour = 1;
-
-		if ((isBottom && !canMoveBottom(cellIndex)) || (!isBottom && !canMoveTop(cellIndex))) {
-			return -1;
-		}
-
-		cellIndex = incrementMainIndex(cellIndex, isBottom);
-
-		while (!isDiagonalEnd(cellIndex)) {
-			final Cell currentCell = board.get(cellIndex);
-			if (isClosestNeighbour(player, currentNeighbour, currentCell)) {
-				return cellIndex;
-			} else if (isStoppingSearch(player, currentNeighbour, currentCell)) {
-				return -1;
-			}
-			cellIndex = incrementMainIndex(cellIndex, isBottom);
-			++currentNeighbour;
-		}
-
-		Cell currentCell = board.get(cellIndex);
-		if (isClosestNeighbour(player, currentNeighbour, currentCell)) {
-			return cellIndex;
-		}
-		return -1;
+	@Override
+	protected boolean isDiagonalEnd(final int cellIndex) {
+		return (cellIndex % 8 == 0 || cellIndex / 8 == 0 || cellIndex % 8 == 7 || cellIndex / 8 == 7)
+				&& cellIndex != 56 && cellIndex != 7;
 	}
 
-	private int incrementMainIndex(final int cellIndex, final boolean isBottom) {
+	@Override
+	protected boolean canMoveBottom(final int cellIndex) {
+		return !(cellIndex / 8 == 7 || cellIndex % 8 == 7);
+	}
+
+	@Override
+	protected boolean canMoveTop(final int cellIndex) {
+		return !(cellIndex / 8 == 0 || cellIndex % 8 == 0);
+	}
+
+	@Override
+	protected int incrementIndex(final int cellIndex, final boolean isBottom) {
 		return isBottom ? getMainBottom(cellIndex) : getMainTop(cellIndex);
 	}
 
@@ -63,19 +52,6 @@ public class MainDiagonalMoveChecker extends BaseMoveChecker {
 
 	private int getMainTop(final int cellIndex) {
 		return cellIndex - Game.BOARD_COLUMN_COUNT - 1;
-	}
-
-	private boolean isDiagonalEnd(final int cellIndex) {
-		return (cellIndex % 8 == 0 || cellIndex / 8 == 0 || cellIndex % 8 == 7 || cellIndex / 8 == 7)
-				&& cellIndex != 56 && cellIndex != 7;
-	}
-
-	private boolean canMoveBottom(final int cellIndex) {
-		return !(cellIndex / 8 == 7 || cellIndex % 8 == 7);
-	}
-
-	private boolean canMoveTop(final int cellIndex) {
-		return !(cellIndex / 8 == 0 || cellIndex % 8 == 0);
 	}
 
 }
