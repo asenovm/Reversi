@@ -7,7 +7,7 @@ import edu.fmi.ai.reversi.model.Player;
 
 public class GameSolver {
 
-	private static final int MAX_LEVEL_SEARCH_DEPTH = 6;
+	private static final int MAX_LEVEL_SEARCH_DEPTH = 5;
 
 	/**
 	 * {@value}
@@ -35,26 +35,28 @@ public class GameSolver {
 	public static final int MOVE_EMPTY_BOARD = 0;
 
 	public GameMoveHelper getOptimalMove(final Board state) {
-		final GameMoveHelper result = getOptimalMinMove(state,
-				Integer.MIN_VALUE, Integer.MAX_VALUE, 0);
+		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(
+				state, Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
 		result.move = result.diff(state);
 		return result;
 	}
 
-	public GameMoveHelper getOptimalMinMove(final Board state, int alpha,
-			int beta, int level) {
-		if (level == MAX_LEVEL_SEARCH_DEPTH) {
-			return new GameMoveHelper(state.getValue(Player.WHITE), state);
+	public GameMoveHelper getOptimalMinMove(final GameSolverParameter parameter) {
+		if (parameter.level == MAX_LEVEL_SEARCH_DEPTH) {
+			return new GameMoveHelper(parameter, Player.WHITE);
 		}
 
-		final Collection<Board> gameStates = state.getNextBoards(Player.WHITE);
-		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE, state);
+		final Collection<Board> gameStates = parameter
+				.getNextBoards(Player.WHITE);
+		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE,
+				parameter.board);
 
 		for (final Board nextState : gameStates) {
-			final GameMoveHelper optimalMove = getOptimalMaxMove(nextState,
-					alpha, beta, level + 1);
-			beta = tryUpdateMinResult(beta, result, nextState, optimalMove);
-			if (beta <= alpha) {
+			final GameMoveHelper optimalMove = getOptimalMaxMove(GameSolverParameter
+					.increasedLevel(parameter));
+			tryUpdateMinResult(parameter, result, nextState, optimalMove);
+
+			if (parameter.beta <= parameter.alpha) {
 				return result;
 			}
 		}
@@ -62,45 +64,46 @@ public class GameSolver {
 		return result;
 	}
 
-	public GameMoveHelper getOptimalMaxMove(final Board state, int alpha,
-			int beta, int level) {
-		if (level == MAX_LEVEL_SEARCH_DEPTH) {
-			return new GameMoveHelper(state.getValue(Player.BLACK), state);
+	public GameMoveHelper getOptimalMaxMove(final GameSolverParameter parameter) {
+		if (parameter.level == MAX_LEVEL_SEARCH_DEPTH) {
+			return new GameMoveHelper(parameter, Player.BLACK);
 		}
 
-		final Collection<Board> gameStates = state.getNextBoards(Player.BLACK);
-		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE, state);
+		final Collection<Board> gameStates = parameter
+				.getNextBoards(Player.BLACK);
+		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE,
+				parameter.board);
 		for (final Board nextState : gameStates) {
-			final GameMoveHelper optimalMove = getOptimalMinMove(nextState,
-					alpha, beta, level + 1);
+			final GameMoveHelper optimalMove = getOptimalMinMove(GameSolverParameter
+					.increasedLevel(parameter));
 
-			alpha = tryUpdateMaxResult(alpha, result, nextState, optimalMove);
+			tryUpdateMaxResult(parameter, result, nextState, optimalMove);
 
-			if (beta <= alpha) {
+			if (parameter.beta <= parameter.alpha) {
 				return result;
 			}
 		}
 		return result;
 	}
 
-	private int tryUpdateMaxResult(int alpha, GameMoveHelper result,
-			final Board nextState, final GameMoveHelper next) {
+	private void tryUpdateMaxResult(final GameSolverParameter parameter,
+			GameMoveHelper result, final Board nextState,
+			final GameMoveHelper next) {
 		if (result.value < next.value) {
 			result.value = next.value;
 			result.state = nextState;
-			alpha = next.value;
+			parameter.alpha = next.value;
 		}
-		return alpha;
 	}
 
-	private int tryUpdateMinResult(int beta, GameMoveHelper result,
-			final Board nextState, final GameMoveHelper next) {
+	private void tryUpdateMinResult(final GameSolverParameter parameter,
+			GameMoveHelper result, final Board nextState,
+			final GameMoveHelper next) {
 		if (result.value > next.value) {
 			result.value = next.value;
 			result.state = nextState;
-			beta = next.value;
+			parameter.beta = next.value;
 		}
-		return beta;
 	}
 
 }
