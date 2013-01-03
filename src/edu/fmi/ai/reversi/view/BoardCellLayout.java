@@ -25,8 +25,7 @@ public class BoardCellLayout extends JPanel {
 
 	private static enum CellColor {
 
-		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(
-				CELL_COLOR_HIGHLIGHTED);
+		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(CELL_COLOR_HIGHLIGHTED);
 
 		private final String backgroundColor;
 
@@ -94,12 +93,10 @@ public class BoardCellLayout extends JPanel {
 	protected void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
 		graphics.setColor(cellColor.getBackgroundColor());
-		graphics.fillRect(BOARDER_THICKNESS, BOARDER_THICKNESS,
-				WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
+		graphics.fillRect(BOARDER_THICKNESS, BOARDER_THICKNESS, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
 		if (cellOwner != null) {
-			graphics.drawImage(cellOwner == Player.WHITE ? whiteDiscImage
-					: blackDiscImage, BOARDER_THICKNESS, BOARDER_THICKNESS,
-					WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL, null);
+			graphics.drawImage(cellOwner == Player.WHITE ? whiteDiscImage : blackDiscImage,
+					BOARDER_THICKNESS, BOARDER_THICKNESS, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL, null);
 		}
 	}
 

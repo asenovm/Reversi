@@ -16,13 +16,11 @@ public class HorizontalMoveChecker extends BaseMoveChecker {
 				|| isRightMovePermitted(moveCell, forPlayer);
 	}
 
-	private boolean isLeftMovePermitted(final Cell moveCell,
-			final Player forPlayer) {
+	private boolean isLeftMovePermitted(final Cell moveCell, final Player forPlayer) {
 		return getLeftNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
-	private boolean isRightMovePermitted(final Cell moveCell,
-			final Player forPlayer) {
+	private boolean isRightMovePermitted(final Cell moveCell, final Player forPlayer) {
 		return getRightNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
@@ -42,8 +40,7 @@ public class HorizontalMoveChecker extends BaseMoveChecker {
 		return leftNeighbourIndex;
 	}
 
-	public int getRightNeighbourIndex(final Cell moveCell,
-			final Player forPlayer) {
+	public int getRightNeighbourIndex(final Cell moveCell, final Player forPlayer) {
 		int rightIndex = -1;
 		for (int i = 1; i < Game.BOARD_COLUMN_COUNT - moveCell.getX(); ++i) {
 			final Cell currentCell = board.get(moveCell.getIndex() + i);

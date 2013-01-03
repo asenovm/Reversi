@@ -49,28 +49,20 @@ public class MoveChecker {
 		return verticalMoveChecker.getBottomNeighbourIndex(moveCell, player);
 	}
 
-	public int getMainDiagonalTopNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell,
-				player, true);
+	public int getMainDiagonalTopNeighbourIndex(final Cell moveCell, final Player player) {
+		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell, player, true);
 	}
 
-	public int getMainDiagonalBottomNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell,
-				player, true);
+	public int getMainDiagonalBottomNeighbourIndex(final Cell moveCell, final Player player) {
+		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell, player, true);
 	}
 
-	public int getSecondaryDiagonalTopNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell,
-				player, false);
+	public int getSecondaryDiagonalTopNeighbourIndex(final Cell moveCell, final Player player) {
+		return diagonalMoveChecker.getDiagonalTopNeighbourIndex(moveCell, player, false);
 	}
 
-	public int getSecondaryDiagonalBottomNeighbourIndex(final Cell moveCell,
-			final Player player) {
-		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell,
-				player, false);
+	public int getSecondaryDiagonalBottomNeighbourIndex(final Cell moveCell, final Player player) {
+		return diagonalMoveChecker.getDiagonalBottomNeighbourIndex(moveCell, player, false);
 	}
 
 }

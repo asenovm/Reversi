@@ -19,8 +19,7 @@ public class CellTaker {
 		this.board = board;
 	}
 
-	public Collection<Cell> takeSurroundedCells(final Cell moveCell,
-			final Player owner) {
+	public Collection<Cell> takeSurroundedCells(final Cell moveCell, final Player owner) {
 		final Set<Cell> takenCells = new LinkedHashSet<Cell>();
 		takenCells.add(moveCell);
 		tryTakeHorizontalCells(moveCell, owner, takenCells);
@@ -43,36 +42,33 @@ public class CellTaker {
 		tryTakeTopCells(owner, moveCell, changedCells);
 	}
 
-	private void tryTakeHorizontalCells(final Cell moveCell,
-			final Player owner, final Set<Cell> changedCells) {
+	private void tryTakeHorizontalCells(final Cell moveCell, final Player owner,
+			final Set<Cell> changedCells) {
 		tryTakeLeftCells(owner, moveCell, changedCells);
 		tryTakeRightCells(owner, moveCell, changedCells);
 	}
 
-	private void tryTakeSecondaryDiagonalBottomCells(final Player owner,
-			final Cell moveCell, final Set<Cell> changedCells) {
-		int diagonalBottomIndex = checker
-				.getSecondaryDiagonalBottomNeighbourIndex(moveCell, owner);
+	private void tryTakeSecondaryDiagonalBottomCells(final Player owner, final Cell moveCell,
+			final Set<Cell> changedCells) {
+		int diagonalBottomIndex = checker.getSecondaryDiagonalBottomNeighbourIndex(moveCell, owner);
 		if (diagonalBottomIndex > 0) {
 			takeCells(changedCells, moveCell.getIndex(), diagonalBottomIndex,
 					Game.BOARD_COLUMN_COUNT - 1, owner);
 		}
 	}
 
-	private void tryTakeSecondaryDiagonalTopCells(final Player owner,
-			final Cell moveCell, final Set<Cell> changedCells) {
-		int diagonalTopIndex = checker.getSecondaryDiagonalTopNeighbourIndex(
-				moveCell, owner);
+	private void tryTakeSecondaryDiagonalTopCells(final Player owner, final Cell moveCell,
+			final Set<Cell> changedCells) {
+		int diagonalTopIndex = checker.getSecondaryDiagonalTopNeighbourIndex(moveCell, owner);
 		if (diagonalTopIndex > 0) {
 			takeCells(changedCells, diagonalTopIndex, moveCell.getIndex(),
 					Game.BOARD_COLUMN_COUNT - 1, owner);
 		}
 	}
 
-	private void tryTakeDiagonalBottomCells(final Player owner,
-			final Cell moveCell, final Set<Cell> changedCells) {
-		int diagonalBottomIndex = checker.getMainDiagonalBottomNeighbourIndex(
-				moveCell, owner);
+	private void tryTakeDiagonalBottomCells(final Player owner, final Cell moveCell,
+			final Set<Cell> changedCells) {
+		int diagonalBottomIndex = checker.getMainDiagonalBottomNeighbourIndex(moveCell, owner);
 		if (diagonalBottomIndex > 0) {
 			takeCells(changedCells, moveCell.getIndex(), diagonalBottomIndex,
 					Game.BOARD_COLUMN_COUNT + 1, owner);
@@ -80,10 +76,9 @@ public class CellTaker {
 	}
 
 	// XXX checking this currently
-	private void tryTakeDiagonalTopCcells(final Player owner,
-			final Cell moveCell, final Set<Cell> changedCells) {
-		int diagonalTopIndex = checker.getMainDiagonalTopNeighbourIndex(
-				moveCell, owner);
+	private void tryTakeDiagonalTopCcells(final Player owner, final Cell moveCell,
+			final Set<Cell> changedCells) {
+		int diagonalTopIndex = checker.getMainDiagonalTopNeighbourIndex(moveCell, owner);
 		if (diagonalTopIndex > 0) {
 			takeCells(changedCells, diagonalTopIndex, moveCell.getIndex(),
 					Game.BOARD_COLUMN_COUNT + 1, owner);
@@ -92,8 +87,7 @@ public class CellTaker {
 
 	private void tryTakeTopCells(final Player owner, final Cell moveCell,
 			final Set<Cell> changedCells) {
-		int bottomNeigbhourIndex = checker.getBottomNeighbourIndex(moveCell,
-				owner);
+		int bottomNeigbhourIndex = checker.getBottomNeighbourIndex(moveCell, owner);
 		if (bottomNeigbhourIndex > 0) {
 			takeCells(changedCells, moveCell.getIndex(), bottomNeigbhourIndex,
 					Game.BOARD_COLUMN_COUNT, owner);
@@ -111,11 +105,9 @@ public class CellTaker {
 
 	private void tryTakeRightCells(final Player owner, final Cell moveCell,
 			final Set<Cell> changedCells) {
-		int rightNeighbourIndex = checker.getRightNeighbourIndex(moveCell,
-				owner);
+		int rightNeighbourIndex = checker.getRightNeighbourIndex(moveCell, owner);
 		if (rightNeighbourIndex > 0) {
-			takeCells(changedCells, moveCell.getIndex(), rightNeighbourIndex,
-					1, owner);
+			takeCells(changedCells, moveCell.getIndex(), rightNeighbourIndex, 1, owner);
 		}
 	}
 
@@ -123,14 +115,12 @@ public class CellTaker {
 			final Set<Cell> changedCells) {
 		int leftNeighbourindex = checker.getLeftNeighbourIndex(moveCell, owner);
 		if (leftNeighbourindex > 0) {
-			takeCells(changedCells, leftNeighbourindex, moveCell.getIndex(), 1,
-					owner);
+			takeCells(changedCells, leftNeighbourindex, moveCell.getIndex(), 1, owner);
 		}
 	}
 
-	private void takeCells(final Collection<Cell> changedCells,
-			final int fromIndex, final int toIndex, final int step,
-			final Player forPlayer) {
+	private void takeCells(final Collection<Cell> changedCells, final int fromIndex,
+			final int toIndex, final int step, final Player forPlayer) {
 		for (int i = fromIndex; i <= toIndex; i += step) {
 			final Cell currentCell = board.get(i);
 			if (!changedCells.contains(currentCell)) {

@@ -14,8 +14,7 @@ public class GameSolverParameter {
 
 	public int level;
 
-	public static GameSolverParameter increasedLevel(
-			final GameSolverParameter other) {
+	public static GameSolverParameter increasedLevel(final GameSolverParameter other) {
 		final GameSolverParameter result = new GameSolverParameter(other);
 		++result.level;
 		return result;
@@ -38,8 +37,8 @@ public class GameSolverParameter {
 	public Collection<Board> getNextBoards(final Player player) {
 		return board.getNextBoards(Player.WHITE);
 	}
-	
-	public int getValue(final Player player){
+
+	public int getValue(final Player player) {
 		return board.getValue(player);
 	}
 

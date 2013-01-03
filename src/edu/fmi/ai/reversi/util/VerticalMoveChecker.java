@@ -16,21 +16,18 @@ public class VerticalMoveChecker extends BaseMoveChecker {
 				|| isBottomMovePermitted(moveCell, forPlayer);
 	}
 
-	private boolean isTopMovePermitted(final Cell moveCell,
-			final Player forPlayer) {
+	private boolean isTopMovePermitted(final Cell moveCell, final Player forPlayer) {
 		return getTopNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
-	private boolean isBottomMovePermitted(final Cell moveCell,
-			final Player forPlayer) {
+	private boolean isBottomMovePermitted(final Cell moveCell, final Player forPlayer) {
 		return getBottomNeighbourIndex(moveCell, forPlayer) > 0;
 	}
 
 	public int getTopNeighbourIndex(final Cell moveCell, final Player forPlayer) {
 		int topIndex = -1;
 		for (int i = 1; i < moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() - i
-					* Game.BOARD_COLUMN_COUNT;
+			final int currentIndex = moveCell.getIndex() - i * Game.BOARD_COLUMN_COUNT;
 			final Cell currentCell = board.get(currentIndex);
 			if (isClosestNeighbour(forPlayer, i, currentCell)) {
 				topIndex = currentIndex;
@@ -42,12 +39,10 @@ public class VerticalMoveChecker extends BaseMoveChecker {
 		return topIndex;
 	}
 
-	public int getBottomNeighbourIndex(final Cell moveCell,
-			final Player forPlayer) {
+	public int getBottomNeighbourIndex(final Cell moveCell, final Player forPlayer) {
 		int bottomIndex = -1;
 		for (int i = 1; i < Game.BOARD_ROW_COUNT - moveCell.getY(); ++i) {
-			final int currentIndex = moveCell.getIndex() + i
-					* Game.BOARD_COLUMN_COUNT;
+			final int currentIndex = moveCell.getIndex() + i * Game.BOARD_COLUMN_COUNT;
 			final Cell currentCell = board.get(currentIndex);
 			if (isClosestNeighbour(forPlayer, i, currentCell)) {
 				bottomIndex = currentIndex;

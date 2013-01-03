@@ -35,8 +35,8 @@ public class GameSolver {
 	public static final int MOVE_EMPTY_BOARD = 0;
 
 	public GameMoveHelper getOptimalMove(final Board state) {
-		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(
-				state, Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
+		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(state,
+				Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
 		result.move = result.diff(state);
 		return result;
 	}
@@ -46,14 +46,12 @@ public class GameSolver {
 			return new GameMoveHelper(parameter, Player.WHITE);
 		}
 
-		final Collection<Board> gameStates = parameter
-				.getNextBoards(Player.WHITE);
-		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE,
-				parameter.board);
+		final Collection<Board> gameStates = parameter.getNextBoards(Player.WHITE);
+		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE, parameter.board);
 
 		for (final Board nextState : gameStates) {
-			final GameMoveHelper optimalMove = getOptimalMaxMove(GameSolverParameter
-					.increasedLevel(parameter));
+			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(parameter);
+			final GameMoveHelper optimalMove = getOptimalMaxMove(nextParameter);
 			tryUpdateMinResult(parameter, result, nextState, optimalMove);
 
 			if (parameter.beta <= parameter.alpha) {
@@ -69,16 +67,12 @@ public class GameSolver {
 			return new GameMoveHelper(parameter, Player.BLACK);
 		}
 
-		final Collection<Board> gameStates = parameter
-				.getNextBoards(Player.BLACK);
-		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE,
-				parameter.board);
+		final Collection<Board> gameStates = parameter.getNextBoards(Player.BLACK);
+		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE, parameter.board);
 		for (final Board nextState : gameStates) {
-			final GameMoveHelper optimalMove = getOptimalMinMove(GameSolverParameter
-					.increasedLevel(parameter));
-
+			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(parameter);
+			final GameMoveHelper optimalMove = getOptimalMinMove(nextParameter);
 			tryUpdateMaxResult(parameter, result, nextState, optimalMove);
-
 			if (parameter.beta <= parameter.alpha) {
 				return result;
 			}
@@ -86,9 +80,8 @@ public class GameSolver {
 		return result;
 	}
 
-	private void tryUpdateMaxResult(final GameSolverParameter parameter,
-			GameMoveHelper result, final Board nextState,
-			final GameMoveHelper next) {
+	private void tryUpdateMaxResult(final GameSolverParameter parameter, GameMoveHelper result,
+			final Board nextState, final GameMoveHelper next) {
 		if (result.value < next.value) {
 			result.value = next.value;
 			result.state = nextState;
@@ -96,9 +89,8 @@ public class GameSolver {
 		}
 	}
 
-	private void tryUpdateMinResult(final GameSolverParameter parameter,
-			GameMoveHelper result, final Board nextState,
-			final GameMoveHelper next) {
+	private void tryUpdateMinResult(final GameSolverParameter parameter, GameMoveHelper result,
+			final Board nextState, final GameMoveHelper next) {
 		if (result.value > next.value) {
 			result.value = next.value;
 			result.state = nextState;

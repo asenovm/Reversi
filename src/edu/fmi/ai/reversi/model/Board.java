@@ -62,8 +62,7 @@ public class Board {
 	}
 
 	public void takeCell(final int cellIndex, final Player owner) {
-		final Collection<Cell> takenCells = cellTaker
-				.takeCell(cellIndex, owner);
+		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner);
 		notifyObservers(takenCells);
 	}
 

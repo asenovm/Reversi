@@ -62,8 +62,7 @@ public class BoardLayout extends JFrame implements ModelObserver {
 
 	}
 
-	public BoardLayout(final BoardEventsListener listener)
-			throws HeadlessException {
+	public BoardLayout(final BoardEventsListener listener) throws HeadlessException {
 		this(listener, "", null);
 	}
 
@@ -98,8 +97,8 @@ public class BoardLayout extends JFrame implements ModelObserver {
 				final BoardCellLayout currentCell = new BoardCellLayout();
 
 				container.add(currentCell, i * Game.BOARD_COLUMN_COUNT + j);
-				currentCell.addMouseListener(new CellMouseListener(i
-						* Game.BOARD_COLUMN_COUNT + j));
+				currentCell
+						.addMouseListener(new CellMouseListener(i * Game.BOARD_COLUMN_COUNT + j));
 			}
 		}
 	}

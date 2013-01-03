@@ -12,18 +12,14 @@ public abstract class BaseMoveChecker {
 		this.board = board;
 	}
 
-	protected boolean isStoppingSearch(final Player forPlayer, int i,
-			final Cell currentCell) {
-		return currentCell.isEmpty()
-				|| (currentCell.isOwnedBy(forPlayer) && i == 1);
+	protected boolean isStoppingSearch(final Player forPlayer, int i, final Cell currentCell) {
+		return currentCell.isEmpty() || (currentCell.isOwnedBy(forPlayer) && i == 1);
 	}
 
-	protected boolean isClosestNeighbour(final Player forPlayer, int i,
-			final Cell currentCell) {
+	protected boolean isClosestNeighbour(final Player forPlayer, int i, final Cell currentCell) {
 		return currentCell.isOwnedBy(forPlayer) && i > 1;
 	}
 
-	public abstract boolean isMovePermitted(final Cell cell,
-			final Player forPlayer);
+	public abstract boolean isMovePermitted(final Cell cell, final Player forPlayer);
 
 }
