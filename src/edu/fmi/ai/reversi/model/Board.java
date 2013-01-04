@@ -11,7 +11,7 @@ import java.util.Set;
 import edu.fmi.ai.reversi.BoardEvaluator;
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.ModelObserver;
-import edu.fmi.ai.reversi.util.MoveChecker;
+import edu.fmi.ai.reversi.move.MoveChecker;
 
 public class Board {
 

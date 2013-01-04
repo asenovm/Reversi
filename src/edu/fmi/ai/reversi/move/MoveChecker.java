@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi.util;
+package edu.fmi.ai.reversi.move;
 
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;

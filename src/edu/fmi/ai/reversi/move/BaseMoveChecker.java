@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi.util;
+package edu.fmi.ai.reversi.move;
 
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
@@ -26,6 +26,8 @@ public abstract class BaseMoveChecker {
 		return getNeighbourIndex(cell, player) > 0;
 	}
 
-	public abstract int getNeighbourIndex(final Cell cell, final Player player);
+	protected abstract int getNeighbourIndex(final Cell cell, final Player player);
+	
+	protected abstract int incrementIndex(final int cellIndex, final boolean isMinusDirection);
 
 }

@@ -7,7 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import edu.fmi.ai.reversi.Game;
-import edu.fmi.ai.reversi.util.MoveChecker;
+import edu.fmi.ai.reversi.move.MoveChecker;
 
 public class CellTaker {
 

@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi.util;
+package edu.fmi.ai.reversi.move;
 
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
@@ -59,8 +59,6 @@ public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
 	protected abstract boolean canMoveTop(final int cellIndex);
 
 	protected abstract boolean canMoveBottom(final int cellIndex);
-
-	protected abstract int incrementIndex(final int cellIndex, final boolean isBottom);
 
 	protected abstract boolean isDiagonalEnd(final int cellIndex);
 
