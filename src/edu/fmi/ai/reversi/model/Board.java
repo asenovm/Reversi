@@ -142,7 +142,7 @@ public class Board {
 	public Collection<Cell> diff(final Board other) {
 		final List<Cell> diff = new ArrayList<Cell>();
 		for (final Map.Entry<Integer, Cell> cell : board.entrySet()) {
-			if (!cell.getValue().equals(other.board.get(cell.getKey()))) {
+			if (cell.getValue().getOwner() != other.get(cell.getKey()).getOwner()) {
 				diff.add(cell.getValue());
 			}
 		}
@@ -170,7 +170,8 @@ public class Board {
 			if (cell.getIndex() % 8 == 0) {
 				builder.append("\n");
 			}
-			builder.append(" ").append(cell.getIndex()).append(",").append(cell.getOwner()).append(" ");
+			builder.append(" ").append(cell.getIndex()).append(",").append(cell.getOwner())
+					.append(" ");
 		}
 		return builder.toString();
 	}

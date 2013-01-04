@@ -52,19 +52,19 @@ public class MoveChecker {
 		return verticalMoveChecker.getBottomNeighbourIndex(moveCell, player);
 	}
 
-	public int getMainBottomIndex(final Cell cell, final Player player) {
+	public int getMainBottomNeighbourIndex(final Cell cell, final Player player) {
 		return mainDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
 	}
 
-	public int getMainTopIndex(final Cell cell, final Player player) {
+	public int getMainTopNeighbourIndex(final Cell cell, final Player player) {
 		return mainDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
 	}
 
-	public int getSecondaryBottomIndex(final Cell cell, final Player player) {
+	public int getSecondaryBottomNeighbourIndex(final Cell cell, final Player player) {
 		return secondaryDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
 	}
 
-	public int getSecondaryTopIndex(final Cell cell, final Player player) {
+	public int getSecondaryTopNeighbourIndex(final Cell cell, final Player player) {
 		return secondaryDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
 	}
 
