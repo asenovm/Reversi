@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi.model;
+package edu.fmi.ai.reversi.move;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,7 +7,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import edu.fmi.ai.reversi.Game;
-import edu.fmi.ai.reversi.move.MoveChecker;
+import edu.fmi.ai.reversi.model.Board;
+import edu.fmi.ai.reversi.model.Cell;
+import edu.fmi.ai.reversi.model.Player;
 
 public class CellTaker {
 
@@ -29,37 +31,10 @@ public class CellTaker {
 		return takenCells;
 	}
 
-	private Collection<Cell> takeDiagonalCells(final Cell cell, final Player player) {
-		final Set<Cell> result = new HashSet<Cell>();
-		result.addAll(takeMainTopCells(cell, player));
-		result.addAll(takeMainBottomCells(cell, player));
-		result.addAll(takeSecondaryTopCells(cell, player));
-		result.addAll(takeSecondaryBottomCells(cell, player));
-		return result;
-	}
-
-	private Collection<Cell> takeSecondaryTopCells(final Cell cell, final Player player) {
-		int secondaryTopIndex = checker.getSecondaryTopNeighbourIndex(cell, player);
-		return secondaryTopIndex > 0 ? takeCells(secondaryTopIndex, cell.getIndex(),
-				Game.BOARD_COLUMN_COUNT - 1, player) : Collections.<Cell> emptySet();
-	}
-
-	private Collection<Cell> takeSecondaryBottomCells(final Cell cell, final Player player) {
-		int secondaryBottomIndex = checker.getSecondaryBottomNeighbourIndex(cell, player);
-		return secondaryBottomIndex > 0 ? takeCells(cell.getIndex(), secondaryBottomIndex,
-				Game.BOARD_COLUMN_COUNT - 1, player) : Collections.<Cell> emptySet();
-	}
-
-	private Collection<Cell> takeMainTopCells(final Cell cell, final Player player) {
-		int mainTopIndex = checker.getMainTopNeighbourIndex(cell, player);
-		return mainTopIndex > 0 ? takeCells(mainTopIndex, cell.getIndex(),
-				Game.BOARD_COLUMN_COUNT + 1, player) : Collections.<Cell> emptySet();
-	}
-
-	private Collection<Cell> takeMainBottomCells(final Cell cell, final Player player) {
-		int mainBottomIndex = checker.getMainBottomNeighbourIndex(cell, player);
-		return mainBottomIndex > 0 ? takeCells(cell.getIndex(), mainBottomIndex,
-				Game.BOARD_COLUMN_COUNT + 1, player) : Collections.<Cell> emptySet();
+	public Collection<Cell> takeCell(final int cellIndex, final Player player) {
+		final Cell moveCell = board.get(cellIndex);
+		moveCell.take(player);
+		return takeSurroundedCells(moveCell, player);
 	}
 
 	private Collection<Cell> takeVerticalCells(final Cell cell, final Player player) {
@@ -76,28 +51,59 @@ public class CellTaker {
 		return result;
 	}
 
+	private Collection<Cell> takeDiagonalCells(final Cell cell, final Player player) {
+		final Set<Cell> result = new HashSet<Cell>();
+		result.addAll(takeMainTopCells(cell, player));
+		result.addAll(takeMainBottomCells(cell, player));
+		result.addAll(takeSecondaryTopCells(cell, player));
+		result.addAll(takeSecondaryBottomCells(cell, player));
+		return result;
+	}
+
+	private Collection<Cell> takeSecondaryTopCells(final Cell cell, final Player player) {
+		int secondaryTopIndex = checker.getSecondaryTopNeighbourIndex(cell, player);
+		return takeCells(secondaryTopIndex, secondaryTopIndex, cell.getIndex(),
+				Game.BOARD_COLUMN_COUNT - 1, player);
+	}
+
+	private Collection<Cell> takeSecondaryBottomCells(final Cell cell, final Player player) {
+		int secondaryBottomIndex = checker.getSecondaryBottomNeighbourIndex(cell, player);
+		return takeCells(secondaryBottomIndex, cell.getIndex(), secondaryBottomIndex,
+				Game.BOARD_COLUMN_COUNT - 1, player);
+	}
+
+	private Collection<Cell> takeMainTopCells(final Cell cell, final Player player) {
+		int mainTopIndex = checker.getMainTopNeighbourIndex(cell, player);
+		return takeCells(mainTopIndex, mainTopIndex, cell.getIndex(), Game.BOARD_COLUMN_COUNT + 1,
+				player);
+	}
+
+	private Collection<Cell> takeMainBottomCells(final Cell cell, final Player player) {
+		int mainBottomIndex = checker.getMainBottomNeighbourIndex(cell, player);
+		return takeCells(mainBottomIndex, cell.getIndex(), mainBottomIndex,
+				Game.BOARD_COLUMN_COUNT + 1, player);
+	}
+
 	private Collection<Cell> takeTopCells(final Cell cell, final Player player) {
 		int bottomNeigbhourIndex = checker.getBottomNeighbourIndex(cell, player);
-		return bottomNeigbhourIndex > 0 ? takeCells(cell.getIndex(), bottomNeigbhourIndex,
-				Game.BOARD_COLUMN_COUNT, player) : Collections.<Cell> emptySet();
+		return takeCells(bottomNeigbhourIndex, cell.getIndex(), bottomNeigbhourIndex,
+				Game.BOARD_COLUMN_COUNT, player);
 	}
 
 	private Collection<Cell> takeBottomCells(final Cell cell, final Player player) {
 		int topNeighbourIndex = checker.getTopNeighbourIndex(cell, player);
-		return topNeighbourIndex > 0 ? takeCells(topNeighbourIndex, cell.getIndex(),
-				Game.BOARD_COLUMN_COUNT, player) : Collections.<Cell> emptySet();
+		return takeCells(topNeighbourIndex, topNeighbourIndex, cell.getIndex(),
+				Game.BOARD_COLUMN_COUNT, player);
 	}
 
 	private Collection<Cell> takeRightCells(final Cell cell, final Player player) {
 		int rightNeighbourIndex = checker.getRightNeighbourIndex(cell, player);
-		return rightNeighbourIndex > 0 ? takeCells(cell.getIndex(), rightNeighbourIndex, 1, player)
-				: Collections.<Cell> emptySet();
+		return takeCells(rightNeighbourIndex, cell.getIndex(), rightNeighbourIndex, 1, player);
 	}
 
 	private Collection<Cell> takeLeftCells(final Cell cell, final Player player) {
 		int leftNeighbourindex = checker.getLeftNeighbourIndex(cell, player);
-		return leftNeighbourindex > 0 ? takeCells(leftNeighbourindex, cell.getIndex(), 1, player)
-				: Collections.<Cell> emptySet();
+		return takeCells(leftNeighbourindex, leftNeighbourindex, cell.getIndex(), 1, player);
 	}
 
 	private Collection<Cell> takeCells(final int fromIndex, final int toIndex, final int step,
@@ -111,10 +117,10 @@ public class CellTaker {
 		return result;
 	}
 
-	public Collection<Cell> takeCell(final int cellIndex, final Player player) {
-		final Cell moveCell = board.get(cellIndex);
-		moveCell.take(player);
-		return takeSurroundedCells(moveCell, player);
+	private Collection<Cell> takeCells(final int neighbourIndex, final int start, final int end,
+			final int step, final Player player) {
+		return neighbourIndex > 0 ? takeCells(start, end, step, player) : Collections
+				.<Cell> emptySet();
 	}
 
 }
