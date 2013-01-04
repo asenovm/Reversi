@@ -12,4 +12,8 @@ public enum Player {
 	public int getSign() {
 		return sign;
 	}
+
+	public static Player getOther(final Player player) {
+		return player == BLACK ? WHITE : BLACK;
+	}
 }

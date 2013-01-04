@@ -7,7 +7,7 @@ import edu.fmi.ai.reversi.model.Player;
 
 public class GameSolver {
 
-	private static final int MAX_LEVEL_SEARCH_DEPTH = 5;
+	private static final int MAX_LEVEL_SEARCH_DEPTH = 4;
 
 	/**
 	 * {@value}
