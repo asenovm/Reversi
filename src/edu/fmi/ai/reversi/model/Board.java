@@ -137,7 +137,7 @@ public class Board {
 	}
 
 	public int getValue(final Player player) {
-		return evaluator.getBoardEvaluation(this, player);
+		return evaluator.getLocationValue(this, player);
 	}
 
 	public Collection<Cell> diff(final Board other) {
