@@ -114,7 +114,7 @@ public class Board {
 
 	public Collection<Cell> getNextMoves(final Player player) {
 		final List<Cell> result = new ArrayList<Cell>();
-		for (int i = 0; i <= size(); ++i) {
+		for (int i = 0; i < size(); ++i) {
 			if (isMovePermitted(i, player)) {
 				result.add(new Cell(i));
 			}
@@ -124,7 +124,7 @@ public class Board {
 
 	public Collection<Board> getNextBoards(final Player player) {
 		final List<Board> result = new ArrayList<Board>();
-		for (int i = 0; i <= size(); ++i) {
+		for (int i = 0; i < size(); ++i) {
 			if (isMovePermitted(i, player)) {
 				final Board newBoard = clone();
 				newBoard.takeCell(i, player);

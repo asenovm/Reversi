@@ -25,32 +25,28 @@ public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
 	}
 
 	public boolean isStableTop(final Cell cell, final Player player) {
-		final Player otherPlayer = Player.getOpponent(player);
-		return getNeighbourIndex(cell, otherPlayer, false, false) < 0
-				&& getNeighbourIndex(cell, Player.UNKNOWN, false, false) < 0;
+		return isStable(cell, player, false);
 	}
 
 	public boolean isStableBottom(final Cell cell, final Player player) {
-		final Player otherPlayer = Player.getOpponent(player);
-		return getNeighbourIndex(cell, otherPlayer, true, false) < 0
-				&& getNeighbourIndex(cell, Player.UNKNOWN, true, false) < 0;
+		return isStable(cell, player, true);
 	}
 
-	public boolean hasStable(final Cell cell, final Player player) {
+	public boolean isStable(final Cell cell, final Player player) {
 		return isStableTop(cell, player) || isStableBottom(cell, player);
 	}
 
 	@Override
-	protected int getNeighbourIndex(final Cell cell, final Player player, final boolean isBottom,
-			final boolean isStoppingSearch) {
+	protected int getNeighbourIndex(final Cell cell, final Player player,
+			final boolean isMinusDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
 		int currentNeighbour = 1;
 
-		if (!canMove(isBottom, cellIndex)) {
+		if (!canMove(isMinusDirection, cellIndex)) {
 			return -1;
 		}
 
-		cellIndex = incrementIndex(cellIndex, isBottom);
+		cellIndex = incrementIndex(cellIndex, isMinusDirection);
 
 		while (!isDiagonalEnd(cellIndex)) {
 			final Cell currentCell = board.get(cellIndex);
@@ -59,7 +55,7 @@ public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
 			} else if (isStoppingSearch && isStoppingSearch(player, currentNeighbour, currentCell)) {
 				return -1;
 			}
-			cellIndex = incrementIndex(cellIndex, isBottom);
+			cellIndex = incrementIndex(cellIndex, isMinusDirection);
 			++currentNeighbour;
 		}
 
