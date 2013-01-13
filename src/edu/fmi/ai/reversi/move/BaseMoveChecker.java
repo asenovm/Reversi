@@ -27,7 +27,7 @@ public abstract class BaseMoveChecker {
 		return getNeighbourIndex(cell, player) > 0;
 	}
 
-	protected boolean isStable(final Cell cell, final Player player, final boolean isMinusDirection) {
+	protected boolean isStableCell(final Cell cell, final Player player, final boolean isMinusDirection) {
 		final Player otherPlayer = Player.getOpponent(player);
 		return getNeighbourIndex(cell, otherPlayer, isMinusDirection, false) < 0
 				&& getNeighbourIndex(cell, Player.UNKNOWN, isMinusDirection, false) < 0;

@@ -19,16 +19,16 @@ public class VerticalMoveChecker extends BaseLineMoveChecker {
 		return getNeighbourIndex(cell, player, false, true);
 	}
 
-	public boolean isStable(final Cell cell, final Player player) {
+	public boolean isStableCell(final Cell cell, final Player player) {
 		return isStableTop(cell, player) || isStableBottom(cell, player);
 	}
 
 	public boolean isStableTop(final Cell cell, final Player player) {
-		return isStable(cell, player, true);
+		return isStableCell(cell, player, true);
 	}
 
 	public boolean isStableBottom(final Cell cell, final Player player) {
-		return isStable(cell, player, false);
+		return isStableCell(cell, player, false);
 	}
 
 	@Override

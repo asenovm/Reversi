@@ -80,10 +80,10 @@ public class MoveChecker {
 	}
 
 	private boolean isStableCell(final Cell cell, final Player player) {
-		return horizontalMoveChecker.isStable(cell, player)
-				&& verticalMoveChecker.isStable(cell, player)
-				&& mainDiagonalMoveChecker.isStable(cell, player)
-				&& secondaryDiagonalMoveChecker.isStable(cell, player);
+		return horizontalMoveChecker.isStableCell(cell, player)
+				&& verticalMoveChecker.isStableCell(cell, player)
+				&& mainDiagonalMoveChecker.isStableCell(cell, player)
+				&& secondaryDiagonalMoveChecker.isStableCell(cell, player);
 	}
 
 }

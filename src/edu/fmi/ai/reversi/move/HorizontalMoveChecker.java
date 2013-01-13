@@ -20,16 +20,16 @@ public class HorizontalMoveChecker extends BaseLineMoveChecker {
 		return getNeighbourIndex(cell, player, false, true);
 	}
 
-	public boolean isStable(final Cell cell, final Player player) {
+	public boolean isStableCell(final Cell cell, final Player player) {
 		return isStableLeft(cell, player) || isStableRight(cell, player);
 	}
 
 	public boolean isStableLeft(final Cell cell, final Player player) {
-		return isStable(cell, player, true);
+		return isStableCell(cell, player, true);
 	}
 
 	public boolean isStableRight(final Cell cell, final Player player) {
-		return isStable(cell, player, false);
+		return isStableCell(cell, player, false);
 	}
 
 	@Override
