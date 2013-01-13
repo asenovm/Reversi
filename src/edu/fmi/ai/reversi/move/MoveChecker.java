@@ -68,4 +68,22 @@ public class MoveChecker {
 		return secondaryDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
 	}
 
+	public int getStableDiscCount(final Player player) {
+		int result = 0;
+		for (int i = 0; i < board.size(); ++i) {
+			final Cell currentCell = board.get(i);
+			if (currentCell.isOwnedBy(player) && isStableCell(currentCell, player)) {
+				++result;
+			}
+		}
+		return result;
+	}
+
+	private boolean isStableCell(final Cell cell, final Player player) {
+		return horizontalMoveChecker.hasStable(cell, player)
+				&& verticalMoveChecker.hasStable(cell, player)
+				&& mainDiagonalMoveChecker.hasStable(cell, player)
+				&& secondaryDiagonalMoveChecker.hasStable(cell, player);
+	}
+
 }

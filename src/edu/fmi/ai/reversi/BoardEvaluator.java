@@ -18,23 +18,22 @@ public class BoardEvaluator {
 	public float getLocationValue(final Board board, final Player player) {
 		int locationValue = 0;
 		int opponentValue = 0;
+		final Player opponent = Player.getOpponent(player);
 		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final Cell currentCell = board.get(j, i);
 				if (currentCell.isOwnedBy(player)) {
 					locationValue += player.getSign() * locationValues[i][j];
-				} else if (!currentCell.isEmpty()) {
-					opponentValue += Player.getOther(player).getSign() * locationValues[i][j];
+				} else if (!currentCell.isOwnedBy(opponent)) {
+					opponentValue += opponent.getSign() * locationValues[i][j];
 				}
 			}
 		}
-		final float result = opponentValue == 0 ? locationValue : (float) locationValue
-				/ opponentValue;
-		return player == Player.WHITE ? result : Math.abs(result);
+		return locationValue + opponentValue;
 	}
 
-	public float getMobilityValue(final Board board, final Player player) {
-		// dont take this into accoutn as for now
-		return 0f;
+	public int getStabilityValue(final Board board, final Player player) {
+		return player.getSign() * (board.getStableDiscsCount(player) - board.getStableDiscsCount(Player.getOpponent(player))) * 12;
 	}
+
 }

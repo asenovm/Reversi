@@ -1,7 +1,10 @@
 package edu.fmi.ai.reversi;
 
+import java.util.Collection;
+
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.model.Board;
+import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.BoardLayout;
@@ -39,7 +42,7 @@ public class Game implements BoardEventsListener {
 
 		turnSwitcher = new TurnSwitcher();
 		currentPlayer = Player.BLACK;
-		
+
 		board.addObserver(boardLayout);
 
 		board.startGame();
@@ -52,14 +55,19 @@ public class Game implements BoardEventsListener {
 
 	public void awaitInput() {
 		currentPlayer = Player.BLACK;
-		board.nextMove(currentPlayer);
-		turnSwitcher.startTurn();
+		final Collection<Cell> nextMoves = board.getNextMoves(currentPlayer);
+		if (!nextMoves.isEmpty()) {
+			board.nextMove(currentPlayer);
+			turnSwitcher.startTurn();
+		}
 	}
 
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
+		System.out.println("next moves are " + board.getNextMoves(currentPlayer).size());
 		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
+		System.out.println("optimal move is " + optimalMove.state.toString());
 		board.takeCells(optimalMove.move);
 	}
 

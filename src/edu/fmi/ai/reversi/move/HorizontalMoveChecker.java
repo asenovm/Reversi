@@ -10,13 +10,26 @@ public class HorizontalMoveChecker extends BaseLineMoveChecker {
 	public HorizontalMoveChecker(final Board board) {
 		super(board);
 	}
+	
 
 	public int getLeftNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, true);
+		return getNeighbourIndex(cell, player, true, true);
 	}
 
 	public int getRightNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, false);
+		return getNeighbourIndex(cell, player, false, true);
+	}
+
+	public boolean hasStable(final Cell cell, final Player player) {
+		return isStableLeft(cell, player) || isStableRight(cell, player);
+	}
+
+	public boolean isStableLeft(final Cell cell, final Player player) {
+		return isStable(cell, player, true);
+	}
+
+	public boolean isStableRight(final Cell cell, final Player player) {
+		return isStable(cell, player, false);
 	}
 
 	@Override

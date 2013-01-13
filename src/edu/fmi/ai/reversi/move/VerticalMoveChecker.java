@@ -12,11 +12,23 @@ public class VerticalMoveChecker extends BaseLineMoveChecker {
 	}
 
 	public int getTopNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, true);
+		return getNeighbourIndex(cell, player, true, true);
 	}
 
 	public int getBottomNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, false);
+		return getNeighbourIndex(cell, player, false, true);
+	}
+
+	public boolean hasStable(final Cell cell, final Player player) {
+		return isStableTop(cell, player) || isStableBottom(cell, player);
+	}
+
+	public boolean isStableTop(final Cell cell, final Player player) {
+		return isStable(cell, player, true);
+	}
+
+	public boolean isStableBottom(final Cell cell, final Player player) {
+		return isStable(cell, player, false);
 	}
 
 	@Override
@@ -26,7 +38,8 @@ public class VerticalMoveChecker extends BaseLineMoveChecker {
 
 	@Override
 	protected int incrementIndex(int cellIndex, boolean isMinusDirection) {
-		return isMinusDirection ? cellIndex -Game.BOARD_COLUMN_COUNT : cellIndex + Game.BOARD_COLUMN_COUNT;
+		return isMinusDirection ? cellIndex - Game.BOARD_COLUMN_COUNT : cellIndex
+				+ Game.BOARD_COLUMN_COUNT;
 	}
 
 }

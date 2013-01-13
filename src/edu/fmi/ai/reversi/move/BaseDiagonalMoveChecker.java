@@ -12,19 +12,37 @@ public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
 
 	@Override
 	public int getNeighbourIndex(final Cell cell, final Player player) {
-		return Math.max(getNeighbourIndex(cell, player, true),
-				getNeighbourIndex(cell, player, false));
+		return Math.max(getNeighbourIndex(cell, player, true, true),
+				getNeighbourIndex(cell, player, false, true));
 	}
 
 	public int getTopNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, false);
+		return getNeighbourIndex(cell, player, false, true);
 	}
 
 	public int getBottomNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, true);
+		return getNeighbourIndex(cell, player, true, true);
 	}
 
-	protected int getNeighbourIndex(final Cell cell, final Player player, final boolean isBottom) {
+	public boolean isStableTop(final Cell cell, final Player player) {
+		final Player otherPlayer = Player.getOpponent(player);
+		return getNeighbourIndex(cell, otherPlayer, false, false) < 0
+				&& getNeighbourIndex(cell, Player.UNKNOWN, false, false) < 0;
+	}
+
+	public boolean isStableBottom(final Cell cell, final Player player) {
+		final Player otherPlayer = Player.getOpponent(player);
+		return getNeighbourIndex(cell, otherPlayer, true, false) < 0
+				&& getNeighbourIndex(cell, Player.UNKNOWN, true, false) < 0;
+	}
+
+	public boolean hasStable(final Cell cell, final Player player) {
+		return isStableTop(cell, player) || isStableBottom(cell, player);
+	}
+
+	@Override
+	protected int getNeighbourIndex(final Cell cell, final Player player, final boolean isBottom,
+			final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
 		int currentNeighbour = 1;
 
@@ -38,7 +56,7 @@ public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
 			final Cell currentCell = board.get(cellIndex);
 			if (isClosestNeighbour(player, currentNeighbour, currentCell)) {
 				return cellIndex;
-			} else if (isStoppingSearch(player, currentNeighbour, currentCell)) {
+			} else if (isStoppingSearch && isStoppingSearch(player, currentNeighbour, currentCell)) {
 				return -1;
 			}
 			cellIndex = incrementIndex(cellIndex, isBottom);

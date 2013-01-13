@@ -16,6 +16,7 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		index = y * Game.BOARD_COLUMN_COUNT + x;
+		ownedBy = Player.UNKNOWN;
 	}
 
 	public Cell(final int index) {
@@ -29,7 +30,7 @@ public class Cell {
 	}
 
 	public boolean isEmpty() {
-		return ownedBy == null;
+		return ownedBy == Player.UNKNOWN;
 	}
 
 	public boolean isOwnedBy(final Player player) {

@@ -135,7 +135,7 @@ public class Board {
 	}
 
 	public float getValue(final Player player) {
-		return evaluator.getLocationValue(this, player) + evaluator.getMobilityValue(this, player);
+		return evaluator.getLocationValue(this, player) + evaluator.getStabilityValue(this, player);
 	}
 
 	public Collection<Cell> diff(final Board other) {
@@ -162,6 +162,10 @@ public class Board {
 		takeCell(POSITION_CENTER_BOTTOM_RIGHT, Player.WHITE);
 	}
 
+	public int size() {
+		return board.size();
+	}
+
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
@@ -173,5 +177,9 @@ public class Board {
 					.append(" ");
 		}
 		return builder.toString();
+	}
+
+	public int getStableDiscsCount(final Player player) {
+		return checker.getStableDiscCount(player);
 	}
 }

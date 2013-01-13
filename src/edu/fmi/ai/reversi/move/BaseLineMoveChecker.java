@@ -12,19 +12,20 @@ public abstract class BaseLineMoveChecker extends BaseMoveChecker {
 
 	@Override
 	protected int getNeighbourIndex(Cell cell, Player player) {
-		return Math.max(getNeighbourIndex(cell, player, false),
-				getNeighbourIndex(cell, player, true));
+		return Math.max(getNeighbourIndex(cell, player, false, true),
+				getNeighbourIndex(cell, player, true, true));
 	}
 
+	@Override
 	protected int getNeighbourIndex(final Cell cell, final Player player,
-			final boolean isMinusDirection) {
+			final boolean isMinusDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
 		for (int i = 1; i < getEndIndex(cell, isMinusDirection); ++i) {
 			cellIndex = incrementIndex(cellIndex, isMinusDirection);
 			final Cell currentCell = board.get(cellIndex);
 			if (isClosestNeighbour(player, i, currentCell)) {
 				return cellIndex;
-			} else if (isStoppingSearch(player, i, currentCell)) {
+			} else if (isStoppingSearch && isStoppingSearch(player, i, currentCell)) {
 				return -1;
 			}
 		}

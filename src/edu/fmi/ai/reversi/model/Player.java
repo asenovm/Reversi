@@ -1,7 +1,7 @@
 package edu.fmi.ai.reversi.model;
 
 public enum Player {
-	BLACK(1), WHITE(-1);
+	BLACK(1), WHITE(-1), UNKNOWN(0);
 
 	private final int sign;
 
@@ -13,7 +13,7 @@ public enum Player {
 		return sign;
 	}
 
-	public static Player getOther(final Player player) {
+	public static Player getOpponent(final Player player) {
 		return player == BLACK ? WHITE : BLACK;
 	}
 }
