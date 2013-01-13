@@ -2,6 +2,7 @@ package edu.fmi.ai.reversi.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -94,10 +95,8 @@ public class BoardCellLayout extends JPanel {
 		super.paintComponent(graphics);
 		graphics.setColor(cellColor.getBackgroundColor());
 		graphics.fillRect(BOARDER_THICKNESS, BOARDER_THICKNESS, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
-		if (cellOwner != null) {
-			graphics.drawImage(cellOwner == Player.WHITE ? whiteDiscImage : blackDiscImage,
-					BOARDER_THICKNESS, BOARDER_THICKNESS, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL, null);
-		}
+		graphics.drawImage(getCellImage(), BOARDER_THICKNESS, BOARDER_THICKNESS, WIDTH_BOARD_CELL,
+				HEIGHT_BOARD_CELL, null);
 	}
 
 	public void take(final Player cellOwner) {
@@ -119,5 +118,14 @@ public class BoardCellLayout extends JPanel {
 	@Override
 	public void repaint() {
 		paintImmediately(0, 0, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
+	}
+
+	private Image getCellImage() {
+		if (cellOwner == Player.WHITE) {
+			return whiteDiscImage;
+		} else if (cellOwner == Player.BLACK) {
+			return blackDiscImage;
+		}
+		return null;
 	}
 }
