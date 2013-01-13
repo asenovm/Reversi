@@ -45,7 +45,7 @@ public class Game implements BoardEventsListener {
 	}
 
 	public boolean isFinished() {
-		return false;
+		return !board.hasNextMoves(Player.WHITE) && !board.hasNextMoves(Player.BLACK);
 	}
 
 	public void awaitInput() {

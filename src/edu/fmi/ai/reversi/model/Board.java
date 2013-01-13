@@ -171,6 +171,10 @@ public class Board {
 		return checker.getStableDiscCount(player);
 	}
 
+	public boolean hasNextMoves(final Player player) {
+		return !getNextMoves(player).isEmpty();
+	}
+
 	private void notifyModelChanged(final Collection<Cell> changedCells) {
 		for (final ModelObserver observer : observers) {
 			observer.onModelChanged(changedCells);

@@ -9,10 +9,10 @@ public class BoardEvaluator {
 	private final int[][] locationValues;
 
 	public BoardEvaluator() {
-		locationValues = new int[][] { { 50, -1, 5, 2, 2, 5, -1, 50 },
+		locationValues = new int[][] { { 100, -1, 5, 2, 2, 5, -1, 100 },
 				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
 				{ 2, 1, 1, 0, 0, 1, 1, 2 }, { 2, 1, 1, 0, 0, 1, 1, 2 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
-				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
+				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 100, -1, 5, 2, 2, 5, -1, 100 } };
 	}
 
 	public float getLocationValue(final Board board, final Player player) {
@@ -29,11 +29,14 @@ public class BoardEvaluator {
 				}
 			}
 		}
+
 		return locationValue + opponentValue;
 	}
 
 	public int getStabilityValue(final Board board, final Player player) {
-		return player.getSign() * (board.getStableDiscsCount(player) - board.getStableDiscsCount(Player.getOpponent(player))) * 12;
+		return player.getSign()
+				* (board.getStableDiscsCount(player) - board.getStableDiscsCount(Player
+						.getOpponent(player))) * 60;
 	}
 
 }
