@@ -95,10 +95,9 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final BoardCellLayout currentCell = new BoardCellLayout();
-
-				container.add(currentCell, i * Game.BOARD_COLUMN_COUNT + j);
-				currentCell
-						.addMouseListener(new CellMouseListener(i * Game.BOARD_COLUMN_COUNT + j));
+				final int cellIndex = i * Game.BOARD_COLUMN_COUNT + j;
+				container.add(currentCell, cellIndex);
+				currentCell.addMouseListener(new CellMouseListener(cellIndex));
 			}
 		}
 	}

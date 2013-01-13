@@ -23,21 +23,6 @@ public class BoardCellLayout extends JPanel {
 	 */
 	private static final String CELL_COLOR_DEFAULT = "0x88B32D";
 
-	private static enum CellColor {
-
-		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(CELL_COLOR_HIGHLIGHTED);
-
-		private final String backgroundColor;
-
-		private CellColor(final String color) {
-			this.backgroundColor = color;
-		}
-
-		public Color getBackgroundColor() {
-			return Color.decode(backgroundColor);
-		}
-	}
-
 	/**
 	 * {@value}
 	 */
@@ -67,6 +52,21 @@ public class BoardCellLayout extends JPanel {
 	 * {@value}
 	 */
 	public static final int WIDTH_BOARD_CELL = 70;
+
+	private static enum CellColor {
+
+		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(CELL_COLOR_HIGHLIGHTED);
+
+		private final String backgroundColor;
+
+		private CellColor(final String color) {
+			this.backgroundColor = color;
+		}
+
+		public Color getBackgroundColor() {
+			return Color.decode(backgroundColor);
+		}
+	}
 
 	private BufferedImage whiteDiscImage;
 
