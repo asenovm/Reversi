@@ -60,9 +60,7 @@ public class Game implements BoardEventsListener {
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
-		System.out.println("next moves are " + board.getNextMoves(currentPlayer).size());
 		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
-		System.out.println("optimal move is " + optimalMove.state.toString());
 		board.takeCells(optimalMove.move);
 	}
 

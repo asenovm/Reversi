@@ -6,7 +6,6 @@ import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
-//TODO remove this
 public class GameMoveHelper {
 
 	public float value;

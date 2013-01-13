@@ -100,18 +100,6 @@ public class Board {
 		return board;
 	}
 
-	private void notifyModelChanged(final Collection<Cell> changedCells) {
-		for (final ModelObserver observer : observers) {
-			observer.onModelChanged(changedCells);
-		}
-	}
-
-	private void notifyNextMoves(final Collection<Cell> nextMoves) {
-		for (final ModelObserver observer : observers) {
-			observer.onNextMovesAcquired(nextMoves);
-		}
-	}
-
 	public Collection<Cell> getNextMoves(final Player player) {
 		final List<Cell> result = new ArrayList<Cell>();
 		for (int i = 0; i < size(); ++i) {
@@ -181,5 +169,17 @@ public class Board {
 
 	public int getStableDiscsCount(final Player player) {
 		return checker.getStableDiscCount(player);
+	}
+
+	private void notifyModelChanged(final Collection<Cell> changedCells) {
+		for (final ModelObserver observer : observers) {
+			observer.onModelChanged(changedCells);
+		}
+	}
+
+	private void notifyNextMoves(final Collection<Cell> nextMoves) {
+		for (final ModelObserver observer : observers) {
+			observer.onNextMovesAcquired(nextMoves);
+		}
 	}
 }
