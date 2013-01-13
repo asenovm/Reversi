@@ -9,13 +9,13 @@ import edu.fmi.ai.reversi.model.Player;
 //TODO remove this
 public class GameMoveHelper {
 
-	public int value;
+	public float value;
 
 	public Board state;
 
 	public Collection<Cell> move;
 
-	public GameMoveHelper(final int value, final Board state) {
+	public GameMoveHelper(final float value, final Board state) {
 		this.value = value;
 		this.state = state;
 	}

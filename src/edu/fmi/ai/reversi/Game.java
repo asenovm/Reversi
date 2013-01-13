@@ -18,6 +18,9 @@ public class Game implements BoardEventsListener {
 	 */
 	public static final int BOARD_COLUMN_COUNT = 8;
 
+	/**
+	 * {@value}
+	 */
 	public static final int BOARD_MAX_INDEX = BOARD_COLUMN_COUNT * BOARD_ROW_COUNT - 1;
 
 	private final BoardLayout boardLayout;
@@ -36,6 +39,7 @@ public class Game implements BoardEventsListener {
 
 		turnSwitcher = new TurnSwitcher();
 		currentPlayer = Player.BLACK;
+		
 		board.addObserver(boardLayout);
 
 		board.startGame();

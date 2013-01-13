@@ -22,19 +22,23 @@ public class CellTaker {
 		this.board = board;
 	}
 
-	public Collection<Cell> takeSurroundedCells(final Cell cell, final Player player) {
+	private Collection<Cell> takeSurroundedCells(final Cell cell, final Player player) {
 		final Set<Cell> takenCells = new LinkedHashSet<Cell>();
+
 		takenCells.add(cell);
 		takenCells.addAll(takeHorizontalCells(cell, player));
 		takenCells.addAll(takeVerticalCells(cell, player));
 		takenCells.addAll(takeDiagonalCells(cell, player));
+
+		for (final Cell takenCell : takenCells) {
+			takenCell.take(player);
+		}
+
 		return takenCells;
 	}
 
 	public Collection<Cell> takeCell(final int cellIndex, final Player player) {
-		final Cell moveCell = board.get(cellIndex);
-		moveCell.take(player);
-		return takeSurroundedCells(moveCell, player);
+		return takeSurroundedCells(board.get(cellIndex), player);
 	}
 
 	private Collection<Cell> takeVerticalCells(final Cell cell, final Player player) {
@@ -110,9 +114,7 @@ public class CellTaker {
 			final Player player) {
 		final Collection<Cell> result = new HashSet<Cell>();
 		for (int i = fromIndex; i <= toIndex; i += step) {
-			final Cell currentCell = board.get(i);
-			currentCell.take(player);
-			result.add(currentCell);
+			result.add(board.get(i));
 		}
 		return result;
 	}

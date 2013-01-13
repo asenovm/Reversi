@@ -9,28 +9,32 @@ public class BoardEvaluator {
 	private final int[][] locationValues;
 
 	public BoardEvaluator() {
-		locationValues = new int[][] { { 99, -8, 8, 6, 6, 8, -8, 99 },
-				{ -8, -24, -4, -3, -3, -4, -24, -8 }, { 8, -4, 7, 4, 4, 7, -4, 8 },
-				{ 6, -3, 4, 0, 0, 4, -3, 6 }, { 6, -3, 4, 0, 0, 4, -3, 6 },
-				{ 8, -4, 7, 4, 4, 7, -4, 8 }, { -8, -24, -4, -3, -3, -4, -24, -8 },
-				{ 99, -8, 8, 6, 6, 8, -8, 99 } };
+		locationValues = new int[][] { { 50, -1, 5, 2, 2, 5, -1, 50 },
+				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
+				{ 2, 1, 1, 0, 0, 1, 1, 2 }, { 2, 1, 1, 0, 0, 1, 1, 2 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
+				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
 	}
 
-	public int getLocationValue(final Board board, final Player player) {
+	public float getLocationValue(final Board board, final Player player) {
 		int locationValue = 0;
+		int opponentValue = 0;
 		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final Cell currentCell = board.get(j, i);
 				if (currentCell.isOwnedBy(player)) {
 					locationValue += player.getSign() * locationValues[i][j];
+				} else if (!currentCell.isEmpty()) {
+					opponentValue += Player.getOther(player).getSign() * locationValues[i][j];
 				}
 			}
 		}
-		return locationValue;
+		final float result = opponentValue == 0 ? locationValue : (float) locationValue
+				/ opponentValue;
+		return player == Player.WHITE ? result : Math.abs(result);
 	}
 
-	public int getMoveValue(final Board board, final Player player) {
-		return player.getSign() * board.getNextMoves(player).size();
+	public float getMobilityValue(final Board board, final Player player) {
+		// dont take this into accoutn as for now
+		return 0f;
 	}
-
 }

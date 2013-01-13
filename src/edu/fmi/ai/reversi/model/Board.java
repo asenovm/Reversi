@@ -64,7 +64,7 @@ public class Board {
 
 	public void takeCell(final int cellIndex, final Player owner) {
 		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner);
-		notifyObservers(takenCells);
+		notifyModelChanged(takenCells);
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player player) {
@@ -100,7 +100,7 @@ public class Board {
 		return board;
 	}
 
-	private void notifyObservers(final Collection<Cell> changedCells) {
+	private void notifyModelChanged(final Collection<Cell> changedCells) {
 		for (final ModelObserver observer : observers) {
 			observer.onModelChanged(changedCells);
 		}
@@ -116,8 +116,6 @@ public class Board {
 		final List<Cell> result = new ArrayList<Cell>();
 		for (int i = 0; i <= Game.BOARD_MAX_INDEX; ++i) {
 			if (isMovePermitted(i, player)) {
-				final Board newBoard = clone();
-				newBoard.takeCell(i, player);
 				result.add(new Cell(i));
 			}
 		}
@@ -136,9 +134,8 @@ public class Board {
 		return result;
 	}
 
-	public int getValue(final Player player) {
-		return evaluator.getLocationValue(this, player) + evaluator.getMoveValue(this, player) + 3
-				* evaluator.getMoveValue(this, Player.getOther(player));
+	public float getValue(final Player player) {
+		return evaluator.getLocationValue(this, player) + evaluator.getMobilityValue(this, player);
 	}
 
 	public Collection<Cell> diff(final Board other) {
@@ -155,7 +152,7 @@ public class Board {
 		for (final Cell cell : cells) {
 			board.get(cell.getIndex()).take(cell.getOwner());
 		}
-		notifyObservers(cells);
+		notifyModelChanged(cells);
 	}
 
 	public void startGame() {

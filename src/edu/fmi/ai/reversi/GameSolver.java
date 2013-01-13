@@ -7,7 +7,10 @@ import edu.fmi.ai.reversi.model.Player;
 
 public class GameSolver {
 
-	private static final int MAX_LEVEL_SEARCH_DEPTH = 4;
+	/**
+	 * {@value}
+	 */
+	private static final int MAX_LEVEL_SEARCH_DEPTH = 3;
 
 	/**
 	 * {@value}
@@ -36,7 +39,7 @@ public class GameSolver {
 
 	public GameMoveHelper getOptimalMove(final Board state) {
 		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(state,
-				Integer.MIN_VALUE, Integer.MAX_VALUE, 0));
+				Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0));
 		result.move = result.diff(state);
 		return result;
 	}
@@ -47,7 +50,7 @@ public class GameSolver {
 		}
 
 		final Collection<Board> gameStates = parameter.getNextBoards(Player.WHITE);
-		GameMoveHelper result = new GameMoveHelper(Integer.MAX_VALUE, parameter.board);
+		GameMoveHelper result = new GameMoveHelper(Float.POSITIVE_INFINITY, parameter.board);
 
 		for (final Board nextState : gameStates) {
 			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(nextState,
@@ -69,7 +72,7 @@ public class GameSolver {
 		}
 
 		final Collection<Board> gameStates = parameter.getNextBoards(Player.BLACK);
-		GameMoveHelper result = new GameMoveHelper(Integer.MIN_VALUE, parameter.board);
+		GameMoveHelper result = new GameMoveHelper(Float.NEGATIVE_INFINITY, parameter.board);
 
 		for (final Board nextState : gameStates) {
 			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(nextState,
