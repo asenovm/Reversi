@@ -12,31 +12,6 @@ public class GameSolver {
 	 */
 	private static final int MAX_LEVEL_SEARCH_DEPTH = 3;
 
-	/**
-	 * {@value}
-	 */
-	public static final int SIZE_BOARD_GAME = 3;
-
-	/**
-	 * {@value}
-	 */
-	public static final int INDEX_BOARD_MIN = 0;
-
-	/**
-	 * {@value}
-	 */
-	public static final int MOVE_MIN_PLAYER = -1;
-
-	/**
-	 * {@value}
-	 */
-	public static final int MOVE_MAX_PLAYER = 1;
-
-	/**
-	 * {@value}
-	 */
-	public static final int MOVE_EMPTY_BOARD = 0;
-
 	public GameMoveHelper getOptimalMove(final Board state) {
 		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(state,
 				Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0));
