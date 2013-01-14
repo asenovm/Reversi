@@ -12,6 +12,13 @@ public class Cell {
 
 	private Player ownedBy;
 
+	public Cell(final int index, final Player owner) {
+		this.index = index;
+		this.x = index % Game.BOARD_COLUMN_COUNT;
+		this.y = index / Game.BOARD_ROW_COUNT;
+		ownedBy = owner;
+	}
+
 	public Cell(final int x, final int y) {
 		this.x = x;
 		this.y = y;
@@ -20,9 +27,7 @@ public class Cell {
 	}
 
 	public Cell(final int index) {
-		this.index = index;
-		this.x = index % Game.BOARD_COLUMN_COUNT;
-		this.y = index / Game.BOARD_ROW_COUNT;
+		this(index, Player.UNKNOWN);
 	}
 
 	public void take(Player player) {

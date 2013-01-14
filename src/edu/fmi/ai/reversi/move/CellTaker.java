@@ -43,8 +43,8 @@ public class CellTaker {
 
 	private Collection<Cell> takeVerticalCells(final Cell cell, final Player player) {
 		final Set<Cell> result = new HashSet<Cell>();
-		result.addAll(takeBottomCells(cell, player));
 		result.addAll(takeTopCells(cell, player));
+		result.addAll(takeBottomCells(cell, player));
 		return result;
 	}
 
@@ -88,13 +88,13 @@ public class CellTaker {
 				Game.BOARD_COLUMN_COUNT + 1, player);
 	}
 
-	private Collection<Cell> takeTopCells(final Cell cell, final Player player) {
+	private Collection<Cell> takeBottomCells(final Cell cell, final Player player) {
 		int bottomNeigbhourIndex = checker.getBottomNeighbourIndex(cell, player);
 		return takeCells(bottomNeigbhourIndex, cell.getIndex(), bottomNeigbhourIndex,
 				Game.BOARD_COLUMN_COUNT, player);
 	}
 
-	private Collection<Cell> takeBottomCells(final Cell cell, final Player player) {
+	private Collection<Cell> takeTopCells(final Cell cell, final Player player) {
 		int topNeighbourIndex = checker.getTopNeighbourIndex(cell, player);
 		return takeCells(topNeighbourIndex, topNeighbourIndex, cell.getIndex(),
 				Game.BOARD_COLUMN_COUNT, player);

@@ -33,7 +33,7 @@ public class VerticalMoveChecker extends BaseLineMoveChecker {
 
 	@Override
 	protected int getEndIndex(Cell startCell, boolean isMinusDirection) {
-		return isMinusDirection ? startCell.getY() : Game.BOARD_ROW_COUNT - startCell.getY();
+		return isMinusDirection ? startCell.getY() + 1 : Game.BOARD_ROW_COUNT - startCell.getY();
 	}
 
 	@Override

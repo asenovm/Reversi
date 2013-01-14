@@ -39,7 +39,7 @@ public class HorizontalMoveChecker extends BaseLineMoveChecker {
 
 	@Override
 	protected int getEndIndex(final Cell startCell, boolean isMinusDirection) {
-		return isMinusDirection ? startCell.getX() : Game.BOARD_COLUMN_COUNT - startCell.getX();
+		return isMinusDirection ? startCell.getX() + 1 : Game.BOARD_COLUMN_COUNT - startCell.getX();
 	}
 
 }
