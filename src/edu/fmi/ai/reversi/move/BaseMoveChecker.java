@@ -19,7 +19,7 @@ public abstract class BaseMoveChecker {
 
 	protected boolean isClosestNeighbour(final Player forPlayer, int currentNeighbour,
 			final Cell currentCell) {
-		return currentCell.isOwnedBy(forPlayer) && (currentNeighbour > 1);
+		return currentCell.isOwnedBy(forPlayer) && (currentNeighbour > 1 || forPlayer == Player.UNKNOWN);
 	}
 
 	public boolean isMovePermitted(final Cell cell, final Player player) {
