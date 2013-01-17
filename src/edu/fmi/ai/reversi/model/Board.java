@@ -64,7 +64,7 @@ public class Board {
 
 	public void takeCell(final int cellIndex, final Player owner) {
 		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner);
-		notifyModelChanged(takenCells);
+		notifyModelChanged(takenCells, getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player player) {
@@ -140,7 +140,17 @@ public class Board {
 		for (final Cell cell : cells) {
 			board.get(cell.getIndex()).take(cell.getOwner());
 		}
-		notifyModelChanged(cells);
+		notifyModelChanged(cells, getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
+	}
+
+	private int getDiscCount(Player player) {
+		int result = 0;
+		for (final Cell cell : board.values()) {
+			if (cell.isOwnedBy(player)) {
+				++result;
+			}
+		}
+		return result;
 	}
 
 	public void startGame() {
@@ -175,9 +185,10 @@ public class Board {
 		return !getNextMoves(player).isEmpty();
 	}
 
-	private void notifyModelChanged(final Collection<Cell> changedCells) {
+	private void notifyModelChanged(final Collection<Cell> changedCells, final int whiteDiscs,
+			final int blackDiscs) {
 		for (final ModelObserver observer : observers) {
-			observer.onModelChanged(changedCells);
+			observer.onModelChanged(changedCells, whiteDiscs, blackDiscs);
 		}
 	}
 

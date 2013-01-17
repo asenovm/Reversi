@@ -1,5 +1,8 @@
 package edu.fmi.ai.reversi;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
@@ -58,10 +61,31 @@ public class Game implements BoardEventsListener {
 	}
 
 	public void nextMove() {
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter(new FileOutputStream("dump.txt", true));
+			writer.println("**************before********************");
+			writer.println(board.toString());
+			writer.println("**********************************");
+			writer.flush();
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
 		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
 		board.takeCells(optimalMove.move);
+		try {
+			writer = new PrintWriter(new FileOutputStream("dump.txt", true));
+			writer.println("**************after********************");
+			writer.println(board.toString());
+			writer.println("**********************************");
+			writer.flush();
+			writer.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

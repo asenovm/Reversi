@@ -1,17 +1,18 @@
 package edu.fmi.ai.reversi.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Collection;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
@@ -25,9 +26,16 @@ public class BoardLayout extends JFrame implements ModelObserver {
 	 */
 	private static final long serialVersionUID = 5834762299789973250L;
 
+	/**
+	 * {@value}
+	 */
+	private static final int RESULTS_PANEL_HEIGHT = 100;
+
 	private final BoardEventsListener eventsListener;
 
-	private class CellMouseListener implements MouseListener {
+	private final ResultsLayout resultsLayout;
+
+	private class CellMouseListener extends MouseAdapter {
 
 		private final int cellIndex;
 
@@ -38,26 +46,6 @@ public class BoardLayout extends JFrame implements ModelObserver {
 		@Override
 		public void mouseClicked(final MouseEvent event) {
 			eventsListener.onCellSelected(cellIndex);
-		}
-
-		@Override
-		public void mouseEntered(final MouseEvent event) {
-			// blank
-		}
-
-		@Override
-		public void mouseExited(final MouseEvent event) {
-			// blank
-		}
-
-		@Override
-		public void mousePressed(final MouseEvent event) {
-			// blank
-		}
-
-		@Override
-		public void mouseReleased(final MouseEvent event) {
-			// blank
 		}
 
 	}
@@ -76,11 +64,25 @@ public class BoardLayout extends JFrame implements ModelObserver {
 
 		eventsListener = listener;
 
-		setLayout(new GridLayout(Game.BOARD_ROW_COUNT, Game.BOARD_COLUMN_COUNT));
+		setLayout(new GridBagLayout());
 		setBoardSize();
 		populateCells();
+		resultsLayout = attachResultsLayout();
 
 		setVisible(true);
+		pack();
+	}
+
+	private ResultsLayout attachResultsLayout() {
+		final ResultsLayout resultsLayout = new ResultsLayout(Game.BOARD_COLUMN_COUNT
+				* BoardCellLayout.WIDTH_BOARD_CELL, RESULTS_PANEL_HEIGHT);
+		final GridBagConstraints constraints = new GridBagConstraints();
+		constraints.gridwidth = GridBagConstraints.REMAINDER;
+		constraints.gridheight = GridBagConstraints.REMAINDER;
+		constraints.gridx = 0;
+		constraints.gridy = 8;
+		getContentPane().add(resultsLayout, constraints, 64);
+		return resultsLayout;
 	}
 
 	private void setBoardSize() {
@@ -96,15 +98,18 @@ public class BoardLayout extends JFrame implements ModelObserver {
 			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
 				final BoardCellLayout currentCell = new BoardCellLayout();
 				final int cellIndex = i * Game.BOARD_COLUMN_COUNT + j;
-				container.add(currentCell, cellIndex);
+				final GridBagConstraints constraints = new GridBagConstraints();
+				constraints.gridx = j;
+				constraints.gridy = i;
+				container.add(currentCell, constraints, cellIndex);
 				currentCell.addMouseListener(new CellMouseListener(cellIndex));
 			}
 		}
 	}
 
 	private Dimension getBoardDimension() {
-		final Dimension boardDimension = new Dimension(Game.BOARD_ROW_COUNT
-				* BoardCellLayout.WIDTH_BOARD_CELL, Game.BOARD_COLUMN_COUNT
+		final Dimension boardDimension = new Dimension(Game.BOARD_COLUMN_COUNT
+				* BoardCellLayout.WIDTH_BOARD_CELL, (Game.BOARD_ROW_COUNT + 1)
 				* BoardCellLayout.HEIGHT_BOARD_CELL);
 		return boardDimension;
 	}
@@ -121,11 +126,14 @@ public class BoardLayout extends JFrame implements ModelObserver {
 	}
 
 	@Override
-	public void onModelChanged(Collection<Cell> changedCells) {
+	public void onModelChanged(Collection<Cell> changedCells, final int whiteDiscsCount,
+			final int blackDiscsCount) {
 		for (final Cell cell : changedCells) {
 			final BoardCellLayout boardCell = getCellAt(cell.getIndex());
 			boardCell.take(cell.getOwner());
 		}
+		resultsLayout.onResultChanged(whiteDiscsCount, blackDiscsCount);
+
 	}
 
 	@Override
@@ -139,8 +147,8 @@ public class BoardLayout extends JFrame implements ModelObserver {
 
 	private void clearCellHighlight() {
 		final Container container = getContentPane();
-		for (final Component component : container.getComponents()) {
-			final BoardCellLayout boardCellLayout = (BoardCellLayout) component;
+		for (int i = 0; i < container.getComponentCount() - 1; ++i) {
+			final BoardCellLayout boardCellLayout = (BoardCellLayout) container.getComponent(i);
 			boardCellLayout.clearHighlight();
 		}
 	}
