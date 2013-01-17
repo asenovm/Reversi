@@ -10,7 +10,7 @@ import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
-import edu.fmi.ai.reversi.view.BoardLayout;
+import edu.fmi.ai.reversi.view.GameLayout;
 
 public class Game implements BoardEventsListener {
 
@@ -24,7 +24,7 @@ public class Game implements BoardEventsListener {
 	 */
 	public static final int BOARD_COLUMN_COUNT = 8;
 
-	private final BoardLayout boardLayout;
+	private final GameLayout boardLayout;
 
 	private final Board board;
 
@@ -35,7 +35,7 @@ public class Game implements BoardEventsListener {
 	private final GameSolver gameSolver;
 
 	public Game() {
-		boardLayout = new BoardLayout(this);
+		boardLayout = new GameLayout(this);
 		board = new Board();
 
 		turnSwitcher = new TurnSwitcher();

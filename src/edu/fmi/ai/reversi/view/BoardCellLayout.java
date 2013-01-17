@@ -81,8 +81,6 @@ public class BoardCellLayout extends JPanel {
 	public BoardCellLayout() {
 		cellColor = CellColor.EMPTY;
 		setPreferredSize(new Dimension(WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL));
-		setSize(WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
-		setOpaque(true);
 		setVisible(true);
 		try {
 			whiteDiscImage = ImageIO.read(new File(FILE_PATH_WHITE_DISC));
