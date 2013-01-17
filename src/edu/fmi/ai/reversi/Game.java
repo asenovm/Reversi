@@ -1,8 +1,5 @@
 package edu.fmi.ai.reversi;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.util.Collection;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
@@ -47,10 +44,21 @@ public class Game implements BoardEventsListener {
 		gameSolver = new GameSolver();
 	}
 
+	/**
+	 * Returns whether or not the game has reached its terminal state and no
+	 * further moves can be made.
+	 * 
+	 * @return whether or not the game has reached its terminal state and no
+	 *         further moves can be made.
+	 */
 	public boolean isFinished() {
 		return !board.hasNextMoves(Player.WHITE) && !board.hasNextMoves(Player.BLACK);
 	}
 
+	/**
+	 * Awaits player input and updates the model and the UI appropriately
+	 * afterwards.
+	 */
 	public void awaitInput() {
 		currentPlayer = Player.BLACK;
 		final Collection<Cell> nextMoves = board.getNextMoves(currentPlayer);
@@ -60,34 +68,19 @@ public class Game implements BoardEventsListener {
 		}
 	}
 
+	/**
+	 * Makes the next move on the behalf of the AI
+	 */
 	public void nextMove() {
-		PrintWriter writer;
-		try {
-			writer = new PrintWriter(new FileOutputStream("dump.txt", true));
-			writer.println("**************before********************");
-			writer.println(board.toString());
-			writer.println("**********************************");
-			writer.flush();
-			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
 		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
 		board.takeCells(optimalMove.move);
-		try {
-			writer = new PrintWriter(new FileOutputStream("dump.txt", true));
-			writer.println("**************after********************");
-			writer.println(board.toString());
-			writer.println("**********************************");
-			writer.flush();
-			writer.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onCellSelected(final int cellIndex) {
 		if (isLegalMove(cellIndex)) {
