@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 
 import edu.fmi.ai.reversi.model.Player;
 
-public class ResultsLayout extends JPanel {
+public class ResultPanel extends JPanel {
 
 	/**
 	 * {@value}
@@ -19,19 +19,29 @@ public class ResultsLayout extends JPanel {
 	/**
 	 * {@value}
 	 */
-	private static final String BACKGROUND_COLOR = "#066f02";
+	private static final String BACKGROUND_COLOR = "#DDD7CB";
 
-	private final ResultsTextView whiteTextView;
+	/**
+	 * {@value}
+	 */
+	private static final int PANEL_HEIGHT = 141;
 
-	private final ResultsTextView blackTextView;
+	/**
+	 * {@value}
+	 */
+	private static final int PANEL_WIDTH = 560;
+
+	private final ResultLabel whiteTextView;
+
+	private final ResultLabel blackTextView;
 
 	private class ChangeResultRunnable implements Runnable {
 
-		private final ResultsTextView textView;
+		private final ResultLabel textView;
 
 		private final int result;
 
-		public ChangeResultRunnable(final ResultsTextView textView, final int result) {
+		public ChangeResultRunnable(final ResultLabel textView, final int result) {
 			this.textView = textView;
 			this.result = result;
 		}
@@ -43,14 +53,14 @@ public class ResultsLayout extends JPanel {
 
 	}
 
-	public ResultsLayout(final int width, final int height) {
+	public ResultPanel() {
 		super(new GridLayout(1, 2));
 
 		setBackground(Color.decode(BACKGROUND_COLOR));
-		setPreferredSize(new Dimension(width, height));
+		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 
-		whiteTextView = new ResultsTextView(Player.WHITE);
-		blackTextView = new ResultsTextView(Player.BLACK);
+		whiteTextView = new ResultLabel(Player.WHITE);
+		blackTextView = new ResultLabel(Player.BLACK);
 
 		add(whiteTextView, 0);
 		add(blackTextView, 1);

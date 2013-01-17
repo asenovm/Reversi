@@ -1,5 +1,6 @@
 package edu.fmi.ai.reversi.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
@@ -20,6 +21,11 @@ public class BoardLayout extends JPanel {
 	 * {@value}
 	 */
 	private static final long serialVersionUID = 5834762299789973250L;
+
+	/**
+	 * {@value}
+	 */
+	private static final String BACKGROUND_COLOR = "#424623";
 
 	private final BoardEventsListener eventsListener;
 
@@ -86,11 +92,11 @@ public class BoardLayout extends JPanel {
 		clearHighlightRunnable = new ClearHighlightRunnable();
 
 		setVisible(true);
-		final Dimension boardSize = getBoardDimension();
-		setPreferredSize(boardSize);
-		setMaximumSize(boardSize);
+		setPreferredSize(getBoardDimension());
 
 		populateCells();
+
+		setBackground(Color.decode(BACKGROUND_COLOR));
 	}
 
 	private void populateCells() {

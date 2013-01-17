@@ -179,7 +179,7 @@ public class Board {
 
 	private void notifyBoardChanged(final Collection<Cell> changedCells) {
 		for (final ModelObserver observer : observers) {
-			observer.onModelChanged(changedCells);
+			observer.onBoardChanged(changedCells);
 		}
 	}
 

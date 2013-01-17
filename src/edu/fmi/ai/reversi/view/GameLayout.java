@@ -18,22 +18,32 @@ public class GameLayout extends JFrame implements ModelObserver {
 	 */
 	private static final long serialVersionUID = -9058857643235514898L;
 
+	/**
+	 * {@value}
+	 */
+	private static final int FRAME_HEIGHT = 700;
+
+	/**
+	 * {@value}
+	 */
+	private static final int FRAME_WIDTH = 558;
+
 	private final BoardLayout boardLayout;
 
-	private final ResultsLayout resultsLayout;
+	private final ResultPanel resultsLayout;
 
 	public GameLayout(final BoardEventsListener listener) {
 		super();
-		setLayout(new BorderLayout(0, 2));
+		setLayout(new BorderLayout(0, 0));
 
 		boardLayout = new BoardLayout(listener);
-		resultsLayout = new ResultsLayout(560, 140);
+		resultsLayout = new ResultPanel();
 
 		final Container container = getContentPane();
 		container.add(boardLayout, BorderLayout.CENTER);
 		container.add(resultsLayout, BorderLayout.PAGE_END);
 
-		setPreferredSize(new Dimension(560, 700));
+		setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 
 		pack();
 		setVisible(true);
@@ -43,7 +53,7 @@ public class GameLayout extends JFrame implements ModelObserver {
 	}
 
 	@Override
-	public void onModelChanged(Collection<Cell> changedCells) {
+	public void onBoardChanged(Collection<Cell> changedCells) {
 		boardLayout.onModelChanged(changedCells);
 	}
 
