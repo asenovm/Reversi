@@ -11,11 +11,10 @@ import javax.swing.SwingUtilities;
 
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
-import edu.fmi.ai.reversi.listeners.ModelObserver;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
-public class BoardLayout extends JPanel implements ModelObserver {
+public class BoardLayout extends JPanel {
 
 	/**
 	 * {@value}
@@ -112,16 +111,13 @@ public class BoardLayout extends JPanel implements ModelObserver {
 		return boardDimension;
 	}
 
-	@Override
-	public void onModelChanged(final Collection<Cell> changedCells, final int whiteDiscsCount,
-			final int blackDiscsCount) {
+	public void onModelChanged(final Collection<Cell> changedCells) {
 		for (final Cell cell : changedCells) {
 			SwingUtilities.invokeLater(new TakeCellRunnable(getCellAt(cell.getIndex()), cell
 					.getOwner()));
 		}
 	}
 
-	@Override
 	public void onNextMovesAcquired(final Collection<Cell> nextMoves) {
 		SwingUtilities.invokeLater(clearHighlightRunnable);
 		for (final Cell cell : nextMoves) {

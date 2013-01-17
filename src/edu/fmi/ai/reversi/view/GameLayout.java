@@ -38,18 +38,23 @@ public class GameLayout extends JFrame implements ModelObserver {
 		pack();
 		setVisible(true);
 		setResizable(false);
+
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	@Override
-	public void onModelChanged(Collection<Cell> changedCells, int whiteDiscsCount,
-			int blackDiscsCount) {
-		boardLayout.onModelChanged(changedCells, whiteDiscsCount, blackDiscsCount);
-		resultsLayout.onResultChanged(whiteDiscsCount, blackDiscsCount);
+	public void onModelChanged(Collection<Cell> changedCells) {
+		boardLayout.onModelChanged(changedCells);
 	}
 
 	@Override
 	public void onNextMovesAcquired(Collection<Cell> nextMoves) {
 		boardLayout.onNextMovesAcquired(nextMoves);
+	}
+
+	@Override
+	public void onResultChanged(int whiteDiscs, int blackDiscs) {
+		resultsLayout.onResultChanged(whiteDiscs, blackDiscs);
 	}
 
 }

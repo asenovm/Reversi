@@ -64,7 +64,8 @@ public class Board {
 
 	public void takeCell(final int cellIndex, final Player owner) {
 		final Collection<Cell> takenCells = cellTaker.takeCell(cellIndex, owner);
-		notifyModelChanged(takenCells, getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
+		notifyBoardChanged(takenCells);
+		notifyResultChanged(getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
 	}
 
 	public boolean isMovePermitted(final int cellIndex, final Player player) {
@@ -80,7 +81,7 @@ public class Board {
 	}
 
 	public void nextMove(final Player player) {
-		notifyNextMoves(getNextMoves(player));
+		notifyNextMovesAcquired(getNextMoves(player));
 	}
 
 	public Cell get(final int cellIndex) {
@@ -89,15 +90,6 @@ public class Board {
 
 	public Cell get(final int x, final int y) {
 		return board.get(y * Game.BOARD_COLUMN_COUNT + x);
-	}
-
-	@Override
-	public Board clone() {
-		final Board board = new Board();
-		for (final Cell cell : this.board.values()) {
-			board.get(cell.getIndex()).take(cell.getOwner());
-		}
-		return board;
 	}
 
 	public Collection<Cell> getNextMoves(final Player player) {
@@ -140,17 +132,8 @@ public class Board {
 		for (final Cell cell : cells) {
 			board.get(cell.getIndex()).take(cell.getOwner());
 		}
-		notifyModelChanged(cells, getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
-	}
-
-	private int getDiscCount(Player player) {
-		int result = 0;
-		for (final Cell cell : board.values()) {
-			if (cell.isOwnedBy(player)) {
-				++result;
-			}
-		}
-		return result;
+		notifyBoardChanged(cells);
+		notifyResultChanged(getDiscCount(Player.WHITE), getDiscCount(Player.BLACK));
 	}
 
 	public void startGame() {
@@ -162,6 +145,14 @@ public class Board {
 
 	public int size() {
 		return board.size();
+	}
+
+	public int getStableDiscsCount(final Player player) {
+		return checker.getStableDiscCount(player);
+	}
+
+	public boolean hasNextMoves(final Player player) {
+		return !getNextMoves(player).isEmpty();
 	}
 
 	@Override
@@ -177,24 +168,41 @@ public class Board {
 		return builder.toString();
 	}
 
-	public int getStableDiscsCount(final Player player) {
-		return checker.getStableDiscCount(player);
+	@Override
+	public Board clone() {
+		final Board board = new Board();
+		for (final Cell cell : this.board.values()) {
+			board.get(cell.getIndex()).take(cell.getOwner());
+		}
+		return board;
 	}
 
-	public boolean hasNextMoves(final Player player) {
-		return !getNextMoves(player).isEmpty();
-	}
-
-	private void notifyModelChanged(final Collection<Cell> changedCells, final int whiteDiscs,
-			final int blackDiscs) {
+	private void notifyBoardChanged(final Collection<Cell> changedCells) {
 		for (final ModelObserver observer : observers) {
-			observer.onModelChanged(changedCells, whiteDiscs, blackDiscs);
+			observer.onModelChanged(changedCells);
 		}
 	}
 
-	private void notifyNextMoves(final Collection<Cell> nextMoves) {
+	private void notifyNextMovesAcquired(final Collection<Cell> nextMoves) {
 		for (final ModelObserver observer : observers) {
 			observer.onNextMovesAcquired(nextMoves);
 		}
 	}
+
+	private void notifyResultChanged(final int whiteDiscs, final int blackDiscs) {
+		for (final ModelObserver observer : observers) {
+			observer.onResultChanged(whiteDiscs, blackDiscs);
+		}
+	}
+
+	private int getDiscCount(Player player) {
+		int result = 0;
+		for (final Cell cell : board.values()) {
+			if (cell.isOwnedBy(player)) {
+				++result;
+			}
+		}
+		return result;
+	}
+
 }

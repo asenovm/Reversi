@@ -1,5 +1,7 @@
 package edu.fmi.ai.reversi.view;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
@@ -19,6 +21,7 @@ public class ResultsTextView extends JLabel {
 	public ResultsTextView(final Player player) {
 		super(player.toString() + " result is: " + START_DISCS_NUMBER, SwingConstants.CENTER);
 		this.player = player;
+		setBackground(player == Player.WHITE ? Color.WHITE : Color.BLACK);
 	}
 
 	public void setDiscCount(final int discCount) {
