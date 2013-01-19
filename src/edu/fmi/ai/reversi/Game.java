@@ -3,13 +3,14 @@ package edu.fmi.ai.reversi;
 import java.util.Collection;
 
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
+import edu.fmi.ai.reversi.listeners.GameSolverCallback;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.GameLayout;
 
-public class Game implements BoardEventsListener {
+public class Game implements BoardEventsListener, GameSolverCallback {
 
 	/**
 	 * {@value}
@@ -74,8 +75,8 @@ public class Game implements BoardEventsListener {
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
 		board.nextMove(currentPlayer);
-		final GameMoveHelper optimalMove = gameSolver.getOptimalMove(board);
-		board.takeCells(optimalMove.move);
+		gameSolver.getOptimalMove(board, this);
+		turnSwitcher.startTurn();
 	}
 
 	/**
@@ -91,5 +92,11 @@ public class Game implements BoardEventsListener {
 
 	private boolean isLegalMove(final int cellIndex) {
 		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
+	}
+
+	@Override
+	public synchronized void onOptimalMoveReceived(Collection<Cell> optimalMove) {
+		board.takeCells(optimalMove);
+		turnSwitcher.endTurn();
 	}
 }

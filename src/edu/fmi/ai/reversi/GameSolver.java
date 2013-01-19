@@ -1,7 +1,10 @@
 package edu.fmi.ai.reversi;
 
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import edu.fmi.ai.reversi.listeners.GameSolverCallback;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Player;
 
@@ -12,11 +15,34 @@ public class GameSolver {
 	 */
 	private static final int MAX_LEVEL_SEARCH_DEPTH = 3;
 
-	public GameMoveHelper getOptimalMove(final Board state) {
-		final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(state,
-				Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0));
-		result.move = result.diff(state);
-		return result;
+	private final ExecutorService executor;
+
+	private class GameSolverRunnable implements Runnable {
+
+		private final Board board;
+
+		private final GameSolverCallback callback;
+
+		public GameSolverRunnable(final Board board, final GameSolverCallback callback) {
+			this.board = board;
+			this.callback = callback;
+		}
+
+		@Override
+		public void run() {
+			final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(board,
+					Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0));
+			callback.onOptimalMoveReceived(result.diff(board));
+		}
+
+	}
+
+	public GameSolver() {
+		executor = Executors.newSingleThreadExecutor();
+	}
+
+	public void getOptimalMove(final Board state, final GameSolverCallback callback) {
+		executor.execute(new GameSolverRunnable(state, callback));
 	}
 
 	public GameMoveHelper getOptimalMinMove(final GameSolverParameter parameter) {
