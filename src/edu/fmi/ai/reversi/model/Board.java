@@ -215,7 +215,7 @@ public class Board {
 	 *            the player, for whom the board is to be evaluated.
 	 * @return the value of the board as computed for the <tt>player</tt> given.
 	 */
-	public float getValue(final Player player) {
+	public int getValue(final Player player) {
 		return evaluator.getLocationValue(this, player) + evaluator.getStabilityValue(this, player);
 	}
 

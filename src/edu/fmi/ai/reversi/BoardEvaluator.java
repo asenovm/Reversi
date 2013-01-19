@@ -38,7 +38,7 @@ public class BoardEvaluator {
 	 * @return the ratio between the location-based value of the board for the
 	 *         <tt>player</tt> given and the one for his opponent.
 	 */
-	public float getLocationValue(final Board board, final Player player) {
+	public int getLocationValue(final Board board, final Player player) {
 		int locationValue = 0;
 		int opponentValue = 0;
 		final Player opponent = Player.getOpponent(player);

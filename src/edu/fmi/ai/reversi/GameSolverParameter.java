@@ -8,9 +8,9 @@ import edu.fmi.ai.reversi.model.Player;
 public class GameSolverParameter {
 	public final Board board;
 
-	public float alpha;
+	public int alpha;
 
-	public float beta;
+	public int beta;
 
 	public int level;
 
@@ -19,7 +19,7 @@ public class GameSolverParameter {
 		return new GameSolverParameter(next, other.alpha, other.beta, other.level + 1);
 	}
 
-	public GameSolverParameter(Board board, float alpha, float beta, int level) {
+	public GameSolverParameter(final Board board, final int alpha, final int beta, final int level) {
 		this.board = board;
 		this.alpha = alpha;
 		this.beta = beta;
@@ -30,7 +30,7 @@ public class GameSolverParameter {
 		return board.getNextBoards(player);
 	}
 
-	public float getValue(final Player player) {
+	public int getValue(final Player player) {
 		return board.getValue(player);
 	}
 
