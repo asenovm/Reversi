@@ -19,6 +19,26 @@ public class ResultPanel extends JPanel {
 	/**
 	 * {@value}
 	 */
+	private static final int GRID_INDEX_BLACK_LABEL = 1;
+
+	/**
+	 * {@value}
+	 */
+	private static final int GRID_INDEX_WHITE_LABEL = 0;
+
+	/**
+	 * {@value}
+	 */
+	private static final int GRID_COLUMN_COUNT = 2;
+
+	/**
+	 * {@value}
+	 */
+	private static final int GRID_ROW_COUNT = 1;
+
+	/**
+	 * {@value}
+	 */
 	private static final String BACKGROUND_COLOR = "#DDD7CB";
 
 	/**
@@ -54,7 +74,7 @@ public class ResultPanel extends JPanel {
 	}
 
 	public ResultPanel() {
-		super(new GridLayout(1, 2));
+		super(new GridLayout(GRID_ROW_COUNT, GRID_COLUMN_COUNT));
 
 		setBackground(Color.decode(BACKGROUND_COLOR));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
@@ -62,8 +82,8 @@ public class ResultPanel extends JPanel {
 		whiteTextView = new ResultLabel(Player.WHITE);
 		blackTextView = new ResultLabel(Player.BLACK);
 
-		add(whiteTextView, 0);
-		add(blackTextView, 1);
+		add(whiteTextView, GRID_INDEX_WHITE_LABEL);
+		add(blackTextView, GRID_INDEX_BLACK_LABEL);
 	}
 
 	public void onResultChanged(final int whiteDiscsCount, final int blackDiscsCount) {
