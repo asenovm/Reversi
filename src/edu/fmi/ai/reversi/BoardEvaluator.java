@@ -16,6 +16,11 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
+	private static final int WEIGHT_SKIP_TURN = 500;
+
+	/**
+	 * {@value}
+	 */
 	private static final int WEIGHT_STABLE_DISCS = 60;
 
 	private final int[][] locationValues;
@@ -75,4 +80,23 @@ public class BoardEvaluator {
 						.getOpponent(player))) * WEIGHT_STABLE_DISCS;
 	}
 
+	/**
+	 * Returns the value of the <tt>board</tt> given, based on assessing the
+	 * chances of the current player having the advantage that the next player
+	 * will skip his turn.
+	 * 
+	 * @param board
+	 *            the board that is to be evaluated
+	 * @param player
+	 *            the player for which the board is to be evaluated
+	 * @return the value of the board, computed with respect to the chance that
+	 *         the next player will have to skip his turn.
+	 */
+	public int getTurnValue(final Board board, final Player player) {
+		return isOpponentSkippingTurn(board, player) ? player.getSign() * WEIGHT_SKIP_TURN : 0;
+	}
+
+	private boolean isOpponentSkippingTurn(final Board board, final Player player) {
+		return board.getNextBoards(Player.getOpponent(player)).isEmpty();
+	}
 }

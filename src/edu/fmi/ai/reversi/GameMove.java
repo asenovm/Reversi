@@ -92,7 +92,10 @@ public class GameMove implements Comparable<GameMove> {
 	 */
 	@Override
 	public int compareTo(final GameMove other) {
-		return (int) Math.signum(value - other.value);
+		if (value == other.value) {
+			return 0;
+		}
+		return value > other.value ? 1 : -1;
 	}
 
 }
