@@ -52,16 +52,25 @@ public class GameLayout extends JFrame implements ModelObserver {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onBoardChanged(Collection<Cell> changedCells) {
 		boardLayout.onModelChanged(changedCells);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onNextMovesAcquired(Collection<Cell> nextMoves) {
 		boardLayout.onNextMovesAcquired(nextMoves);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void onResultChanged(int whiteDiscs, int blackDiscs) {
 		resultsLayout.onResultChanged(whiteDiscs, blackDiscs);
