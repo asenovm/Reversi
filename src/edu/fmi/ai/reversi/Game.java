@@ -90,13 +90,17 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 		}
 	}
 
-	private boolean isLegalMove(final int cellIndex) {
-		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public synchronized void onOptimalMoveReceived(Collection<Cell> optimalMove) {
 		board.takeCells(optimalMove);
 		turnSwitcher.endTurn();
 	}
+
+	private boolean isLegalMove(final int cellIndex) {
+		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
+	}
+
 }
