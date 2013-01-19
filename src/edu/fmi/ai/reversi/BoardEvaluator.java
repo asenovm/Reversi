@@ -106,6 +106,16 @@ public class BoardEvaluator {
 		return isOpponentSkippingTurn(board, player) ? player.getSign() * WEIGHT_SKIP_TURN : 0;
 	}
 
+	/**
+	 * Returns the mobility value of the board. This is the number of possible
+	 * moves the next player can make taken with the respective weight.
+	 * 
+	 * @param board
+	 *            the board instance that is to be evaluated
+	 * @param player
+	 *            the player for which the board is to be evaluated
+	 * @return the mobility value of the board
+	 */
 	public int getMobilityValue(final Board board, final Player player) {
 		final Player opponent = Player.getOpponent(player);
 		return opponent.getSign() * board.getNextBoards(opponent).size() * WEIGHT_MOBILITY;
