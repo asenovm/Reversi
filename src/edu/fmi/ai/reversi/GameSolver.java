@@ -65,7 +65,7 @@ public class GameSolver {
 
 	private void tryUpdateMaxResult(final GameSolverParameter parameter, GameMoveHelper result,
 			final Board nextState, final GameMoveHelper next) {
-		if (result.value < next.value) {
+		if (result.value <= next.value) {
 			result.value = next.value;
 			result.state = nextState;
 			parameter.alpha = next.value;
@@ -74,7 +74,7 @@ public class GameSolver {
 
 	private void tryUpdateMinResult(final GameSolverParameter parameter, GameMoveHelper result,
 			final Board nextState, final GameMoveHelper next) {
-		if (result.value > next.value) {
+		if (result.value >= next.value) {
 			result.value = next.value;
 			result.state = nextState;
 			parameter.beta = next.value;
