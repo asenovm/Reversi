@@ -24,7 +24,7 @@ public class GameMoveHelper {
 		this.state = parameter.board;
 	}
 
-	public Collection<Cell> diff(final Board other) {
+	public Collection<Cell> getDifference(final Board other) {
 		return state.diff(other);
 	}
 

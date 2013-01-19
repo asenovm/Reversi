@@ -32,7 +32,7 @@ public class GameSolver {
 		public void run() {
 			final GameMoveHelper result = getOptimalMinMove(new GameSolverParameter(board,
 					Float.NEGATIVE_INFINITY, Float.POSITIVE_INFINITY, 0));
-			callback.onOptimalMoveReceived(result.diff(board));
+			callback.onOptimalMoveReceived(result.getDifference(board));
 		}
 
 	}
@@ -54,11 +54,9 @@ public class GameSolver {
 		GameMoveHelper result = new GameMoveHelper(Float.POSITIVE_INFINITY, parameter.board);
 
 		for (final Board nextState : gameStates) {
-			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(nextState,
-					parameter);
+			final GameSolverParameter nextParameter = getNextLevelParameter(parameter, nextState);
 			final GameMoveHelper optimalMove = getOptimalMaxMove(nextParameter);
 			tryUpdateMinResult(parameter, result, nextState, optimalMove);
-
 			if (parameter.beta <= parameter.alpha) {
 				return result;
 			}
@@ -76,11 +74,8 @@ public class GameSolver {
 		GameMoveHelper result = new GameMoveHelper(Float.NEGATIVE_INFINITY, parameter.board);
 
 		for (final Board nextState : gameStates) {
-			final GameSolverParameter nextParameter = GameSolverParameter.increasedLevel(nextState,
-					parameter);
-
+			final GameSolverParameter nextParameter = getNextLevelParameter(parameter, nextState);
 			final GameMoveHelper optimalMove = getOptimalMinMove(nextParameter);
-
 			tryUpdateMaxResult(parameter, result, nextState, optimalMove);
 			if (parameter.beta <= parameter.alpha) {
 				return result;
@@ -105,6 +100,11 @@ public class GameSolver {
 			result.state = nextState;
 			parameter.beta = next.value;
 		}
+	}
+
+	private GameSolverParameter getNextLevelParameter(final GameSolverParameter parameter,
+			final Board nextState) {
+		return GameSolverParameter.increasedLevel(nextState, parameter);
 	}
 
 }
