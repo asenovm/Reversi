@@ -1,5 +1,6 @@
 package edu.fmi.ai.reversi;
 
+
 /**
  * The main class, that is used for starting the application
  * 
@@ -19,6 +20,7 @@ public class EventLoop {
 			game.awaitInput();
 			game.nextMove();
 		}
+		game.showWinner();
 	}
 
 }

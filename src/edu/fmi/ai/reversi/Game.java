@@ -2,6 +2,8 @@ package edu.fmi.ai.reversi;
 
 import java.util.Collection;
 
+import javax.swing.JOptionPane;
+
 import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.listeners.GameSolverCallback;
 import edu.fmi.ai.reversi.model.Board;
@@ -11,6 +13,12 @@ import edu.fmi.ai.reversi.util.TurnSwitcher;
 import edu.fmi.ai.reversi.view.GameLayout;
 
 public class Game implements BoardEventsListener, GameSolverCallback {
+
+	private static final String TEXT_WINNER_DISCS = " discs";
+
+	private static final String TEXT_WINNER_DISCS_COUNT = " with ";
+
+	private static final String TEXT_WINNER = "Winner is ";
 
 	/**
 	 * {@value}
@@ -101,6 +109,15 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 
 	private boolean isLegalMove(final int cellIndex) {
 		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
+	}
+
+	public void showWinner() {
+		final int whiteDiscs = board.getDiscs(Player.WHITE);
+		final int blackDiscs = board.getDiscs(Player.BLACK);
+		final String winner = whiteDiscs > blackDiscs ? Player.WHITE.name() : Player.BLACK.name();
+		int winnerDiscs = whiteDiscs > blackDiscs ? whiteDiscs : blackDiscs;
+		JOptionPane.showMessageDialog(boardLayout, TEXT_WINNER + winner + TEXT_WINNER_DISCS_COUNT
+				+ winnerDiscs + TEXT_WINNER_DISCS);
 	}
 
 }

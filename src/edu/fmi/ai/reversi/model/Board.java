@@ -348,4 +348,14 @@ public class Board {
 		return result;
 	}
 
+	public int getDiscs(final Player player) {
+		int result = 0;
+		for (final Cell cell : board.values()) {
+			if (cell.isOwnedBy(player)) {
+				++result;
+			}
+		}
+		return result;
+	}
+
 }
