@@ -1,8 +1,18 @@
 package edu.fmi.ai.reversi.model;
 
-
 public enum Player {
-	BLACK(1), WHITE(-1), UNKNOWN(0);
+	/**
+	 * {@value}
+	 */
+	BLACK(1),
+	/**
+	 * {@value}
+	 */
+	WHITE(-1),
+	/**
+	 * {@value}
+	 */
+	UNKNOWN(0);
 
 	private final int sign;
 
@@ -10,15 +20,30 @@ public enum Player {
 		this.sign = sign;
 	}
 
+	/**
+	 * Returns the sign, associated with the current player
+	 * 
+	 * @return
+	 */
 	public int getSign() {
 		return sign;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return name().toLowerCase();
 	}
 
+	/**
+	 * Returns the opponent of the <tt>player</tt> that is provided
+	 * 
+	 * @param player
+	 *            the player whose opponent we are looking for
+	 * @return the opponent of the <tt>player</tt> given
+	 */
 	public static Player getOpponent(final Player player) {
 		return player == BLACK ? WHITE : BLACK;
 	}

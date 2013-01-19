@@ -16,7 +16,7 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_LOCATION = 10;
+	private static final int WEIGHT_LOCATION = 15;
 
 	/**
 	 * {@value}
@@ -26,12 +26,12 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_STABLE_DISCS = 10;
+	private static final int WEIGHT_STABLE_DISCS = 12;
 
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_MOBILITY = 3;
+	private static final int WEIGHT_MOBILITY = 4;
 
 	private final int[][] locationValues;
 

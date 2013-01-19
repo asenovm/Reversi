@@ -17,18 +17,15 @@ public class ResultLabel extends JLabel {
 
 	private static final int START_DISCS_NUMBER = 2;
 
-	private final Player player;
-
 	public ResultLabel(final Player player) {
 		super(player.toString() + " result is: " + START_DISCS_NUMBER, SwingConstants.CENTER);
-		this.player = player;
 		setForeground(player == Player.WHITE ? Color.WHITE : Color.decode("#999999"));
 		setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
-		
+
 	}
 
 	public void setDiscCount(final int discCount) {
-		setText(player.toString() + " result is:" + discCount);
+		final String updatedResult = getText().replaceAll("\\d+", Integer.toString(discCount));
+		setText(updatedResult);
 	}
-
 }

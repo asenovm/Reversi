@@ -49,7 +49,7 @@ public class GameMove implements Comparable<GameMove> {
 	 *         the <tt>other</tt> board supplied
 	 */
 	public Collection<Cell> getDifference(final Board other) {
-		return board.diff(other);
+		return board.getDifference(other);
 	}
 
 	/**

@@ -2,8 +2,8 @@ package edu.fmi.ai.reversi.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -65,7 +65,7 @@ public class Board {
 		cellTaker = new CellTaker(checker, this);
 		evaluator = new BoardEvaluator();
 
-		observers = new HashSet<ModelObserver>();
+		observers = new LinkedHashSet<ModelObserver>();
 	}
 
 	/**
@@ -220,14 +220,22 @@ public class Board {
 				+ evaluator.getTurnValue(this, player) + evaluator.getMobilityValue(this, player);
 	}
 
-	public Collection<Cell> diff(final Board other) {
-		final List<Cell> diff = new ArrayList<Cell>();
-		for (final Map.Entry<Integer, Cell> cell : board.entrySet()) {
-			if (cell.getValue().getOwner() != other.get(cell.getKey()).getOwner()) {
-				diff.add(cell.getValue());
+	/**
+	 * Returns the cell in the current board, that differ from the ones in the
+	 * <tt>other</tt> board given
+	 * 
+	 * @param other the 
+	 * @return
+	 */
+	public Collection<Cell> getDifference(final Board other) {
+		final List<Cell> difference = new ArrayList<Cell>();
+		for (final Cell cell : board.values()) {
+			final Cell otherCell = other.get(cell.getIndex());
+			if (!cell.isOwnedBy(otherCell.getOwner())) {
+				difference.add(cell);
 			}
 		}
-		return diff;
+		return difference;
 	}
 
 	/**
@@ -293,6 +301,26 @@ public class Board {
 	}
 
 	/**
+	 * Returns the number of the discs on the board, that are owned by the
+	 * <tt>player</tt> specified
+	 * 
+	 * @param player
+	 *            the player for which the number of discs on the board is to be
+	 *            computed.
+	 * @return the number of discs on the board that belong to the
+	 *         <tt>player</tt> specified.
+	 */
+	public int getDiscCount(Player player) {
+		int result = 0;
+		for (final Cell cell : board.values()) {
+			if (cell.isOwnedBy(player)) {
+				++result;
+			}
+		}
+		return result;
+	}
+
+	/**
 	 * {@inheritDoc}
 	 */
 	@Override
@@ -336,26 +364,6 @@ public class Board {
 		for (final ModelObserver observer : observers) {
 			observer.onResultChanged(whiteDiscs, blackDiscs);
 		}
-	}
-
-	private int getDiscCount(Player player) {
-		int result = 0;
-		for (final Cell cell : board.values()) {
-			if (cell.isOwnedBy(player)) {
-				++result;
-			}
-		}
-		return result;
-	}
-
-	public int getDiscs(final Player player) {
-		int result = 0;
-		for (final Cell cell : board.values()) {
-			if (cell.isOwnedBy(player)) {
-				++result;
-			}
-		}
-		return result;
 	}
 
 }

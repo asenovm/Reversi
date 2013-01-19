@@ -37,15 +37,31 @@ public class GameSolver {
 
 	}
 
+	/**
+	 * Creates a new game solver to aid finding the optimal move for a player
+	 */
 	public GameSolver() {
 		executor = Executors.newSingleThreadExecutor();
 	}
 
-	public void getOptimalMove(final Board state, final GameSolverCallback callback) {
-		executor.execute(new GameSolverRunnable(state, callback));
+	/**
+	 * Finds the optimal move for the white player, given the current board.
+	 * 
+	 * Note that this method executes asynchronously and returns the result to
+	 * the callback.
+	 * 
+	 * @param currentBoard
+	 *            the start board for which we are trying to find the optimal
+	 *            move
+	 * @param callback
+	 *            the callback that is to be fired when the optimal move has
+	 *            been found
+	 */
+	public void getOptimalMove(final Board currentBoard, final GameSolverCallback callback) {
+		executor.execute(new GameSolverRunnable(currentBoard, callback));
 	}
 
-	public GameMove getOptimalMinMove(final GameSolverParameter parameter) {
+	private GameMove getOptimalMinMove(final GameSolverParameter parameter) {
 		if (parameter.level == MAX_LEVEL_SEARCH_DEPTH) {
 			return new GameMove(parameter, Player.WHITE);
 		}
@@ -65,7 +81,7 @@ public class GameSolver {
 		return nextMove;
 	}
 
-	public GameMove getOptimalMaxMove(final GameSolverParameter parameter) {
+	private GameMove getOptimalMaxMove(final GameSolverParameter parameter) {
 		if (parameter.level == MAX_LEVEL_SEARCH_DEPTH) {
 			return new GameMove(parameter, Player.BLACK);
 		}

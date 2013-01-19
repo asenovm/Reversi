@@ -32,7 +32,6 @@ public class TurnSwitcher {
 			mutex.acquire();
 		} catch (InterruptedException ex) {
 			Thread.currentThread().interrupt();
-			ex.printStackTrace();
 		}
 	}
 

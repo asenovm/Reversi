@@ -2,6 +2,12 @@ package edu.fmi.ai.reversi.model;
 
 import edu.fmi.ai.reversi.Game;
 
+/**
+ * A model class, representing a board cell
+ * 
+ * @author martin
+ * 
+ */
 public class Cell {
 
 	private final int x;
@@ -12,6 +18,14 @@ public class Cell {
 
 	private Player ownedBy;
 
+	/**
+	 * Creates a new board cell from the parameters given
+	 * 
+	 * @param index
+	 *            the index of the cell on the board
+	 * @param owner
+	 *            the owner of the cell
+	 */
 	public Cell(final int index, final Player owner) {
 		this.index = index;
 		this.x = index % Game.BOARD_COLUMN_COUNT;
@@ -19,6 +33,14 @@ public class Cell {
 		ownedBy = owner;
 	}
 
+	/**
+	 * Creates a new empty board cell on the position given.
+	 * 
+	 * @param x
+	 *            the x position of the cell
+	 * @param y
+	 *            the y position of the cell
+	 */
 	public Cell(final int x, final int y) {
 		this.x = x;
 		this.y = y;
@@ -26,34 +48,81 @@ public class Cell {
 		ownedBy = Player.UNKNOWN;
 	}
 
+	/**
+	 * Creates a new empty cell on the index given
+	 * 
+	 * @param index
+	 *            the board index at which the cell is located
+	 */
 	public Cell(final int index) {
 		this(index, Player.UNKNOWN);
 	}
 
+	/**
+	 * Takes this cell for the <tt>player</tt> specified
+	 * 
+	 * @param player
+	 *            the new owner of the cell
+	 */
 	public void take(Player player) {
 		ownedBy = player;
 	}
 
+	/**
+	 * Returns whether or not the cell is empty and another player can place a
+	 * disc on it
+	 * 
+	 * @return whether or not the cell is empty and another player can place a
+	 *         disc on it
+	 */
 	public boolean isEmpty() {
 		return ownedBy == Player.UNKNOWN;
 	}
 
+	/**
+	 * Returns whether or not the cell is owner by the <tt>player</tt> specified
+	 * 
+	 * @param player
+	 *            the player who is to be tested for being the owner of the cell
+	 * @return whether or not the cell is owned by the <tt>player</tt> specified
+	 */
 	public boolean isOwnedBy(final Player player) {
 		return ownedBy == player;
 	}
 
+	/**
+	 * Returns the <tt>x</tt> position on the board of the current cell
+	 * 
+	 * @return the <tt>x</tt> position on the board of the current cell
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Returns the <tt>y</tt> position on the board of the current cell
+	 * 
+	 * @return the <tt>y</tt> position on the board of the current cell
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Returns the index on the board of the current cell
+	 * 
+	 * @return the index on the board of the current cell
+	 */
 	public int getIndex() {
 		return index;
 	}
 
+	// XXX this should be removed - exposure
+	/**
+	 * Returns the owner of the current cell
+	 * 
+	 * @return the owner of the current cell
+	 */
 	public Player getOwner() {
 		return ownedBy;
 	}

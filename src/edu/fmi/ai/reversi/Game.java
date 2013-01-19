@@ -14,10 +14,19 @@ import edu.fmi.ai.reversi.view.GameLayout;
 
 public class Game implements BoardEventsListener, GameSolverCallback {
 
+	/**
+	 * {@value}
+	 */
 	private static final String TEXT_WINNER_DISCS = " discs";
 
+	/**
+	 * {@value}
+	 */
 	private static final String TEXT_WINNER_DISCS_COUNT = " with ";
 
+	/**
+	 * {@value}
+	 */
 	private static final String TEXT_WINNER = "Winner is ";
 
 	/**
@@ -40,6 +49,9 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 
 	private final GameSolver gameSolver;
 
+	/**
+	 * Creates a new Game instance.
+	 */
 	public Game() {
 		boardLayout = new GameLayout(this);
 		board = new Board();
@@ -107,17 +119,20 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 		turnSwitcher.endTurn();
 	}
 
-	private boolean isLegalMove(final int cellIndex) {
-		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
-	}
-
+	/**
+	 * Shows a dialog displaying game winner
+	 */
 	public void showWinner() {
-		final int whiteDiscs = board.getDiscs(Player.WHITE);
-		final int blackDiscs = board.getDiscs(Player.BLACK);
+		final int whiteDiscs = board.getDiscCount(Player.WHITE);
+		final int blackDiscs = board.getDiscCount(Player.BLACK);
 		final String winner = whiteDiscs > blackDiscs ? Player.WHITE.name() : Player.BLACK.name();
 		int winnerDiscs = whiteDiscs > blackDiscs ? whiteDiscs : blackDiscs;
 		JOptionPane.showMessageDialog(boardLayout, TEXT_WINNER + winner + TEXT_WINNER_DISCS_COUNT
 				+ winnerDiscs + TEXT_WINNER_DISCS);
+	}
+
+	private boolean isLegalMove(final int cellIndex) {
+		return board.isMovePermitted(cellIndex, currentPlayer) && currentPlayer == Player.BLACK;
 	}
 
 }
