@@ -16,20 +16,30 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
+	private static final int WEIGHT_LOCATION = 10;
+
+	/**
+	 * {@value}
+	 */
 	private static final int WEIGHT_SKIP_TURN = 500;
 
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_STABLE_DISCS = 60;
+	private static final int WEIGHT_STABLE_DISCS = 10;
+
+	/**
+	 * {@value}
+	 */
+	private static final int WEIGHT_MOBILITY = 3;
 
 	private final int[][] locationValues;
 
 	public BoardEvaluator() {
-		locationValues = new int[][] { { 100, -1, 5, 2, 2, 5, -1, 100 },
-				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
+		locationValues = new int[][] { { 50, -1, 5, 2, 2, 5, -1, 50 },
+				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
 				{ 2, 1, 1, 0, 0, 1, 1, 2 }, { 2, 1, 1, 0, 0, 1, 1, 2 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
-				{ -1, 10, 1, 1, 1, 1, 10, -1 }, { 100, -1, 5, 2, 2, 5, -1, 100 } };
+				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
 	}
 
 	/**
@@ -52,13 +62,13 @@ public class BoardEvaluator {
 				final Cell currentCell = board.get(j, i);
 				if (currentCell.isOwnedBy(player)) {
 					locationValue += player.getSign() * locationValues[i][j];
-				} else if (!currentCell.isOwnedBy(opponent)) {
+				} else if (currentCell.isOwnedBy(opponent)) {
 					opponentValue += opponent.getSign() * locationValues[i][j];
 				}
 			}
 		}
 
-		return locationValue + opponentValue;
+		return (locationValue + opponentValue) * WEIGHT_LOCATION;
 	}
 
 	/**
@@ -94,6 +104,11 @@ public class BoardEvaluator {
 	 */
 	public int getTurnValue(final Board board, final Player player) {
 		return isOpponentSkippingTurn(board, player) ? player.getSign() * WEIGHT_SKIP_TURN : 0;
+	}
+
+	public int getMobilityValue(final Board board, final Player player) {
+		final Player opponent = Player.getOpponent(player);
+		return opponent.getSign() * board.getNextBoards(opponent).size() * WEIGHT_MOBILITY;
 	}
 
 	private boolean isOpponentSkippingTurn(final Board board, final Player player) {

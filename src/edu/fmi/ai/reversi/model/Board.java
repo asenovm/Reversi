@@ -217,7 +217,7 @@ public class Board {
 	 */
 	public int getValue(final Player player) {
 		return evaluator.getLocationValue(this, player) + evaluator.getStabilityValue(this, player)
-				+ evaluator.getTurnValue(this, player);
+				+ evaluator.getTurnValue(this, player) + evaluator.getMobilityValue(this, player);
 	}
 
 	public Collection<Cell> diff(final Board other) {
