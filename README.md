@@ -7,5 +7,5 @@ An implеmentation of the Reversi/Othello game, written in Java/Swing and featur
 
 <hr/>
 
-Author: Martin Asenov Asenov
+Author: Martin Asenov Asenov <br />
 email: asenov.m@gmail.com
