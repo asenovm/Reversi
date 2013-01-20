@@ -9,22 +9,34 @@ public class MainDiagonalMoveChecker extends BaseDiagonalMoveChecker {
 		super(board);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean isDiagonalEnd(final int cellIndex) {
 		return (cellIndex % 8 == 0 || cellIndex / 8 == 0 || cellIndex % 8 == 7 || cellIndex / 8 == 7)
 				&& cellIndex != 56 && cellIndex != 7;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean canMoveBottom(final int cellIndex) {
 		return !(cellIndex / 8 == 7 || cellIndex % 8 == 7);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected boolean canMoveTop(final int cellIndex) {
 		return !(cellIndex / 8 == 0 || cellIndex % 8 == 0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected int incrementIndex(final int cellIndex, final boolean isNegativeDirection) {
 		return isNegativeDirection ? getMainTop(cellIndex) : getMainBottom(cellIndex);

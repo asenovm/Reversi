@@ -1,5 +1,36 @@
 package edu.fmi.ai.reversi.util;
 
 public enum Direction {
-	LEFT, RIGHT, TOP, BOTTOM, MAIN_DIAGONAL_TOP, MAIN_DIAGONAL_BOTTOM, SECONDARY_DIAGONAL_TOP, SECONDARY_DIAGONAL_BOTTOM;
+	/**
+	 * {@value}
+	 */
+	LEFT,
+	/**
+	 * {@value}
+	 */
+	RIGHT,
+	/**
+	 * {@value}
+	 */
+	TOP,
+	/**
+	 * {@value}
+	 */
+	BOTTOM,
+	/**
+	 * {@value}
+	 */
+	MAIN_DIAGONAL_TOP,
+	/**
+	 * {@value}
+	 */
+	MAIN_DIAGONAL_BOTTOM,
+	/**
+	 * {@value}
+	 */
+	SECONDARY_DIAGONAL_TOP,
+	/**
+	 * {@value}
+	 */
+	SECONDARY_DIAGONAL_BOTTOM;
 }

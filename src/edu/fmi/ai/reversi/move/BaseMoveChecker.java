@@ -12,25 +12,83 @@ public abstract class BaseMoveChecker {
 		this.board = board;
 	}
 
-	protected boolean isStoppingSearch(final Player player, int currentNeighbour,
-			final Cell currentCell) {
-		return currentCell.isEmpty() || (currentCell.isOwnedBy(player) && currentNeighbour == 1);
+	/**
+	 * Whether or not the search for the closest neighbour cell belonging to the
+	 * given player should stop
+	 * 
+	 * @param player
+	 *            the player for whom we are searching the closest neighbour
+	 *            cell
+	 * @param iteration
+	 *            the current iteration at which we are looking for a neighbour
+	 * @param currentCell
+	 *            the current cell that is being inspected for being the closest
+	 *            neighbour
+	 * @return whether or not the search for the closest neighbour should stop
+	 */
+	protected boolean isStoppingSearch(final Player player, int iteration, final Cell currentCell) {
+		return currentCell.isEmpty() || (currentCell.isOwnedBy(player) && iteration == 1);
 	}
 
-	protected boolean isClosestNeighbour(final Player player, int currentNeighbour,
-			final Cell currentCell) {
-		return currentCell.isOwnedBy(player) && (currentNeighbour > 1 || player == Player.UNKNOWN);
+	/**
+	 * Returns whether or not the cell given is the closest neighbour
+	 * 
+	 * @param player
+	 *            the player for whose cell we are looking for the closest
+	 *            neighbour
+	 * @param iteration
+	 *            the current iteration at which we are looking for a closest
+	 *            neigbhour
+	 * @param currentCell
+	 *            the cell that is being inspected for being the closest
+	 *            neighbour
+	 * @return whether or not the cell specified is the closest neighbour
+	 */
+	protected boolean isClosestNeighbour(final Player player, int iteration, final Cell currentCell) {
+		return currentCell.isOwnedBy(player) && (iteration > 1 || player == Player.UNKNOWN);
 	}
 
+	/**
+	 * Return whether or not placing a disc on the <tt>cell</tt> given is legal
+	 * for the <tt>player</tt> specified
+	 * 
+	 * @param cell
+	 *            the cell which is to be inspected
+	 * @param player
+	 *            the player who is trying to place a disc on the <tt>cell</tt>
+	 *            given
+	 * @return whether or not the <tt>player</tt> given can place a disc on the
+	 *         cell
+	 */
 	public boolean isMovePermitted(final Cell cell, final Player player) {
 		return getNeighbourIndex(cell, player) >= 0;
 	}
 
+	/**
+	 * Returns whether or not the cell given is a stable cell for the
+	 * <tt>player</tt> specified
+	 * 
+	 * @param cell
+	 *            the cell that is to be inspected for being a stable one
+	 * @param player
+	 *            the player for whom the cell is inspected for bieng a stable
+	 *            one
+	 * @param isNegativeDirection
+	 *            whether or not the next cell is with lower or higher index
+	 *            than the current one
+	 * @return whether or not the cell given is a stable cell for the
+	 *         <tt>player</tt>
+	 */
 	protected boolean isStableCell(final Cell cell, final Player player,
 			final boolean isNegativeDirection) {
-		final Player otherPlayer = Player.getOpponent(player);
-		return isHavingSameColorNeighbours(cell, isNegativeDirection, otherPlayer) || isLineFull(cell);
+		final Player opponent = Player.getOpponent(player);
+		return isHavingSameColorNeighbours(cell, isNegativeDirection, opponent) || isLineFull(cell);
 	}
+
+	protected abstract int getNeighbourIndex(final Cell cell, final Player player,
+			final boolean isNegativeDirection, final boolean isStoppingSearch);
+
+	protected abstract int incrementIndex(final int cellIndex, final boolean isNegativeDirection);
 
 	private boolean isLineFull(final Cell cell) {
 		return getNeighbourIndex(cell, Player.UNKNOWN, true, false) < 0
@@ -38,19 +96,14 @@ public abstract class BaseMoveChecker {
 	}
 
 	private boolean isHavingSameColorNeighbours(final Cell cell, final boolean isNegativeDirection,
-			final Player otherPlayer) {
-		return getNeighbourIndex(cell, otherPlayer, isNegativeDirection, false) < 0
+			final Player opponent) {
+		return getNeighbourIndex(cell, opponent, isNegativeDirection, false) < 0
 				&& getNeighbourIndex(cell, Player.UNKNOWN, isNegativeDirection, false) < 0;
 	}
 
-	protected int getNeighbourIndex(Cell cell, Player player) {
+	private int getNeighbourIndex(Cell cell, Player player) {
 		return Math.max(getNeighbourIndex(cell, player, false, true),
 				getNeighbourIndex(cell, player, true, true));
 	}
-
-	protected abstract int getNeighbourIndex(final Cell cell, final Player player,
-			final boolean isNegativeDirection, final boolean isStoppingSearch);
-
-	protected abstract int incrementIndex(final int cellIndex, final boolean isNegativeDirection);
 
 }
