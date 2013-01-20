@@ -13,7 +13,7 @@ public class GameSolver {
 	/**
 	 * {@value}
 	 */
-	private static final int MAX_LEVEL_SEARCH_DEPTH = 3;
+	private static final int MAX_LEVEL_SEARCH_DEPTH = 4;
 
 	private final ExecutorService executor;
 
