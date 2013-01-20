@@ -11,6 +11,13 @@ import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.listeners.ModelObserver;
 import edu.fmi.ai.reversi.model.Cell;
 
+/**
+ * 
+ * The main layout holder.
+ * 
+ * @author martin
+ * 
+ */
 public class GameLayout extends JFrame implements ModelObserver {
 
 	/**
@@ -32,6 +39,14 @@ public class GameLayout extends JFrame implements ModelObserver {
 
 	private final ResultPanel resultsLayout;
 
+	/**
+	 * Creates a new game layout that will notify the <tt>listener</tt> given
+	 * when specified events occur
+	 * 
+	 * @param listener
+	 *            the listener that will be notified when specified board events
+	 *            occur
+	 */
 	public GameLayout(final BoardEventsListener listener) {
 		super();
 		setLayout(new BorderLayout(0, 0));

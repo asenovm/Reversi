@@ -15,6 +15,12 @@ import edu.fmi.ai.reversi.listeners.BoardEventsListener;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
+/**
+ * A layout to represent the game board
+ * 
+ * @author martin
+ * 
+ */
 public class BoardLayout extends JPanel {
 
 	/**
@@ -85,6 +91,13 @@ public class BoardLayout extends JPanel {
 		}
 	}
 
+	/**
+	 * Creates a new board layout that will notify the <tt>listener</tt>
+	 * specified when specific events occur.
+	 * 
+	 * @param listener
+	 *            the listener that will be notified when board events occur
+	 */
 	public BoardLayout(final BoardEventsListener listener) {
 		super(new GridLayout(Game.BOARD_ROW_COUNT, Game.BOARD_COLUMN_COUNT));
 
@@ -99,24 +112,12 @@ public class BoardLayout extends JPanel {
 		setBackground(Color.decode(BACKGROUND_COLOR));
 	}
 
-	private void populateCells() {
-		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
-			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
-				final BoardCellLayout currentCell = new BoardCellLayout();
-				final int cellIndex = i * Game.BOARD_COLUMN_COUNT + j;
-				add(currentCell, cellIndex);
-				currentCell.addMouseListener(new CellMouseListener(cellIndex));
-			}
-		}
-	}
-
-	private Dimension getBoardDimension() {
-		final Dimension boardDimension = new Dimension(Game.BOARD_COLUMN_COUNT
-				* BoardCellLayout.WIDTH_BOARD_CELL, Game.BOARD_ROW_COUNT
-				* BoardCellLayout.HEIGHT_BOARD_CELL);
-		return boardDimension;
-	}
-
+	/**
+	 * A callback fired when the board model has changed
+	 * 
+	 * @param changedCells
+	 *            all the changed cells
+	 */
 	public void onModelChanged(final Collection<Cell> changedCells) {
 		for (final Cell cell : changedCells) {
 			SwingUtilities.invokeLater(new TakeCellRunnable(getCellAt(cell.getIndex()), cell
@@ -124,6 +125,12 @@ public class BoardLayout extends JPanel {
 		}
 	}
 
+	/**
+	 * A callback fired when the next possible moves have been received.
+	 * 
+	 * @param nextMoves
+	 *            all the possible moves for the next iteration
+	 */
 	public void onNextMovesAcquired(final Collection<Cell> nextMoves) {
 		SwingUtilities.invokeLater(clearHighlightRunnable);
 		for (final Cell cell : nextMoves) {
@@ -140,5 +147,23 @@ public class BoardLayout extends JPanel {
 
 	private BoardCellLayout getCellAt(final int index) {
 		return (BoardCellLayout) getComponent(index);
+	}
+
+	private Dimension getBoardDimension() {
+		final Dimension boardDimension = new Dimension(Game.BOARD_COLUMN_COUNT
+				* BoardCellLayout.WIDTH_BOARD_CELL, Game.BOARD_ROW_COUNT
+				* BoardCellLayout.HEIGHT_BOARD_CELL);
+		return boardDimension;
+	}
+
+	private void populateCells() {
+		for (int i = 0; i < Game.BOARD_ROW_COUNT; ++i) {
+			for (int j = 0; j < Game.BOARD_COLUMN_COUNT; ++j) {
+				final BoardCellLayout currentCell = new BoardCellLayout();
+				final int cellIndex = i * Game.BOARD_COLUMN_COUNT + j;
+				add(currentCell, cellIndex);
+				currentCell.addMouseListener(new CellMouseListener(cellIndex));
+			}
+		}
 	}
 }

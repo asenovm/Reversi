@@ -9,6 +9,12 @@ import javax.swing.SwingUtilities;
 
 import edu.fmi.ai.reversi.model.Player;
 
+/**
+ * A class to represent the panel for displaying the results of the game.
+ * 
+ * @author martin
+ * 
+ */
 public class ResultPanel extends JPanel {
 
 	/**
@@ -73,6 +79,9 @@ public class ResultPanel extends JPanel {
 
 	}
 
+	/**
+	 * Creates a new panel for showing the results of the game
+	 */
 	public ResultPanel() {
 		super(new GridLayout(GRID_ROW_COUNT, GRID_COLUMN_COUNT));
 
@@ -86,6 +95,15 @@ public class ResultPanel extends JPanel {
 		add(blackTextView, GRID_INDEX_BLACK_LABEL);
 	}
 
+	/**
+	 * A callback fired when the game results has changed to let the results
+	 * panel know that it should update the GUI
+	 * 
+	 * @param whiteDiscsCount
+	 *            the number of white discs on the board
+	 * @param blackDiscsCount
+	 *            the number of black discs on the board
+	 */
 	public void onResultChanged(final int whiteDiscsCount, final int blackDiscsCount) {
 		SwingUtilities.invokeLater(new ChangeResultRunnable(whiteTextView, whiteDiscsCount));
 		SwingUtilities.invokeLater(new ChangeResultRunnable(blackTextView, blackDiscsCount));
