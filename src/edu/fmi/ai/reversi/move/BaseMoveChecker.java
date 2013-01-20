@@ -19,7 +19,8 @@ public abstract class BaseMoveChecker {
 
 	protected boolean isClosestNeighbour(final Player forPlayer, int currentNeighbour,
 			final Cell currentCell) {
-		return currentCell.isOwnedBy(forPlayer) && (currentNeighbour > 1 || forPlayer == Player.UNKNOWN);
+		return currentCell.isOwnedBy(forPlayer)
+				&& (currentNeighbour > 1 || forPlayer == Player.UNKNOWN);
 	}
 
 	public boolean isMovePermitted(final Cell cell, final Player player) {
@@ -29,6 +30,17 @@ public abstract class BaseMoveChecker {
 	protected boolean isStableCell(final Cell cell, final Player player,
 			final boolean isMinusDirection) {
 		final Player otherPlayer = Player.getOpponent(player);
+		return isHavingOnlySameColorNeighbours(cell, isMinusDirection, otherPlayer)
+				|| isLineFull(cell);
+	}
+
+	private boolean isLineFull(final Cell cell) {
+		return getNeighbourIndex(cell, Player.UNKNOWN, true, false) < 0
+				&& getNeighbourIndex(cell, Player.UNKNOWN, false, false) < 0;
+	}
+
+	private boolean isHavingOnlySameColorNeighbours(final Cell cell,
+			final boolean isMinusDirection, final Player otherPlayer) {
 		return getNeighbourIndex(cell, otherPlayer, isMinusDirection, false) < 0
 				&& getNeighbourIndex(cell, Player.UNKNOWN, isMinusDirection, false) < 0;
 	}
