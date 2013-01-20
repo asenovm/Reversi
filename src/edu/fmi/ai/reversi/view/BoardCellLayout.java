@@ -13,6 +13,12 @@ import javax.swing.JPanel;
 
 import edu.fmi.ai.reversi.model.Player;
 
+/**
+ * A layout representing a cell on the board
+ * 
+ * @author martin
+ * 
+ */
 public class BoardCellLayout extends JPanel {
 
 	/**
@@ -57,7 +63,18 @@ public class BoardCellLayout extends JPanel {
 
 	private static enum CellColor {
 
-		EMPTY(CELL_COLOR_DEFAULT), CAPTURED(CELL_COLOR_DEFAULT), HIGHLIGHTED(CELL_COLOR_HIGHLIGHTED);
+		/**
+		 * {@value}
+		 */
+		EMPTY(CELL_COLOR_DEFAULT),
+		/**
+		 * {@value}
+		 */
+		CAPTURED(CELL_COLOR_DEFAULT),
+		/**
+		 * {@value}
+		 */
+		HIGHLIGHTED(CELL_COLOR_HIGHLIGHTED);
 
 		private final String backgroundColor;
 
@@ -65,6 +82,11 @@ public class BoardCellLayout extends JPanel {
 			this.backgroundColor = color;
 		}
 
+		/**
+		 * Returns the Color instance corresponding to this enum value
+		 * 
+		 * @return the Color instance corresponding to this enum value
+		 */
 		public Color getBackgroundColor() {
 			return Color.decode(backgroundColor);
 		}
@@ -78,6 +100,9 @@ public class BoardCellLayout extends JPanel {
 
 	private CellColor cellColor;
 
+	/**
+	 * Creates a new board cell layout.
+	 */
 	public BoardCellLayout() {
 		cellColor = CellColor.EMPTY;
 		setPreferredSize(new Dimension(WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL));
@@ -91,6 +116,11 @@ public class BoardCellLayout extends JPanel {
 
 	}
 
+	/**
+	 * Draws the background of the board cell
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void paintComponent(final Graphics graphics) {
 		super.paintComponent(graphics);
@@ -100,22 +130,41 @@ public class BoardCellLayout extends JPanel {
 				HEIGHT_BOARD_CELL, null);
 	}
 
-	public void take(final Player cellOwner) {
-		this.cellOwner = cellOwner;
+	/**
+	 * Updates the UI so that this board cell looks like being taken from the
+	 * <tt>player</tt>specified
+	 * 
+	 * @param owner
+	 *            the owner of the board cell to which this layout corresponds
+	 */
+	public void take(final Player owner) {
+		this.cellOwner = owner;
 		cellColor = CellColor.CAPTURED;
 		repaint();
 	}
 
+	/**
+	 * Highlights this cell
+	 */
 	public void highlight() {
 		cellColor = CellColor.HIGHLIGHTED;
 		repaint();
 	}
 
+	/**
+	 * Clears the highlight out of the cell
+	 */
 	public void clearHighlight() {
 		cellColor = CellColor.EMPTY;
 		repaint();
 	}
 
+	/**
+	 * 
+	 * Immediately repaints the cell layout
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void repaint() {
 		paintImmediately(0, 0, WIDTH_BOARD_CELL, HEIGHT_BOARD_CELL);
