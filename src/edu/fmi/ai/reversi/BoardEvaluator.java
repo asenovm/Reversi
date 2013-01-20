@@ -26,20 +26,21 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_STABLE_DISCS = 12;
+	private static final int WEIGHT_STABLE_DISCS = 15;
 
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_MOBILITY = 4;
+	private static final int WEIGHT_MOBILITY = 5;
 
 	private final int[][] locationValues;
 
 	public BoardEvaluator() {
-		locationValues = new int[][] { { 50, -1, 5, 2, 2, 5, -1, 50 },
-				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
-				{ 2, 1, 1, 0, 0, 1, 1, 2 }, { 2, 1, 1, 0, 0, 1, 1, 2 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
-				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
+		locationValues = new int[][] { { 99, -8, 8, 6, 6, 8, -8, 99 },
+				{ -8, -24, -4, -3, -3, -4, -24, -8 }, { 8, -4, 7, 4, 4, 7, -4, 8 },
+				{ 6, -3, 4, 0, 0, 4, -3, 6 }, { 6, -3, 4, 0, 0, 4, -3, 6 },
+				{ 8, -4, 7, 4, 4, 7, -4, 8 }, { -8, -24, -4, -3, -3, -4, -24, -8 },
+				{ 99, -8, 8, 6, 6, 8, -8, 99 } };
 	}
 
 	/**
