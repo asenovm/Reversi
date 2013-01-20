@@ -3,6 +3,7 @@ package edu.fmi.ai.reversi.move;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
+import edu.fmi.ai.reversi.util.Direction;
 
 public class MoveChecker {
 
@@ -36,36 +37,27 @@ public class MoveChecker {
 				|| secondaryDiagonalMoveChecker.isMovePermitted(cell, player);
 	}
 
-	public int getLeftNeighbourIndex(final Cell moveCell, final Player player) {
-		return horizontalMoveChecker.getLeftNeighbourIndex(moveCell, player);
-	}
-
-	public int getTopNeighbourIndex(final Cell moveCell, final Player player) {
-		return verticalMoveChecker.getTopNeighbourIndex(moveCell, player);
-	}
-
-	public int getRightNeighbourIndex(final Cell moveCell, final Player player) {
-		return horizontalMoveChecker.getRightNeighbourIndex(moveCell, player);
-	}
-
-	public int getBottomNeighbourIndex(final Cell moveCell, final Player player) {
-		return verticalMoveChecker.getBottomNeighbourIndex(moveCell, player);
-	}
-
-	public int getMainBottomNeighbourIndex(final Cell cell, final Player player) {
-		return mainDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
-	}
-
-	public int getMainTopNeighbourIndex(final Cell cell, final Player player) {
-		return mainDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
-	}
-
-	public int getSecondaryBottomNeighbourIndex(final Cell cell, final Player player) {
-		return secondaryDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
-	}
-
-	public int getSecondaryTopNeighbourIndex(final Cell cell, final Player player) {
-		return secondaryDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
+	public int getNeighbourIndex(final Direction direction, final Cell cell, final Player player) {
+		switch (direction) {
+		case TOP:
+			return verticalMoveChecker.getTopNeighbourIndex(cell, player);
+		case BOTTOM:
+			return verticalMoveChecker.getBottomNeighbourIndex(cell, player);
+		case LEFT:
+			return horizontalMoveChecker.getLeftNeighbourIndex(cell, player);
+		case RIGHT:
+			return horizontalMoveChecker.getRightNeighbourIndex(cell, player);
+		case MAIN_DIAGONAL_BOTTOM:
+			return mainDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
+		case MAIN_DIAGONAL_TOP:
+			return mainDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
+		case SECONDARY_DIAGONAL_BOTTOM:
+			return secondaryDiagonalMoveChecker.getBottomNeighbourIndex(cell, player);
+		case SECONDARY_DIAGONAL_TOP:
+			return secondaryDiagonalMoveChecker.getTopNeighbourIndex(cell, player);
+		default:
+			return -1;
+		}
 	}
 
 	public int getStableDiscCount(final Player player) {

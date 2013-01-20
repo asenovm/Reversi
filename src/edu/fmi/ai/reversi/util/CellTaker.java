@@ -66,48 +66,51 @@ public class CellTaker {
 	}
 
 	private Collection<Cell> takeSecondaryTopCells(final Cell cell, final Player player) {
-		int secondaryTopIndex = checker.getSecondaryTopNeighbourIndex(cell, player);
+		int secondaryTopIndex = checker.getNeighbourIndex(Direction.SECONDARY_DIAGONAL_TOP, cell,
+				player);
 		return takeCells(secondaryTopIndex, secondaryTopIndex, cell.getIndex(),
 				Game.BOARD_COLUMN_COUNT - 1, player);
 	}
 
 	private Collection<Cell> takeSecondaryBottomCells(final Cell cell, final Player player) {
-		int secondaryBottomIndex = checker.getSecondaryBottomNeighbourIndex(cell, player);
+		int secondaryBottomIndex = checker.getNeighbourIndex(Direction.SECONDARY_DIAGONAL_BOTTOM,
+				cell, player);
 		return takeCells(secondaryBottomIndex, cell.getIndex(), secondaryBottomIndex,
 				Game.BOARD_COLUMN_COUNT - 1, player);
 	}
 
 	private Collection<Cell> takeMainTopCells(final Cell cell, final Player player) {
-		int mainTopIndex = checker.getMainTopNeighbourIndex(cell, player);
+		int mainTopIndex = checker.getNeighbourIndex(Direction.MAIN_DIAGONAL_TOP, cell, player);
 		return takeCells(mainTopIndex, mainTopIndex, cell.getIndex(), Game.BOARD_COLUMN_COUNT + 1,
 				player);
 	}
 
 	private Collection<Cell> takeMainBottomCells(final Cell cell, final Player player) {
-		int mainBottomIndex = checker.getMainBottomNeighbourIndex(cell, player);
+		int mainBottomIndex = checker.getNeighbourIndex(Direction.MAIN_DIAGONAL_BOTTOM, cell,
+				player);
 		return takeCells(mainBottomIndex, cell.getIndex(), mainBottomIndex,
 				Game.BOARD_COLUMN_COUNT + 1, player);
 	}
 
 	private Collection<Cell> takeBottomCells(final Cell cell, final Player player) {
-		int bottomNeigbhourIndex = checker.getBottomNeighbourIndex(cell, player);
+		int bottomNeigbhourIndex = checker.getNeighbourIndex(Direction.BOTTOM, cell, player);
 		return takeCells(bottomNeigbhourIndex, cell.getIndex(), bottomNeigbhourIndex,
 				Game.BOARD_COLUMN_COUNT, player);
 	}
 
 	private Collection<Cell> takeTopCells(final Cell cell, final Player player) {
-		int topNeighbourIndex = checker.getTopNeighbourIndex(cell, player);
+		int topNeighbourIndex = checker.getNeighbourIndex(Direction.TOP, cell, player);
 		return takeCells(topNeighbourIndex, topNeighbourIndex, cell.getIndex(),
 				Game.BOARD_COLUMN_COUNT, player);
 	}
 
 	private Collection<Cell> takeRightCells(final Cell cell, final Player player) {
-		int rightNeighbourIndex = checker.getRightNeighbourIndex(cell, player);
+		int rightNeighbourIndex = checker.getNeighbourIndex(Direction.RIGHT, cell, player);
 		return takeCells(rightNeighbourIndex, cell.getIndex(), rightNeighbourIndex, 1, player);
 	}
 
 	private Collection<Cell> takeLeftCells(final Cell cell, final Player player) {
-		int leftNeighbourindex = checker.getLeftNeighbourIndex(cell, player);
+		int leftNeighbourindex = checker.getNeighbourIndex(Direction.LEFT, cell, player);
 		return takeCells(leftNeighbourindex, leftNeighbourindex, cell.getIndex(), 1, player);
 	}
 
