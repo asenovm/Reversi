@@ -10,8 +10,8 @@ public class SecondaryDiagonalMoveChecker extends BaseDiagonalMoveChecker {
 	}
 
 	@Override
-	protected int incrementIndex(final int cellIndex, final boolean isMinusDirection) {
-		return isMinusDirection ? getSecondaryTop(cellIndex) : getSecondaryBottom(cellIndex);
+	protected int incrementIndex(final int cellIndex, final boolean isNegativeDirection) {
+		return isNegativeDirection ? getSecondaryTop(cellIndex) : getSecondaryBottom(cellIndex);
 	}
 
 	private int getSecondaryBottom(final int cellIndex) {

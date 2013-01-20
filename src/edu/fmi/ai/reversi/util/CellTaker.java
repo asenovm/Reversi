@@ -1,4 +1,4 @@
-package edu.fmi.ai.reversi.move;
+package edu.fmi.ai.reversi.util;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +10,7 @@ import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
+import edu.fmi.ai.reversi.move.MoveChecker;
 
 public class CellTaker {
 

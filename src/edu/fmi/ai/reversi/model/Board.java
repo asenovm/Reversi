@@ -11,8 +11,8 @@ import java.util.Set;
 import edu.fmi.ai.reversi.BoardEvaluator;
 import edu.fmi.ai.reversi.Game;
 import edu.fmi.ai.reversi.listeners.ModelObserver;
-import edu.fmi.ai.reversi.move.CellTaker;
 import edu.fmi.ai.reversi.move.MoveChecker;
+import edu.fmi.ai.reversi.util.CellTaker;
 
 /**
  * A model class, representing the board

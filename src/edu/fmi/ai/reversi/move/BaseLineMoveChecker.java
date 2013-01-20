@@ -12,10 +12,10 @@ public abstract class BaseLineMoveChecker extends BaseMoveChecker {
 
 	@Override
 	protected int getNeighbourIndex(final Cell cell, final Player player,
-			final boolean isMinusDirection, final boolean isStoppingSearch) {
+			final boolean isNegativeDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
-		for (int i = 1; i < getEndIndex(cell, isMinusDirection); ++i) {
-			cellIndex = incrementIndex(cellIndex, isMinusDirection);
+		for (int i = 1; i < getEndIndex(cell, isNegativeDirection); ++i) {
+			cellIndex = incrementIndex(cellIndex, isNegativeDirection);
 			final Cell currentCell = board.get(cellIndex);
 			if (isClosestNeighbour(player, i, currentCell)) {
 				return cellIndex;
@@ -26,6 +26,6 @@ public abstract class BaseLineMoveChecker extends BaseMoveChecker {
 		return -1;
 	}
 
-	protected abstract int getEndIndex(final Cell startCell, final boolean isMinusDirection);
+	protected abstract int getEndIndex(final Cell startCell, final boolean isNegativeDirection);
 
 }

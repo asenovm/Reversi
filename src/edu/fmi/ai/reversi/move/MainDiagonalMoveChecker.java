@@ -26,8 +26,8 @@ public class MainDiagonalMoveChecker extends BaseDiagonalMoveChecker {
 	}
 
 	@Override
-	protected int incrementIndex(final int cellIndex, final boolean isMinusDirection) {
-		return isMinusDirection ? getMainTop(cellIndex) : getMainBottom(cellIndex);
+	protected int incrementIndex(final int cellIndex, final boolean isNegativeDirection) {
+		return isNegativeDirection ? getMainTop(cellIndex) : getMainBottom(cellIndex);
 	}
 
 	private int getMainBottom(final int cellIndex) {

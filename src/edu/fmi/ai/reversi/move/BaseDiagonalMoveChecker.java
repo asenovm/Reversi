@@ -12,15 +12,15 @@ public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 
 	@Override
 	protected int getNeighbourIndex(final Cell cell, final Player player,
-			final boolean isMinusDirection, final boolean isStoppingSearch) {
+			final boolean isNegativeDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
 		int currentNeighbour = 1;
 
-		if (!canMove(isMinusDirection, cellIndex)) {
+		if (!canMove(isNegativeDirection, cellIndex)) {
 			return -1;
 		}
 
-		cellIndex = incrementIndex(cellIndex, isMinusDirection);
+		cellIndex = incrementIndex(cellIndex, isNegativeDirection);
 
 		while (!isDiagonalEnd(cellIndex)) {
 			final Cell currentCell = board.get(cellIndex);
@@ -29,7 +29,7 @@ public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 			} else if (isStoppingSearch && isStoppingSearch(player, currentNeighbour, currentCell)) {
 				return -1;
 			}
-			cellIndex = incrementIndex(cellIndex, isMinusDirection);
+			cellIndex = incrementIndex(cellIndex, isNegativeDirection);
 			++currentNeighbour;
 		}
 
@@ -40,8 +40,8 @@ public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 		return -1;
 	}
 
-	private boolean canMove(final boolean isMinusDirection, int cellIndex) {
-		return !((!isMinusDirection && !canMoveBottom(cellIndex)) || (isMinusDirection && !canMoveTop(cellIndex)));
+	private boolean canMove(final boolean isNegativeDirection, int cellIndex) {
+		return !((!isNegativeDirection && !canMoveBottom(cellIndex)) || (isNegativeDirection && !canMoveTop(cellIndex)));
 	}
 
 	protected abstract boolean canMoveTop(final int cellIndex);

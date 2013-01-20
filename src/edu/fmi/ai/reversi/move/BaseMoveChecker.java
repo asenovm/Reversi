@@ -27,9 +27,9 @@ public abstract class BaseMoveChecker {
 	}
 
 	protected boolean isStableCell(final Cell cell, final Player player,
-			final boolean isMinusDirection) {
+			final boolean isNegativeDirection) {
 		final Player otherPlayer = Player.getOpponent(player);
-		return isHavingSameColorNeighbours(cell, isMinusDirection, otherPlayer) || isLineFull(cell);
+		return isHavingSameColorNeighbours(cell, isNegativeDirection, otherPlayer) || isLineFull(cell);
 	}
 
 	private boolean isLineFull(final Cell cell) {
@@ -37,10 +37,10 @@ public abstract class BaseMoveChecker {
 				&& getNeighbourIndex(cell, Player.UNKNOWN, false, false) < 0;
 	}
 
-	private boolean isHavingSameColorNeighbours(final Cell cell, final boolean isMinusDirection,
+	private boolean isHavingSameColorNeighbours(final Cell cell, final boolean isNegativeDirection,
 			final Player otherPlayer) {
-		return getNeighbourIndex(cell, otherPlayer, isMinusDirection, false) < 0
-				&& getNeighbourIndex(cell, Player.UNKNOWN, isMinusDirection, false) < 0;
+		return getNeighbourIndex(cell, otherPlayer, isNegativeDirection, false) < 0
+				&& getNeighbourIndex(cell, Player.UNKNOWN, isNegativeDirection, false) < 0;
 	}
 
 	protected int getNeighbourIndex(Cell cell, Player player) {
@@ -49,8 +49,8 @@ public abstract class BaseMoveChecker {
 	}
 
 	protected abstract int getNeighbourIndex(final Cell cell, final Player player,
-			final boolean isMinusDirection, final boolean isStoppingSearch);
+			final boolean isNegativeDirection, final boolean isStoppingSearch);
 
-	protected abstract int incrementIndex(final int cellIndex, final boolean isMinusDirection);
+	protected abstract int incrementIndex(final int cellIndex, final boolean isNegativeDirection);
 
 }
