@@ -11,12 +11,6 @@ public abstract class BaseLineMoveChecker extends BaseMoveChecker {
 	}
 
 	@Override
-	protected int getNeighbourIndex(Cell cell, Player player) {
-		return Math.max(getNeighbourIndex(cell, player, false, true),
-				getNeighbourIndex(cell, player, true, true));
-	}
-
-	@Override
 	protected int getNeighbourIndex(final Cell cell, final Player player,
 			final boolean isMinusDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();

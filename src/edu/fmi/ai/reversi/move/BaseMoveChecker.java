@@ -43,7 +43,10 @@ public abstract class BaseMoveChecker {
 				&& getNeighbourIndex(cell, Player.UNKNOWN, isMinusDirection, false) < 0;
 	}
 
-	protected abstract int getNeighbourIndex(final Cell cell, final Player player);
+	protected int getNeighbourIndex(Cell cell, Player player) {
+		return Math.max(getNeighbourIndex(cell, player, false, true),
+				getNeighbourIndex(cell, player, true, true));
+	}
 
 	protected abstract int getNeighbourIndex(final Cell cell, final Player player,
 			final boolean isMinusDirection, final boolean isStoppingSearch);

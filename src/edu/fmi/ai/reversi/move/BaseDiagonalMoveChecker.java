@@ -4,36 +4,30 @@ import edu.fmi.ai.reversi.model.Board;
 import edu.fmi.ai.reversi.model.Cell;
 import edu.fmi.ai.reversi.model.Player;
 
-public abstract class BaseDiagonalMoveChecker extends BaseMoveChecker {
+public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 
 	protected BaseDiagonalMoveChecker(Board board) {
 		super(board);
 	}
 
 	@Override
-	public int getNeighbourIndex(final Cell cell, final Player player) {
-		return Math.max(getNeighbourIndex(cell, player, true, true),
-				getNeighbourIndex(cell, player, false, true));
-	}
-
 	public int getTopNeighbourIndex(final Cell cell, final Player player) {
 		return getNeighbourIndex(cell, player, false, true);
 	}
 
+	@Override
 	public int getBottomNeighbourIndex(final Cell cell, final Player player) {
 		return getNeighbourIndex(cell, player, true, true);
 	}
 
+	@Override
 	public boolean isStableTop(final Cell cell, final Player player) {
 		return isStableCell(cell, player, false);
 	}
 
+	@Override
 	public boolean isStableBottom(final Cell cell, final Player player) {
 		return isStableCell(cell, player, true);
-	}
-
-	public boolean isStableCell(final Cell cell, final Player player) {
-		return isStableTop(cell, player) || isStableBottom(cell, player);
 	}
 
 	@Override
