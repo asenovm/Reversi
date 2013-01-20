@@ -42,6 +42,13 @@ public enum Direction {
 		this.increment = increment;
 	}
 
+	/**
+	 * Returns the cell number with which a cell index is to be incremented in
+	 * order to move in the direction specified
+	 * 
+	 * @return cell number with which a cell index is to be incremented in order
+	 *         to move in the direction specified
+	 */
 	public int getIncrement() {
 		return increment;
 	}

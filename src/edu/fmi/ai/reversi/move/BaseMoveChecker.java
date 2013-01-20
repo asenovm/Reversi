@@ -85,9 +85,38 @@ public abstract class BaseMoveChecker {
 		return isHavingSameColorNeighbours(cell, isNegativeDirection, opponent) || isLineFull(cell);
 	}
 
+	/**
+	 * Returns the index of the closest neighbour to the cell given that belongs
+	 * to the player specified
+	 * 
+	 * @param cell
+	 *            the cell to which a neighbour is to be found
+	 * @param player
+	 *            the player to whom the neighbour cell should belong
+	 * @param isNegativeDirection
+	 *            whether or not we are to be lookng for a neighbour in a
+	 *            negative direction(i.e cell with a lower index)
+	 * @param isStoppingSearch
+	 *            whether or not we are to stop the search when we find an empty
+	 *            cell
+	 * @return the index of the closest neighbour of the cell given that belongs
+	 *         to the player specified
+	 */
 	protected abstract int getNeighbourIndex(final Cell cell, final Player player,
 			final boolean isNegativeDirection, final boolean isStoppingSearch);
 
+	/**
+	 * Returns the incremented index of the cell with regards to the direction
+	 * parameter
+	 * 
+	 * @param cellIndex
+	 *            the index that is to be incremented
+	 * @param isNegativeDirection
+	 *            whether or not we are goind in a negative or positive
+	 *            direction
+	 * @return the incremented index of the cell with regards to the direction
+	 *         given
+	 */
 	protected abstract int incrementIndex(final int cellIndex, final boolean isNegativeDirection);
 
 	private boolean isLineFull(final Cell cell) {
