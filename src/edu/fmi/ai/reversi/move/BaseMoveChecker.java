@@ -12,15 +12,14 @@ public abstract class BaseMoveChecker {
 		this.board = board;
 	}
 
-	protected boolean isStoppingSearch(final Player forPlayer, int currentNeighbour,
+	protected boolean isStoppingSearch(final Player player, int currentNeighbour,
 			final Cell currentCell) {
-		return currentCell.isEmpty() || (currentCell.isOwnedBy(forPlayer) && currentNeighbour == 1);
+		return currentCell.isEmpty() || (currentCell.isOwnedBy(player) && currentNeighbour == 1);
 	}
 
-	protected boolean isClosestNeighbour(final Player forPlayer, int currentNeighbour,
+	protected boolean isClosestNeighbour(final Player player, int currentNeighbour,
 			final Cell currentCell) {
-		return currentCell.isOwnedBy(forPlayer)
-				&& (currentNeighbour > 1 || forPlayer == Player.UNKNOWN);
+		return currentCell.isOwnedBy(player) && (currentNeighbour > 1 || player == Player.UNKNOWN);
 	}
 
 	public boolean isMovePermitted(final Cell cell, final Player player) {
@@ -30,8 +29,7 @@ public abstract class BaseMoveChecker {
 	protected boolean isStableCell(final Cell cell, final Player player,
 			final boolean isMinusDirection) {
 		final Player otherPlayer = Player.getOpponent(player);
-		return isHavingOnlySameColorNeighbours(cell, isMinusDirection, otherPlayer)
-				|| isLineFull(cell);
+		return isHavingSameColorNeighbours(cell, isMinusDirection, otherPlayer) || isLineFull(cell);
 	}
 
 	private boolean isLineFull(final Cell cell) {
@@ -39,8 +37,8 @@ public abstract class BaseMoveChecker {
 				&& getNeighbourIndex(cell, Player.UNKNOWN, false, false) < 0;
 	}
 
-	private boolean isHavingOnlySameColorNeighbours(final Cell cell,
-			final boolean isMinusDirection, final Player otherPlayer) {
+	private boolean isHavingSameColorNeighbours(final Cell cell, final boolean isMinusDirection,
+			final Player otherPlayer) {
 		return getNeighbourIndex(cell, otherPlayer, isMinusDirection, false) < 0
 				&& getNeighbourIndex(cell, Player.UNKNOWN, isMinusDirection, false) < 0;
 	}
