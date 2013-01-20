@@ -224,14 +224,15 @@ public class Board {
 	 * Returns the cell in the current board, that differ from the ones in the
 	 * <tt>other</tt> board given
 	 * 
-	 * @param other the 
+	 * @param other
+	 *            the
 	 * @return
 	 */
 	public Collection<Cell> getDifference(final Board other) {
 		final List<Cell> difference = new ArrayList<Cell>();
 		for (final Cell cell : board.values()) {
 			final Cell otherCell = other.get(cell.getIndex());
-			if (!cell.isOwnedBy(otherCell.getOwner())) {
+			if (!cell.hasSameOwner(otherCell)) {
 				difference.add(cell);
 			}
 		}

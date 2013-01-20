@@ -16,7 +16,7 @@ public class Cell {
 
 	private final int index;
 
-	private Player ownedBy;
+	private Player owner;
 
 	/**
 	 * Creates a new board cell from the parameters given
@@ -30,7 +30,7 @@ public class Cell {
 		this.index = index;
 		this.x = index % Game.BOARD_COLUMN_COUNT;
 		this.y = index / Game.BOARD_ROW_COUNT;
-		ownedBy = owner;
+		this.owner = owner;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		index = y * Game.BOARD_COLUMN_COUNT + x;
-		ownedBy = Player.UNKNOWN;
+		owner = Player.UNKNOWN;
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class Cell {
 	 *            the new owner of the cell
 	 */
 	public void take(Player player) {
-		ownedBy = player;
+		owner = player;
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class Cell {
 	 *         disc on it
 	 */
 	public boolean isEmpty() {
-		return ownedBy == Player.UNKNOWN;
+		return owner == Player.UNKNOWN;
 	}
 
 	/**
@@ -87,7 +87,7 @@ public class Cell {
 	 * @return whether or not the cell is owned by the <tt>player</tt> specified
 	 */
 	public boolean isOwnedBy(final Player player) {
-		return ownedBy == player;
+		return owner == player;
 	}
 
 	/**
@@ -117,14 +117,27 @@ public class Cell {
 		return index;
 	}
 
-	// XXX this should be removed - exposure
 	/**
 	 * Returns the owner of the current cell
 	 * 
 	 * @return the owner of the current cell
 	 */
 	public Player getOwner() {
-		return ownedBy;
+		return owner;
+	}
+
+	/**
+	 * Returns whether or not the current cell has the same owner as the
+	 * <tt>other</tt> cell given.
+	 * 
+	 * @param other
+	 *            the cell whose owner is to be compared with the owner of the
+	 *            current cell
+	 * @return whether or not the current cell has the same owner as the
+	 *         <tt>other</tt> cell given.
+	 */
+	public boolean hasSameOwner(final Cell other) {
+		return owner == other.owner;
 	}
 
 	@Override
