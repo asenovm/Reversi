@@ -24,7 +24,7 @@ public abstract class BaseMoveChecker {
 	}
 
 	public boolean isMovePermitted(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player) > 0;
+		return getNeighbourIndex(cell, player) >= 0;
 	}
 
 	protected boolean isStableCell(final Cell cell, final Player player,
