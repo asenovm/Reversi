@@ -60,8 +60,8 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 		currentPlayer = Player.BLACK;
 
 		board.addObserver(boardLayout);
-
 		board.startGame();
+		
 		gameSolver = new GameSolver();
 	}
 
@@ -73,7 +73,7 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 	 *         further moves can be made.
 	 */
 	public boolean isFinished() {
-		return !board.hasNextMoves(Player.WHITE) && !board.hasNextMoves(Player.BLACK);
+		return !board.hasNextMove(Player.WHITE) && !board.hasNextMove(Player.BLACK);
 	}
 
 	/**
@@ -82,8 +82,7 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 	 */
 	public void awaitInput() {
 		currentPlayer = Player.BLACK;
-		final Collection<Cell> nextMoves = board.getNextMoves(currentPlayer);
-		if (!nextMoves.isEmpty()) {
+		if (board.hasNextMove(currentPlayer)) {
 			board.nextMove(currentPlayer);
 			turnSwitcher.startTurn();
 		}
@@ -94,9 +93,11 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 	 */
 	public void nextMove() {
 		currentPlayer = Player.WHITE;
-		board.nextMove(currentPlayer);
-		gameSolver.getOptimalMove(board, this);
-		turnSwitcher.startTurn();
+		if(board.hasNextMove(currentPlayer)){
+			board.nextMove(currentPlayer);
+			gameSolver.getOptimalMove(board, this);
+			turnSwitcher.startTurn();
+		}
 	}
 
 	/**

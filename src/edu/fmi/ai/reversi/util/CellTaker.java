@@ -79,7 +79,7 @@ public class CellTaker {
 
 	private Collection<Cell> takeCells(final int neighbourIndex, final int start, final int end,
 			final int step, final Player player) {
-		return neighbourIndex > 0 ? takeCells(start, end, step, player) : Collections
+		return neighbourIndex >= 0 ? takeCells(start, end, step, player) : Collections
 				.<Cell> emptySet();
 	}
 

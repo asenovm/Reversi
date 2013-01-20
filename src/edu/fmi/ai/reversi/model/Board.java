@@ -297,7 +297,7 @@ public class Board {
 	 * @return whether or not there are any possible moves for the
 	 *         <tt>player</tt> given.
 	 */
-	public boolean hasNextMoves(final Player player) {
+	public boolean hasNextMove(final Player player) {
 		return !getNextMoves(player).isEmpty();
 	}
 

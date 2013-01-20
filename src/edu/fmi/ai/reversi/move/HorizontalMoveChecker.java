@@ -61,7 +61,7 @@ public class HorizontalMoveChecker extends BaseLineMoveChecker {
 	protected int incrementIndex(int cellIndex, boolean isNegativeDirection) {
 		return isNegativeDirection ? cellIndex - 1 : cellIndex + 1;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */

@@ -76,7 +76,7 @@ public class Cell {
 	 *         disc on it
 	 */
 	public boolean isEmpty() {
-		return owner == Player.UNKNOWN;
+		return isOwnedBy(Player.UNKNOWN);
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_MOBILITY = 5;
+	private static final int WEIGHT_MOBILITY = 4;
 
 	private final int[][] locationValues;
 
