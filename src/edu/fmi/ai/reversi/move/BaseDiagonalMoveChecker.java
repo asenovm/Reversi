@@ -11,26 +11,6 @@ public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 	}
 
 	@Override
-	public int getTopNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, false, true);
-	}
-
-	@Override
-	public int getBottomNeighbourIndex(final Cell cell, final Player player) {
-		return getNeighbourIndex(cell, player, true, true);
-	}
-
-	@Override
-	public boolean isStableTop(final Cell cell, final Player player) {
-		return isStableCell(cell, player, false);
-	}
-
-	@Override
-	public boolean isStableBottom(final Cell cell, final Player player) {
-		return isStableCell(cell, player, true);
-	}
-
-	@Override
 	protected int getNeighbourIndex(final Cell cell, final Player player,
 			final boolean isMinusDirection, final boolean isStoppingSearch) {
 		int cellIndex = cell.getIndex();
@@ -60,8 +40,8 @@ public abstract class BaseDiagonalMoveChecker extends VerticalMoveChecker {
 		return -1;
 	}
 
-	private boolean canMove(final boolean isBottom, int cellIndex) {
-		return !((isBottom && !canMoveBottom(cellIndex)) || (!isBottom && !canMoveTop(cellIndex)));
+	private boolean canMove(final boolean isMinusDirection, int cellIndex) {
+		return !((!isMinusDirection && !canMoveBottom(cellIndex)) || (isMinusDirection && !canMoveTop(cellIndex)));
 	}
 
 	protected abstract boolean canMoveTop(final int cellIndex);
