@@ -91,4 +91,11 @@ public class GameLayout extends JFrame implements ModelObserver {
 		resultsLayout.onResultChanged(whiteDiscs, blackDiscs);
 	}
 
+	/**
+	 * Notifies the layout that the game has ended so as to update accordingly
+	 */
+	public void endGame() {
+		boardLayout.clearCellHighlight();
+	}
+
 }

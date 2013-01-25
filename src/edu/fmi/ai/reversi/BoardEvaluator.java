@@ -126,6 +126,16 @@ public class BoardEvaluator {
 		return opponent.getSign() * board.getNextBoards(opponent).size() * WEIGHT_MOBILITY;
 	}
 
+	/**
+	 * Returns the disc count value of the board for the given player
+	 * 
+	 * @param board
+	 *            the board that is to be evaluated
+	 * @param player
+	 *            the player for which the board is to be evaluated
+	 * @return the disc count value of the board specified for the
+	 *         <tt>player</tt> given
+	 */
 	public int getDiscCountValue(final Board board, final Player player) {
 		return player.getSign()
 				* (board.getDiscCount(player) - board.getDiscCount(Player.getOpponent(player)))

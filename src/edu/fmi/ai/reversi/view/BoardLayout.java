@@ -138,7 +138,10 @@ public class BoardLayout extends JPanel {
 		}
 	}
 
-	private void clearCellHighlight() {
+	/**
+	 * Clears the highlight out of all the cells on the board
+	 */
+	public void clearCellHighlight() {
 		for (int i = 0; i < getComponentCount(); ++i) {
 			final BoardCellLayout boardCellLayout = (BoardCellLayout) getComponent(i);
 			boardCellLayout.clearHighlight();

@@ -39,7 +39,7 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 	 */
 	public static final int BOARD_COLUMN_COUNT = 8;
 
-	private final GameLayout boardLayout;
+	private final GameLayout gameLayout;
 
 	private final Board board;
 
@@ -53,13 +53,13 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 	 * Creates a new Game instance.
 	 */
 	public Game() {
-		boardLayout = new GameLayout(this);
+		gameLayout = new GameLayout(this);
 		board = new Board();
 
 		turnSwitcher = new TurnSwitcher();
 		currentPlayer = Player.BLACK;
 
-		board.addObserver(boardLayout);
+		board.addObserver(gameLayout);
 		board.startGame();
 		
 		gameSolver = new GameSolver();
@@ -128,7 +128,7 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 		final int blackDiscs = board.getDiscCount(Player.BLACK);
 		final String winner = whiteDiscs > blackDiscs ? Player.WHITE.name() : Player.BLACK.name();
 		int winnerDiscs = whiteDiscs > blackDiscs ? whiteDiscs : blackDiscs;
-		JOptionPane.showMessageDialog(boardLayout, TEXT_WINNER + winner + TEXT_WINNER_DISCS_COUNT
+		JOptionPane.showMessageDialog(gameLayout, TEXT_WINNER + winner + TEXT_WINNER_DISCS_COUNT
 				+ winnerDiscs + TEXT_WINNER_DISCS);
 	}
 
