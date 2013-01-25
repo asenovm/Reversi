@@ -6,6 +6,8 @@
 An implementation of the *Reversi/Othello* game, written in *Java/Swing* and featuring AI opponent.
 
 
+<img style="text-align:center;" src="https://www.dropbox.com/s/984s6typw4p7ujj/screenshot.png" alt="gameplaye" />
+
 ## <span style="text-align: center;">AI opponent</span> ##
 
 The AI opponent is implemented using the Minimax algorithm with alpha-beta pruning. Since the state space of the game is pretty big (almost as big as in the chess game) it cannot be traversed completely to a terminal state, but instead only the first 4 levels of the decision tree are generated. The board at the 4th("terminal") level is evaluated using the following heuristics:
