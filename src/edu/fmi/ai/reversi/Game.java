@@ -130,6 +130,7 @@ public class Game implements BoardEventsListener, GameSolverCallback {
 		int winnerDiscs = whiteDiscs > blackDiscs ? whiteDiscs : blackDiscs;
 		JOptionPane.showMessageDialog(gameLayout, TEXT_WINNER + winner + TEXT_WINNER_DISCS_COUNT
 				+ winnerDiscs + TEXT_WINNER_DISCS);
+		gameLayout.endGame();
 	}
 
 	private boolean isLegalMove(final int cellIndex) {
