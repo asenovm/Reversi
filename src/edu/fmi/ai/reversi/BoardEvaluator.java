@@ -16,7 +16,7 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_LOCATION = 15;
+	private static final int WEIGHT_LOCATION = 13;
 
 	/**
 	 * {@value}
@@ -26,12 +26,12 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_STABLE_DISCS = 9;
+	private static final int WEIGHT_STABLE_DISCS = 8;
 
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_MOBILITY = 6;
+	private static final int WEIGHT_MOBILITY = 5;
 
 	/**
 	 * {@value4}
@@ -47,6 +47,12 @@ public class BoardEvaluator {
 				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
 	}
 
+	public int getValue(final Board board, final Player player) {
+		return getLocationValue(board, player) + getStabilityValue(board, player)
+				+ getTurnValue(board, player) + getMobilityValue(board, player)
+				+ getDiscCountValue(board, player);
+	}
+
 	/**
 	 * Returns the value of the <tt>board</tt> given, based on assessing the
 	 * location of discs of the given <tt>player</tt>
@@ -58,7 +64,7 @@ public class BoardEvaluator {
 	 * @return the ratio between the location-based value of the board for the
 	 *         <tt>player</tt> given and the one for his opponent.
 	 */
-	public int getLocationValue(final Board board, final Player player) {
+	private int getLocationValue(final Board board, final Player player) {
 		int locationValue = 0;
 		int opponentValue = 0;
 		final Player opponent = Player.getOpponent(player);
@@ -89,7 +95,7 @@ public class BoardEvaluator {
 	 *         for the <tt>player</tt> given and his opponent, multiplied by the
 	 *         respective weight
 	 */
-	public int getStabilityValue(final Board board, final Player player) {
+	private int getStabilityValue(final Board board, final Player player) {
 		return player.getSign()
 				* (board.getStableDiscsCount(player) - board.getStableDiscsCount(Player
 						.getOpponent(player))) * WEIGHT_STABLE_DISCS;
@@ -107,7 +113,7 @@ public class BoardEvaluator {
 	 * @return the value of the board, computed with respect to the chance that
 	 *         the next player will have to skip his turn.
 	 */
-	public int getTurnValue(final Board board, final Player player) {
+	private int getTurnValue(final Board board, final Player player) {
 		return isOpponentSkippingTurn(board, player) ? player.getSign() * WEIGHT_SKIP_TURN : 0;
 	}
 
@@ -121,7 +127,7 @@ public class BoardEvaluator {
 	 *            the player for which the board is to be evaluated
 	 * @return the mobility value of the board
 	 */
-	public int getMobilityValue(final Board board, final Player player) {
+	private int getMobilityValue(final Board board, final Player player) {
 		final Player opponent = Player.getOpponent(player);
 		return opponent.getSign() * board.getNextBoards(opponent).size() * WEIGHT_MOBILITY;
 	}
@@ -136,7 +142,7 @@ public class BoardEvaluator {
 	 * @return the disc count value of the board specified for the
 	 *         <tt>player</tt> given
 	 */
-	public int getDiscCountValue(final Board board, final Player player) {
+	private int getDiscCountValue(final Board board, final Player player) {
 		return player.getSign()
 				* (board.getDiscCount(player) - board.getDiscCount(Player.getOpponent(player)))
 				* WEIGHT_DISC_COUNT;
