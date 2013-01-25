@@ -47,6 +47,15 @@ public class BoardEvaluator {
 				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
 	}
 
+	/**
+	 * Gets the heuristic value of the board for the given <tt>player</tt>
+	 * 
+	 * @param board
+	 *            the board that is to be evaluated
+	 * @param player
+	 *            the player for which the board is evaluated
+	 * @return the heuristic value of the board for the given player
+	 */
 	public int getValue(final Board board, final Player player) {
 		return getLocationValue(board, player) + getStabilityValue(board, player)
 				+ getTurnValue(board, player) + getMobilityValue(board, player)
