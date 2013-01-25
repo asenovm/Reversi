@@ -1,13 +1,10 @@
 # Reversi #
 =======
 
-<hr />
-
 ## About ##
 
 An implementation of the *Reversi/Othello* game, written in *Java/Swing* and featuring AI opponent.
 
-<hr/>
 
 ## AI opponent ##
 
@@ -23,8 +20,6 @@ There are a few points that I'd like to have improved/developed in the near feat
  * Adjust the weights, given to the different heuristics, perhaps by using a neuron net 
  * Port the game to Android
  * Allow for multiplayer games
-
-<hr />
 
 ## About the author ##
 
