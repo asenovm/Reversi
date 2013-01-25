@@ -1,0 +1,1 @@
+Линк към github репото, в което съм разработвал проекта: https://github.com/asenovm/Reversi

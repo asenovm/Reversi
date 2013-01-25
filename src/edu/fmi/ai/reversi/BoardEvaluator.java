@@ -26,21 +26,25 @@ public class BoardEvaluator {
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_STABLE_DISCS = 15;
+	private static final int WEIGHT_STABLE_DISCS = 9;
 
 	/**
 	 * {@value}
 	 */
-	private static final int WEIGHT_MOBILITY = 4;
+	private static final int WEIGHT_MOBILITY = 6;
+
+	/**
+	 * {@value4}
+	 */
+	private static final int WEIGHT_DISC_COUNT = 2;
 
 	private final int[][] locationValues;
 
 	public BoardEvaluator() {
-		locationValues = new int[][] { { 99, -8, 8, 6, 6, 8, -8, 99 },
-				{ -8, -24, -4, -3, -3, -4, -24, -8 }, { 8, -4, 7, 4, 4, 7, -4, 8 },
-				{ 6, -3, 4, 0, 0, 4, -3, 6 }, { 6, -3, 4, 0, 0, 4, -3, 6 },
-				{ 8, -4, 7, 4, 4, 7, -4, 8 }, { -8, -24, -4, -3, -3, -4, -24, -8 },
-				{ 99, -8, 8, 6, 6, 8, -8, 99 } };
+		locationValues = new int[][] { { 50, -1, 5, 2, 2, 5, -1, 50 },
+				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
+				{ 2, 1, 1, 0, 0, 1, 1, 2 }, { 2, 1, 1, 0, 0, 1, 1, 2 }, { 5, 1, 1, 1, 1, 1, 1, 5 },
+				{ -1, -10, 1, 1, 1, 1, -10, -1 }, { 50, -1, 5, 2, 2, 5, -1, 50 } };
 	}
 
 	/**
@@ -120,6 +124,13 @@ public class BoardEvaluator {
 	public int getMobilityValue(final Board board, final Player player) {
 		final Player opponent = Player.getOpponent(player);
 		return opponent.getSign() * board.getNextBoards(opponent).size() * WEIGHT_MOBILITY;
+	}
+
+	public int getDiscCountValue(final Board board, final Player player) {
+		return player.getSign()
+				* (board.getDiscCount(player) - board.getDiscCount(Player.getOpponent(player)))
+				* WEIGHT_DISC_COUNT;
+
 	}
 
 	private boolean isOpponentSkippingTurn(final Board board, final Player player) {
